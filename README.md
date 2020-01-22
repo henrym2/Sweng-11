@@ -52,3 +52,5 @@ The following links are handy if you need any git based help, or feel free to ju
 - [Learn git concepts](https://dev.to/unseenwizzard/learn-git-concepts-not-commands-4gjc)
 
 ## Contributors
+
+Matthew Henry 🐱‍🏍
