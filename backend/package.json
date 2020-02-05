@@ -1,0 +1,19 @@
+{
+  "name": "sweng-11-backend-service",
+  "version": "0.0.1",
+  "description": "Service for gathering dynamic climate data and supporting the sweng-11 project frontend service",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "keywords": [
+    "service",
+    "express"
+  ],
+  "author": "SWENG group 11",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
