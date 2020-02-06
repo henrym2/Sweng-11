@@ -9,6 +9,8 @@ In order to keep our code fairly neat and tidy we should have some sort of a *gi
 
 ## Our flow model
 
+### Naming
+
 We're going to follow a few simple branching rules, don't worry I'll explain what I mean by branches in a minute.
 
 Each branch name should look something like this:
@@ -19,6 +21,15 @@ For example: `frontend-1-setup-react`
 
 This way, at a glace we can tell that the code committed in that branch is on the frontend, is tied to issue one and more or less should only have to do with setting up the react app and nothing more. 
 
+### Flow steps
+
+- Create a ticket based on the issue thats being worked on
+- Create a new branch off of dev named using the format above
+- Work on that feature in that branch, committing the code to it
+- When you're finished (or think you're finished) merge dev into your branch
+- Resolve any merge conflicts
+- Create a pull request into dev
+- Success! 🔥
 
 
 ## Commands we need to know
@@ -59,6 +70,7 @@ When you finish working on a feature, the last thing to do is to make a pull req
 
 - On the repository on github, click the "New pull request" button at the top, under the line that tells us the number of commits on the repo.
 - On the "compare" dropdown, change it to the branch you want to pull in (Most likely the branch you were working on)
+- On the "base" dropdown, change it to dev
 - Type a brief description of what was done and what will be added.
 - Assign Either Matthew, Milu or Johnny as the reviewer and yourself as the Assignee.
 - Wait until it gets reviewed and merged! 🐱‍🏍
