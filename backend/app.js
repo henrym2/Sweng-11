@@ -27,10 +27,12 @@ app.get('/', (req, res) => {
     res.send(exampleObject)
 })
 
-app.listen(port, () => {
+let server = app.listen(port, () => {
     console.debug(
         `Server launched on port ${port}\n`,
         envLoaded.parsed
     )
     }
 )
+
+module.exports = server
