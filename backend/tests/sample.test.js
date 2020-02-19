@@ -13,6 +13,20 @@ describe('Example test', () => {
     });
 })
 
+describe('Submission test', () => {
+  test('Should get a 200 success response', async (done) => {
+    const user = {
+      submitter: "John",
+      opinion: -1
+    }
+    const res = await request(app)
+      .post('/vote')
+      .send(user)
+      expect(res.statusCode).toEqual(200)
+      done()
+  })
+})
+
 afterAll(async () => {
 	await app.close()
 })
