@@ -1,32 +1,54 @@
-import React from "react";
-import {
-  Stack,
-  Text,
-  TextField,
-  FontWeights,
-  Button
-} from "office-ui-fabric-react";
-
-const boldStyle = { root: { fontWeight: FontWeights.semibold } };
 export default module.exports;
 
-export const UserSubmissionPage: React.FunctionComponent = () => {
-  return (
-    <Stack
-      horizontalAlign="center"
-      verticalAlign="center"
-      verticalFill
-      styles={{
-        root: {
-          width: "960px",
-          margin: "0 auto",
-          textAlign: "center",
-          color: "#605e5c"
-        }
-      }}
-      gap={15}
-    >
-      {/* Insert Code Here */}
-    </Stack>
-  );
+import React, { Component } from "react";
+import "./UserSubmissionPage.css";
+import { Depths } from "@uifabric/fluent-theme/lib/fluent/FluentDepths";
+import { ICardTokens } from "@uifabric/react-cards";
+import mlogo from "../images/mlogo.png";
+import LoginView from "./LoginView";
+import VoteView from "./VoteView";
+import VoteConfirmationView from "./VoteConfirmationView";
+
+type MyProps = {};
+type MyState = {
+  pageState: number;
 };
+
+export class UserSubmissionPage extends Component<MyProps, MyState> {
+  cardTokens: ICardTokens = { childrenMargin: 12 };
+
+  state: MyState = {
+    pageState: 0
+  };
+
+  CurrentView() {
+    switch (this.state.pageState) {
+      case 0:
+        return <LoginView />;
+      case 1:
+        return <VoteView />;
+      case 2:
+        return <VoteConfirmationView />;
+      default:
+        return <LoginView />;
+    }
+  }
+
+  render() {
+    return (
+      <div className="submission-page__main">
+        <div
+          className="submission-page__inner-box"
+          style={{ boxShadow: Depths.depth8 }}
+        >
+          <img
+            src={mlogo}
+            alt="Microsoft Logo"
+            className="submission-page__logo"
+          />
+          {this.CurrentView()}
+        </div>
+      </div>
+    );
+  }
+}

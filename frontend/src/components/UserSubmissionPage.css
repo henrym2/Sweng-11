@@ -1,0 +1,24 @@
+.submission-page__main {
+  background-color: #faf9f8;
+  height: 100vh;
+  width: 100%;
+}
+
+.submission-page__inner-box {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: white;
+  width: 600px;
+  height: 400px;
+  padding: 20px;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.submission-page__logo {
+  width: auto;
+  height: 60px;
+  margin-left: 10px;
+}
