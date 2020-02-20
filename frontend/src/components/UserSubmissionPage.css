@@ -22,3 +22,9 @@
   height: 60px;
   margin-left: 10px;
 }
+
+.submission-page__view {
+  padding: 30px;
+  /* background-color: red; */
+  height: auto;
+}

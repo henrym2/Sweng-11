@@ -8,8 +8,6 @@ import {
 } from "office-ui-fabric-react";
 const boldStyle = { root: { fontWeight: FontWeights.semibold } };
 
-export default module.exports;
-
 export const VoteView: React.FunctionComponent = () => {
   return (
     <Stack
@@ -30,3 +28,4 @@ export const VoteView: React.FunctionComponent = () => {
     </Stack>
   );
 };
+export default VoteView;

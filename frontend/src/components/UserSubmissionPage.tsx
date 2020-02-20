@@ -1,5 +1,3 @@
-export default module.exports;
-
 import React, { Component } from "react";
 import "./UserSubmissionPage.css";
 import { Depths } from "@uifabric/fluent-theme/lib/fluent/FluentDepths";
@@ -18,13 +16,17 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
 
   state: MyState = {
-    pageState: 0
+    pageState: 1
   };
 
   CurrentView() {
     switch (this.state.pageState) {
       case 0:
-        return <LoginView />;
+        return (
+          <>
+            <LoginView />
+          </>
+        );
       case 1:
         return <VoteView />;
       case 2:
@@ -46,9 +48,11 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
             alt="Microsoft Logo"
             className="submission-page__logo"
           />
-          {this.CurrentView()}
+          <div className="submission-page__view">{this.CurrentView()}</div>
         </div>
       </div>
     );
   }
 }
+
+export default UserSubmissionPage;
