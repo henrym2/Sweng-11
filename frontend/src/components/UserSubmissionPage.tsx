@@ -53,22 +53,24 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
   render() {
     return (
       <div className="submission-page__main">
-        <img
-          src={thermaLogo}
-          alt="ThermaPoll"
-          className="submission-page__main-logo"
-        />
-        <div
-          className="submission-page__inner-box"
-          style={{ boxShadow: Depths.depth8 }}
-        >
+        <div className="submission-page__centre">
           <img
-            src={mlogo}
-            alt="Microsoft Logo"
-            className="submission-page__logo"
+            src={thermaLogo}
+            alt="ThermaPoll"
+            className="submission-page__main-logo"
           />
+          <div
+            className="submission-page__inner-box"
+            style={{ boxShadow: Depths.depth8 }}
+          >
+            <img
+              src={mlogo}
+              alt="Microsoft Logo"
+              className="submission-page__logo"
+            />
 
-          <div className="submission-page__view">{this.CurrentView()}</div>
+            <div className="submission-page__view">{this.CurrentView()}</div>
+          </div>
         </div>
       </div>
     );
