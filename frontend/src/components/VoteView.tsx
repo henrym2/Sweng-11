@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import {
   Stack,
   Text,
-  TextField,
   FontWeights,
-  Button,
+  PrimaryButton,
   Label,
   Slider,
-  IStackItemStyles
+  IStackItemStyles,
+  textAreaProperties
 } from "office-ui-fabric-react";
 import { render } from "react-dom";
 
@@ -15,7 +15,7 @@ const boldStyle = { root: { fontWeight: FontWeights.semibold } };
 const labelStyle: IStackItemStyles = { root: { justifyContent: "center" } };
 
 type MyProps = {
-  function: () => void;
+  function: (opinion: number) => void;
 };
 type MyState = {};
 
@@ -42,63 +42,80 @@ export class VoteView extends Component<MyProps, MyState> {
             color: "#605e5c"
           }
         }}
-        gap={15}
+        gap={50}
       >
+        <Stack>
+          <Text variant="xxLarge">How is the current temperature?</Text>
+        </Stack>
         <Stack
-          horizontal
-          horizontalAlign="space-between"
+          horizontalAlign="center"
           styles={{
             root: {
               width: "100%"
             }
           }}
+          gap={15}
         >
-          <Stack.Item align="stretch" styles={{ root: { width: "15%" } }}>
-            <Stack>
-              <Label styles={labelStyle}>Too Cold</Label>
-              <Label styles={labelStyle}>|</Label>
-            </Stack>
-          </Stack.Item>
-          <Stack.Item align="stretch" styles={{ root: { width: "15%" } }}>
-            <Stack>
-              <Label styles={labelStyle}>A Bit Cold</Label>
-              <Label styles={labelStyle}>|</Label>
-            </Stack>
-          </Stack.Item>
-          <Stack.Item align="stretch" styles={{ root: { width: "15%" } }}>
-            <Stack>
-              <Label styles={labelStyle}>Just Right</Label>
-              <Label styles={labelStyle}>|</Label>
-            </Stack>
-          </Stack.Item>
-          <Stack.Item align="stretch" styles={{ root: { width: "15%" } }}>
-            <Stack>
-              <Label styles={labelStyle}>A Bit Hot</Label>
-              <Label styles={labelStyle}>|</Label>
-            </Stack>
-          </Stack.Item>
-          <Stack.Item align="stretch" styles={{ root: { width: "15%" } }}>
-            <Stack>
-              <Label styles={labelStyle}>Too Hot</Label>
-              <Label styles={labelStyle}>|</Label>
-            </Stack>
-          </Stack.Item>
+          <Stack
+            horizontal
+            horizontalAlign="space-between"
+            styles={{
+              root: {
+                width: "100%"
+              }
+            }}
+          >
+            <Stack.Item align="stretch" styles={{ root: { width: "15%" } }}>
+              <Stack>
+                <Label styles={labelStyle}>Too Cold</Label>
+                <Label styles={labelStyle}>|</Label>
+              </Stack>
+            </Stack.Item>
+            <Stack.Item align="stretch" styles={{ root: { width: "15%" } }}>
+              <Stack>
+                <Label styles={labelStyle}>A Bit Cold</Label>
+                <Label styles={labelStyle}>|</Label>
+              </Stack>
+            </Stack.Item>
+
+            <Stack.Item align="stretch" styles={{ root: { width: "15%" } }}>
+              <Stack>
+                <Label styles={labelStyle}>Just Right</Label>
+                <Label styles={labelStyle}>|</Label>
+              </Stack>
+            </Stack.Item>
+            <Stack.Item align="stretch" styles={{ root: { width: "15%" } }}>
+              <Stack>
+                <Label styles={labelStyle}>A Bit Hot</Label>
+                <Label styles={labelStyle}>|</Label>
+              </Stack>
+            </Stack.Item>
+            <Stack.Item align="stretch" styles={{ root: { width: "15%" } }}>
+              <Stack>
+                <Label styles={labelStyle}>Too Hot</Label>
+                <Label styles={labelStyle}>|</Label>
+              </Stack>
+            </Stack.Item>
+          </Stack>
+          <Stack
+            styles={{
+              root: {
+                width: "88%"
+              }
+            }}
+          >
+            <Slider
+              min={-2}
+              max={2}
+              defaultValue={0}
+              originFromZero
+              showValue={false}
+              valueFormat={(value: number) => values[value + 2]}
+            />
+          </Stack>
         </Stack>
-        <Stack
-          styles={{
-            root: {
-              width: "86.75%"
-            }
-          }}
-        >
-          <Slider
-            min={-2}
-            max={2}
-            defaultValue={0}
-            originFromZero
-            showValue={false}
-            valueFormat={(value: number) => values[value + 2]}
-          />
+        <Stack>
+          <PrimaryButton text="Submit" onClick={() => this.props.function(2)} />
         </Stack>
       </Stack>
     );

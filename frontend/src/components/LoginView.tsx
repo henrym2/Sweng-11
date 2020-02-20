@@ -18,16 +18,13 @@ type MyState = {};
 export class LoginView extends Component<MyProps, MyState> {
   state: MyState = {};
 
-  login(): void {
-    alert("Logged in!");
-  }
   render() {
     return (
       <>
         <div>Login here!!</div>
         <PrimaryButton
           text="Log in"
-          onClick={this.props.function}
+          onClick={() => this.props.function()}
           allowDisabledFocus
         />
       </>

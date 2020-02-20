@@ -20,33 +20,51 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
     pageState: 0
   };
 
-  login() {
+  login = () => {
     this.setState({ pageState: 1 }); //Log in -> change page state to 1
-  }
+  };
 
-  vote() {
+  vote = (opinion: number) => {
+    console.log("hello: " + opinion);
     //Axios code will go here
-    this.setState({ pageState: 2 }); //Display thank you message - change page state to 2
-  }
+    const axios = require("axios");
+    axios
+      .get("/user", {
+        params: {
+          ID: 12345
+        }
+      })
+      .then(function(response: String) {
+        console.log(response);
+      })
+      .catch(function(error: String) {
+        console.log(error);
+      })
+      .finally(function() {
+        // always executed
+      });
 
-  home() {
+    this.setState({ pageState: 2 }); //Display thank you message - change page state to 2
+  };
+
+  home = () => {
     this.setState({ pageState: 0 }); //Return to the login page
-  }
+  };
 
   CurrentView() {
     switch (this.state.pageState) {
       case 0:
         return (
           <>
-            <LoginView function={() => this.login()} />
+            <LoginView function={this.login} />
           </>
         );
       case 1:
-        return <VoteView function={() => this.vote()} />;
+        return <VoteView function={this.vote} />;
       case 2:
-        return <VoteConfirmationView function={() => this.home()} />;
+        return <VoteConfirmationView function={this.home} />;
       default:
-        return <LoginView function={() => this.login()} />;
+        return <LoginView function={this.login} />;
     }
   }
 
