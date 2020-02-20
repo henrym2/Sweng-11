@@ -3,6 +3,7 @@ import "./UserSubmissionPage.css";
 import { Depths } from "@uifabric/fluent-theme/lib/fluent/FluentDepths";
 import { ICardTokens } from "@uifabric/react-cards";
 import mlogo from "../images/mlogo.png";
+import thermaLogo from "../images/logo.svg";
 import LoginView from "./LoginView";
 import VoteView from "./VoteView";
 import VoteConfirmationView from "./VoteConfirmationView";
@@ -52,6 +53,11 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
   render() {
     return (
       <div className="submission-page__main">
+        <img
+          src={thermaLogo}
+          alt="ThermaPoll"
+          className="submission-page__main-logo"
+        />
         <div
           className="submission-page__inner-box"
           style={{ boxShadow: Depths.depth8 }}
@@ -61,6 +67,7 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
             alt="Microsoft Logo"
             className="submission-page__logo"
           />
+
           <div className="submission-page__view">{this.CurrentView()}</div>
         </div>
       </div>

@@ -4,6 +4,13 @@
   width: 100%;
 }
 
+.submission-page__main-logo {
+  width: 100%;
+  height: 90px;
+  margin: auto;
+  margin-top: 30px;
+}
+
 .submission-page__inner-box {
   margin: 0;
   position: absolute;
