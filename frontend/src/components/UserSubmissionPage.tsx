@@ -16,23 +16,36 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
 
   state: MyState = {
-    pageState: 1
+    pageState: 0
   };
+
+  login() {
+    this.setState({ pageState: 1 }); //Log in -> change page state to 1
+  }
+
+  vote() {
+    //Axios code will go here
+    this.setState({ pageState: 2 }); //Display thank you message - change page state to 2
+  }
+
+  home() {
+    this.setState({ pageState: 0 }); //Return to the login page
+  }
 
   CurrentView() {
     switch (this.state.pageState) {
       case 0:
         return (
           <>
-            <LoginView />
+            <LoginView function={() => this.login()} />
           </>
         );
       case 1:
-        return <VoteView />;
+        return <VoteView function={() => this.vote()} />;
       case 2:
-        return <VoteConfirmationView />;
+        return <VoteConfirmationView function={() => this.home()} />;
       default:
-        return <LoginView />;
+        return <LoginView function={() => this.login()} />;
     }
   }
 

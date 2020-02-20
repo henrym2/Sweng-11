@@ -1,16 +1,38 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   Stack,
   Text,
   TextField,
   FontWeights,
-  Button
+  Button,
+  DefaultButton,
+  PrimaryButton,
+  IStackTokens
 } from "office-ui-fabric-react";
 
-const boldStyle = { root: { fontWeight: FontWeights.semibold } };
-
-export const LoginView: React.FunctionComponent = () => {
-  return <div>Login here!!</div>;
+type MyProps = {
+  function: () => void;
 };
+type MyState = {};
+
+export class LoginView extends Component<MyProps, MyState> {
+  state: MyState = {};
+
+  login(): void {
+    alert("Logged in!");
+  }
+  render() {
+    return (
+      <>
+        <div>Login here!!</div>
+        <PrimaryButton
+          text="Log in"
+          onClick={this.props.function}
+          allowDisabledFocus
+        />
+      </>
+    );
+  }
+}
 
 export default LoginView;

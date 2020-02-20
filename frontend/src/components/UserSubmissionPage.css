@@ -25,6 +25,34 @@
 
 .submission-page__view {
   padding: 30px;
-  /* background-color: red; */
   height: auto;
+}
+
+@media only screen and (max-width: 750px) {
+  .submission-page__inner-box {
+    width: 75%;
+    height: 400px;
+  }
+  .submission-page__logo {
+    width: auto;
+    height: 50px;
+    margin-left: 10px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .submission-page__inner-box {
+    width: 350px;
+    height: 400px;
+  }
+  .submission-page__logo {
+    width: auto;
+    height: 40px;
+    margin-left: 10px;
+  }
+  .submission-page__main {
+    background-color: #faf9f8;
+    height: 100vh;
+    width: 100%;
+  }
 }
