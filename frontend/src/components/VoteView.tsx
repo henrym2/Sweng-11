@@ -17,9 +17,19 @@ const labelStyle: IStackItemStyles = { root: { justifyContent: "center" } };
 type MyProps = {
   function: (opinion: number) => void;
 };
-type MyState = {};
+type MyState = {
+  opinion: number;
+};
 
 export class VoteView extends Component<MyProps, MyState> {
+  setVoteValue = (val: number) => {
+    this.setState({ opinion: val });
+  };
+
+  state: MyState = {
+    opinion: 0
+  };
+
   render() {
     let values = [
       "Too Cold",
@@ -110,12 +120,16 @@ export class VoteView extends Component<MyProps, MyState> {
               defaultValue={0}
               originFromZero
               showValue={false}
+              onChange={(val: number) => this.setVoteValue(val)}
               valueFormat={(value: number) => values[value + 2]}
             />
           </Stack>
         </Stack>
         <Stack>
-          <PrimaryButton text="Submit" onClick={() => this.props.function(2)} />
+          <PrimaryButton
+            text="Submit"
+            onClick={() => this.props.function(this.state.opinion)}
+          />
         </Stack>
       </Stack>
     );

@@ -11,13 +11,15 @@ import VoteConfirmationView from "./VoteConfirmationView";
 type MyProps = {};
 type MyState = {
   pageState: number;
+  voterName: String;
 };
 
 export class UserSubmissionPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
 
   state: MyState = {
-    pageState: 0
+    pageState: 0,
+    voterName: "Testy McTestFace"
   };
 
   login = () => {
@@ -25,23 +27,19 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
   };
 
   vote = (opinion: number) => {
-    console.log("hello: " + opinion);
-    //Axios code will go here
+    //Make post request to server (on localhost for now)
     const axios = require("axios");
     axios
-      .get("/user", {
-        params: {
-          ID: 12345
-        }
+      .post("http://localhost:8080/vote", {
+        submitter: this.state.voterName,
+        opinion: opinion
       })
       .then(function(response: String) {
-        console.log(response);
+        // console.log(response);
+        console.log("User has voted: " + opinion);
       })
       .catch(function(error: String) {
         console.log(error);
-      })
-      .finally(function() {
-        // always executed
       });
 
     this.setState({ pageState: 2 }); //Display thank you message - change page state to 2
