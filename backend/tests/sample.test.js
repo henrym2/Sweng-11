@@ -13,6 +13,52 @@ describe('Example test', () => {
     });
 })
 
+describe('Submission test', () => {
+  test('Testing submission routes handling', async (done) => {
+    const user = {
+      submitter: "John",
+      opinion: -1
+    }
+    let res = await request(app)
+      .post('/vote')
+      .send(user)
+    expect(res.statusCode).toEqual(200)
+
+    const malformedUser = {
+      test: "incorrect"
+    }
+    res = await request(app)
+      .post('/vote')
+      .send(malformedUser)
+    expect(res.statusCode).toEqual(400)
+    done()
+  })
+})
+
+describe("Sensor test", () => {
+  test("Testing sensor routes handling", async (done) => {
+    const sensor = {
+        "id": 12345678,
+        "location": "B5",
+        "temperature": 19.5,
+        "time": "01:02:03T20:12:2020"
+    }
+    let res = await request(app)
+      .post('/sensorSubmit')
+      .send(sensor)
+    expect(res.statusCode).toEqual(200)
+
+    const malformedSensor = {
+      "test": "incorrect"
+    }
+
+    res = await request(app)
+      .post('/sensorSubmit')
+      .send(malformedSensor)
+    expect(res.statusCode).toEqual(400)
+  })
+})
+
 afterAll(async () => {
 	await app.close()
 })
