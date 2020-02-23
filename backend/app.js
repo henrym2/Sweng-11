@@ -17,7 +17,7 @@ const app = express()
 app.use(bodyParser.json())
 const port = process.env.APP_PORT;
 
-let votes = new Array();
+//let votes = new Array();
 
 app.get('/', (req, res) => {
     //Example of how you might construct a JSON response
@@ -34,9 +34,10 @@ app.post('/vote', (req, res) => {
     }
     console.log("Voter is " + newVote.submitter)
 
-    if(!votes.some(vote => vote.submitter == newVote.submitter))
+    if(!votes.some(vote => vote.submitter == newVote.submitter)) {
         votes.push(newVote)
-    
+    }
+
     console.log("New set of votes: ")
     votes.forEach(vote => console.log(vote))
 
