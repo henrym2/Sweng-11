@@ -37,7 +37,7 @@ app.post('/vote', (req, res) => {
     if(!votes.some(vote => vote.submitter == newVote.submitter)) {
         votes.push(newVote)
     }
-    
+
     console.log("New set of votes: ")
     votes.forEach(vote => console.log(vote))
 
