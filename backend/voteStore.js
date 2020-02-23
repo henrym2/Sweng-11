@@ -1,30 +1,36 @@
 //const server = require('/server')
+const fs = require('fs');
 
 class votes {
     constructor() {
-        this.keys = {
-            id,
-            name,
-            area,
-            desk,
-            vote,
-        };
+        this.keys = new Array
         this.length = 0;
         this.defaultValue = null;
     }
+
+    populate(){
+        let rawdata = fs.readFileSync('mockUserData.json');
+        let users = JSON.parse(rawdata).users;
+        this.keys = users
+    }
     
-    store(id, name, area, desk, vote) {
-        if (this.keys == undefined) {
-            this.keys = {}
-        };
-        this.keys[id] = {id, name, area, desk, vote};
-        this.length++;
+    store(identifier, vote) {
+        if (identifier instanceof Number) {
+            this.keys[identifier].vote = vote
+        } else {
+            for (k in keys) {
+                if (k.name == identifier) {
+                    this.keys[k.id].vote = vote
+                }
+            }
+        }
+        // this.length++;
+    }
+
+    get(id) {
+        return this.keys[id] || undefined
     }
 }
 
-votes.prototype.store(123456, "John Test", "1A", "17", "hotter")
-votes.prototype.store(123457, "John Test", "1A", "17", "colder")
-votes.prototype.store(123458, "John Test", "1A", "17", "hotter")
-votes.prototype.store(123456, "John Test", "1A", "17", "colder")
+module.exports = votes
 
-console.log(votes.prototype.keys)

@@ -1,5 +1,8 @@
 const express = require('express')
 
+const votes = require('./voteStore')
+var voterStore = new votes
+
 //Load in dotenv for parsing environment variables (secrets and stuff)
 const dotenv = require('dotenv')
 
@@ -28,20 +31,25 @@ app.get('/', (req, res) => {
 })
 
 app.post('/vote', (req, res) => {
-    let newVote = {
-        submitter: req.body.submitter,
-        opinion: req.body.opinion
+    const { submitter, opinion } = req.body
+    if (submitter == undefined || opinion == undefined){
+        res.statusCode = 400
+        res.send()
     }
     console.log("Voter is " + newVote.submitter)
 
     if(!votes.some(vote => vote.submitter == newVote.submitter)) {
-        votes.push(newVote)
+        voterStore.store(submitter, opinion)
     }
 
     console.log("New set of votes: ")
     votes.forEach(vote => console.log(vote))
+    res.statusCode = 200
+    res.send()
+})
 
-    res.send("ok\n")
+app.post('/sensorSubmit', (req, res) => {
+    res.send()
 })
 
 let server = app.listen(port, () => {
