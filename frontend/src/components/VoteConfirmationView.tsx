@@ -16,23 +16,13 @@ type MyState = {};
 export class VoteConfirmationView extends Component<MyProps, MyState> {
   render() {
     return (
-      <Stack
-        horizontalAlign="center"
-        verticalAlign="center"
-        verticalFill
-        styles={{
-          root: {
-            width: "960px",
-            margin: "0 auto",
-            textAlign: "center",
-            color: "#605e5c"
-          }
-        }}
-        gap={15}
-      >
-        {/* Insert Code Here */}
-      </Stack>
+      <div style={{position: "relative"}}>
+        <h1 style={{marginTop: "50px", fontSize:"40px", fontStyle:"oblique", textAlign: "center"}}>Thank you for your vote</h1>
+        <h3 style={{marginTop: "20px", textAlign: "center"}}>Our maintenance team is on the way</h3>  {/*if the user didn't choose satisfaction, show this*/}
+        <h3 style={{marginTop: "10px", textAlign: "center"}}>Have a nice day</h3>{/*if the user is satisfied, show this */}
+      </div>
     );
   }
 }
+
 export default VoteConfirmationView;
