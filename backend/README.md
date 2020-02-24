@@ -44,3 +44,15 @@ curl -XPOST -H "Content-type: application/json" -d '{ name: "matthew" }' 'localh
 ```
 
 Another way to test is by using Postman or [Postwoman](https://postwoman.io/). These are a little easier to use but could be harder to set up. Experiment and see what works for you!
+
+## Debugging node issues
+
+Due to some stupid reasons around how yarn and node handle a particular package called fsevents follow these steps if you have an issue
+
+- run `yarn cache clean`
+- run `yarn upgrade`
+- run `sudo npm install n -g`
+- run `sudo n stable` (let it download)
+- Close your terminal and open a new one, navigate back into the backend folder
+- run `yarn install`
+- If you continue having issues run `yarn install --ignore-platform` instead
