@@ -4,7 +4,8 @@ import {
   Text,
   TextField,
   FontWeights,
-  Button
+  Button,
+  ButtonType
 } from "office-ui-fabric-react";
 
 const boldStyle = { root: { fontWeight: FontWeights.semibold } };
@@ -26,7 +27,13 @@ export const LoginView: React.FunctionComponent = () => {
       }}
       gap={15}
     >
-      {/* Insert Code Here */}
+      {
+        <div>
+          <TextField label="Log in to submit a vote" placeholder="Email"/>
+          <p></p>
+          <Button buttonType={ ButtonType.primary }>Log In</Button>
+        </div>
+      }
     </Stack>
   );
 };
