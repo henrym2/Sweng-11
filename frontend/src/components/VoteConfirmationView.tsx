@@ -1,9 +1,17 @@
 import React, { Component } from "react";
-import { Stack, Text, TextField, FontWeights } from "office-ui-fabric-react";
+import {
+  Stack,
+  Button,
+  Text,
+  TextField,
+  FontWeights,
+  ButtonType
+} from "office-ui-fabric-react";
 const boldStyle = { root: { fontWeight: FontWeights.semibold } };
 
 type MyProps = {
   function: () => void;
+  name: String;
 };
 type MyState = {};
 
@@ -21,22 +29,22 @@ export class VoteConfirmationView extends Component<MyProps, MyState> {
             fontWeight: "bold"
           }}
         >
-          Thank you for your vote
+          Thanks {this.props.name} for your vote
         </Text>
         <Text
           variant="large"
           block={true}
           style={{ marginTop: "20px", textAlign: "center" }}
         >
-          Our maintenance team is on the way.
+          Our maintenance team is on the way. Have a nice day!
         </Text>
-        <Text
-          variant="large"
-          block={true}
-          style={{ marginTop: "10px", textAlign: "center" }}
+        <p></p>
+        <Button
+          buttonType={ButtonType.primary}
+          onClick={() => this.props.function()}
         >
-          Have a nice day!{" "}
-        </Text>
+          Retry
+        </Button>
       </div>
     );
   }

@@ -2,34 +2,48 @@ import React, { Component } from "react";
 import {
   Stack,
   Text,
-  TextField,
-  FontWeights,
-  Button,
   DefaultButton,
   PrimaryButton,
-  IStackTokens
+  IStackTokens,
+  Button,
+  TextField,
+  ButtonType
 } from "office-ui-fabric-react";
 
 type MyProps = {
-  function: () => void;
+  function: (name: string) => void;
 };
-type MyState = {};
+type MyState = {
+  name: string;
+};
 
 export class LoginView extends Component<MyProps, MyState> {
-  state: MyState = {};
+  state: MyState = {
+    name: ""
+  };
 
   render() {
     return (
       <>
-        <div>Login here!!</div>
-        <PrimaryButton
-          text="Log in"
-          onClick={() => this.props.function()}
-          allowDisabledFocus
+        <TextField
+          label="Login to submit a vote"
+          placeholder="First Name"
+          onChanged={this.onChanged}
         />
+        <p></p>
+        <Button
+          buttonType={ButtonType.primary}
+          onClick={() => this.props.function(this.state.name)}
+        >
+          Log In
+        </Button>
       </>
     );
   }
+
+  onChanged = (newValue: string) => {
+    this.setState({ name: newValue });
+  };
 }
 
 export default LoginView;

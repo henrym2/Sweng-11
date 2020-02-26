@@ -22,8 +22,9 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
     voterName: "Testy McTestFace"
   };
 
-  login = () => {
-    this.setState({ pageState: 1 }); //Log in -> change page state to 1
+  login = (name: String) => {
+    this.setState({ pageState: 1, voterName: name }); //Log in -> change page state to 1
+    console.log("Thanks " + name);
   };
 
   vote = (opinion: number) => {
@@ -60,7 +61,12 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
       case 1:
         return <VoteView function={this.vote} />;
       case 2:
-        return <VoteConfirmationView function={this.home} />;
+        return (
+          <VoteConfirmationView
+            function={this.home}
+            name={this.state.voterName}
+          />
+        );
       default:
         return <LoginView function={this.login} />;
     }
