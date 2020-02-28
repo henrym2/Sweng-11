@@ -43,6 +43,10 @@ app.post('/vote', (req, res) => {
     res.send("ok\n")
 })
 
+app.post('/sensorSubmit', (req, res) => {
+    
+})
+
 let server = app.listen(port, () => {
     console.debug(
         `Server launched on port ${port}\n`,
