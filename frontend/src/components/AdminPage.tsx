@@ -7,6 +7,16 @@ import thermaLogo from "../images/logo.svg";
 import LoginView from "./LoginView";
 import VoteView from "./VoteView";
 import VoteConfirmationView from "./VoteConfirmationView";
+import {
+  Stack,
+  Text,
+  DefaultButton,
+  PrimaryButton,
+  IStackTokens,
+  Button,
+  TextField,
+  ButtonType
+} from "office-ui-fabric-react";
 
 type MyProps = {};
 type MyState = {
@@ -23,7 +33,13 @@ export class AdminPage extends Component<MyProps, MyState> {
   render() {
     return (
       <div className="admin-page__main">
-        <div>Top Bar (Milu)</div>
+        <div style={{marginTop: "100px", marginLeft: "300px"}}>
+          <PrimaryButton onClick={()=>this.state.pageState=1}>1st floor</PrimaryButton>
+          <PrimaryButton onClick={()=>this.state.pageState=2} style={{marginLeft: "30px"}}>2nd floor</PrimaryButton>
+          <PrimaryButton onClick={()=>this.state.pageState=3} style={{marginLeft: "30px"}}>3rd floor</PrimaryButton>
+          <PrimaryButton onClick={()=>this.state.pageState=4} style={{marginLeft: "30px"}}>4th floor</PrimaryButton>
+          <PrimaryButton onClick={()=>this.state.pageState=5} style={{marginLeft: "30px"}}>5th floor</PrimaryButton>
+        </div>
         <div>
           Bottom part
           <div>Side Bar</div>
