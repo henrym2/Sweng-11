@@ -1,39 +1,49 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   Stack,
   Text,
-  TextField,
-  FontWeights,
+  DefaultButton,
+  PrimaryButton,
+  IStackTokens,
   Button,
+  TextField,
   ButtonType
 } from "office-ui-fabric-react";
 
-const boldStyle = { root: { fontWeight: FontWeights.semibold } };
-export default module.exports;
-
-export const LoginView: React.FunctionComponent = () => {
-  return (
-    <Stack
-      horizontalAlign="center"
-      verticalAlign="center"
-      verticalFill
-      styles={{
-        root: {
-          width: "960px",
-          margin: "0 auto",
-          textAlign: "center",
-          color: "#605e5c"
-        }
-      }}
-      gap={15}
-    >
-      {
-        <div>
-          <TextField label="Log in to submit a vote" placeholder="Email"/>
-          <p></p>
-          <Button buttonType={ ButtonType.primary }>Log In</Button>
-        </div>
-      }
-    </Stack>
-  );
+type MyProps = {
+  function: (name: string) => void;
 };
+type MyState = {
+  name: string;
+};
+
+export class LoginView extends Component<MyProps, MyState> {
+  state: MyState = {
+    name: ""
+  };
+
+  render() {
+    return (
+      <>
+        <TextField
+          label="Login to submit a vote"
+          placeholder="First Name"
+          onChanged={this.onChanged}
+        />
+        <p></p>
+        <Button
+          buttonType={ButtonType.primary}
+          onClick={() => this.props.function(this.state.name)}
+        >
+          Log In
+        </Button>
+      </>
+    );
+  }
+
+  onChanged = (newValue: string) => {
+    this.setState({ name: newValue });
+  };
+}
+
+export default LoginView;
