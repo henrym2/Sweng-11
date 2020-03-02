@@ -15,30 +15,33 @@ import {
   IStackTokens,
   Button,
   TextField,
-  ButtonType
+  ButtonType,
+  calculatePrecision
 } from "office-ui-fabric-react";
 
 type MyProps = {};
 type MyState = {
   pageState: number;
+  floorState: number;
 };
 
 export class AdminPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
 
   state: MyState = {
-    pageState: 0
+    pageState: 0,
+    floorState:0 //when state is 0, show all the alerts
   };
 
   render() {
     return (
       <div className="admin-page__main">
-        <div style={{marginTop: "100px", marginLeft: "300px"}}>
-          <PrimaryButton onClick={()=>this.state.pageState=1}>1st floor</PrimaryButton>
-          <PrimaryButton onClick={()=>this.state.pageState=2} style={{marginLeft: "30px"}}>2nd floor</PrimaryButton>
-          <PrimaryButton onClick={()=>this.state.pageState=3} style={{marginLeft: "30px"}}>3rd floor</PrimaryButton>
-          <PrimaryButton onClick={()=>this.state.pageState=4} style={{marginLeft: "30px"}}>4th floor</PrimaryButton>
-          <PrimaryButton onClick={()=>this.state.pageState=5} style={{marginLeft: "30px"}}>5th floor</PrimaryButton>
+        <div style={{marginTop: "100px", position: "relative", textAlign: "center"}}>
+          <PrimaryButton onClick={()=>this.state.floorState=1} >1st floor</PrimaryButton>
+          <PrimaryButton onClick={()=>this.state.floorState=2} style={{marginLeft: "7%"}}>2nd floor</PrimaryButton>
+          <PrimaryButton onClick={()=>this.state.floorState=3} style={{marginLeft: "7%"}}>3rd floor</PrimaryButton>
+          <PrimaryButton onClick={()=>this.state.floorState=4} style={{marginLeft: "7%"}}>4th floor</PrimaryButton>
+          <PrimaryButton onClick={()=>this.state.floorState=5} style={{marginLeft: "7%"}}>5th floor</PrimaryButton>
         </div>
         <div>
           Bottom part
