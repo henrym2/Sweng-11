@@ -1,7 +1,9 @@
 const express = require('express')
 
 const votes = require('./voteStore')
+const sensorStore = require('./sensorStore')
 var voterStore = new votes()
+var sensorData = new sensorStore()
 
 //Load in dotenv for parsing environment variables (secrets and stuff)
 const dotenv = require('dotenv')
@@ -47,15 +49,29 @@ app.post('/vote', (req, res) => {
 })
 
 app.post('/sensorSubmit', (req, res) => {
-    res.send()
-})
+    const { id, location, temperature, time} = req.body
+    if (id == undefined ||
+        location === undefined ||
+        temperature == undefined ||
+        time == undefined) {
+        res.statusCode = 400
+        res.send()
 
-app.post('/sensorSubmit', (req, res) => {
-    
+        return
+    }
+
+    console.log("Got: {" + id + ", \"" + location + "\", " + temperature + ", \"" + time + "\"}")
+    sensorData.store(id, location, temperature, time)
+    console.log("All sensor data")
+    sensorData.keys.forEach(sensor => console.log(sensor))
+
+    res.statusCode = 200
+    res.send()
 })
 
 let server = app.listen(port, () => {
     voterStore.populate()
+    sensorData.populate()
     console.debug(
         `Server launched on port ${port}\n`,
         envLoaded.parsed
