@@ -9,13 +9,9 @@
     "@types/react-dom": "16.8.4",
     "@types/react-router": "^5.1.4",
     "@uifabric/fluent-theme": "^0.16.7",
-<<<<<<< HEAD
-    "office-ui-fabric-react": "^6.211.5",
-=======
-    "@uifabric/react-cards": "^0.109.23",
+    "@uifabric/react-cards": "^0.109.30",
     "axios": "^0.19.2",
     "office-ui-fabric-react": "^6.174.0",
->>>>>>> 3fc092f875450e51bf622a4f3e44c98d9ce1c093
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router": "^5.1.2",

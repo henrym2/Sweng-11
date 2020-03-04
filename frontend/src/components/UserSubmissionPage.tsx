@@ -23,8 +23,14 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
   };
 
   login = (name: String) => {
-    this.setState({ pageState: 1, voterName: name }); //Log in -> change page state to 1
-    console.log("Thanks " + name);
+    if (name == null || name == ""){
+      alert("Please enter your first name to log in.");
+      this.setState({ pageState: 0 });
+    }
+    else {
+      this.setState({ pageState: 1, voterName: name }); //Log in -> change page state to 1
+    }
+     console.log("Thanks " + name);
   };
 
   vote = (opinion: number) => {

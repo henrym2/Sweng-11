@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import {
+  FontSizes,
+} from 'office-ui-fabric-react/lib/Styling';
+import {
   Stack,
   Text,
   DefaultButton,
@@ -7,7 +10,8 @@ import {
   IStackTokens,
   Button,
   TextField,
-  ButtonType
+  ButtonType,
+  Label
 } from "office-ui-fabric-react";
 
 type MyProps = {
@@ -21,21 +25,34 @@ export class LoginView extends Component<MyProps, MyState> {
   state: MyState = {
     name: ""
   };
+  
+  
+
 
   render() {
     return (
       <>
+        <Text
+          variant="xLarge"
+          style={{
+            fontWeight: "bold",
+          }}>
+          Sign in
+        </Text>
+        <p></p>
         <TextField
-          label="Login to submit a vote"
           placeholder="First Name"
           onChanged={this.onChanged}
+          underlined
         />
-        <p></p>
         <Button
           buttonType={ButtonType.primary}
           onClick={() => this.props.function(this.state.name)}
+          style={{
+            marginTop: "40px"
+          }}
         >
-          Log In
+          Sign in
         </Button>
       </>
     );
@@ -44,6 +61,7 @@ export class LoginView extends Component<MyProps, MyState> {
   onChanged = (newValue: string) => {
     this.setState({ name: newValue });
   };
+  
 }
 
 export default LoginView;
