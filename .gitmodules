@@ -1,0 +1,3 @@
+[submodule "thermapoll-sensor"]
+	path = thermapoll-sensor
+	url = https://github.com/henrym2/thermapoll-sensor.git
