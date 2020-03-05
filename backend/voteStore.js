@@ -11,16 +11,24 @@ class votes {
     populate(){
         let rawdata = fs.readFileSync('mockUserData.json');
         let users = JSON.parse(rawdata).users;
-        this.keys = users
+        this.keys = users.map(e => {
+            let obj = e
+            obj.vote = 0
+            return obj
+        })
     }
     
     store(identifier, vote) {
         if (identifier instanceof Number) {
-            this.keys[identifier].vote = vote
+            for (let i = 0; i < this.keys.length; i++) {
+                if (this.keys[i].id == identifier) {
+                    this.keys[i].vote = vote
+                }
+            }
         } else {
-            for (k in keys) {
-                if (k.name == identifier) {
-                    this.keys[k.id].vote = vote
+            for (let i = 0; i < this.keys.length; i++) {
+                if (this.keys[i].name == identifier) {
+                    this.keys[i].vote = vote
                 }
             }
         }

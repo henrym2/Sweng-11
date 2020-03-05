@@ -1,7 +1,9 @@
 const express = require('express')
-
+const cors = require("cors")
 const votes = require('./voteStore')
-var voterStore = new votes()
+const alerter = require('./alerting')
+const voterStore = new votes()
+const demoAlerter = new alerter()
 
 //Load in dotenv for parsing environment variables (secrets and stuff)
 const dotenv = require('dotenv')
@@ -18,6 +20,7 @@ const app = express()
 
 //Make sure the express server uses body parser
 app.use(bodyParser.json())
+app.use(cors())
 const port = process.env.APP_PORT;
 
 //let votes = new Array();
@@ -42,7 +45,12 @@ app.post('/vote', (req, res) => {
 
     console.log("New set of votes: ")
     voterStore.keys.forEach(vote => console.log(vote))
-    res.statusCode = 200
+    demoAlerter.createAlert("Temperature Change request", [{
+        area: "1A",
+        temperature: 21,
+        change: -1
+    }], demoAlerter.alertType.TEMP_REQUEST)
+    // res.statusCode = 200
     res.send()
 })
 
@@ -52,6 +60,7 @@ app.post('/sensorSubmit', (req, res) => {
 
 let server = app.listen(port, () => {
     voterStore.populate()
+    console.log(voterStore.keys)
     console.debug(
         `Server launched on port ${port}\n`,
         envLoaded.parsed

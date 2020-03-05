@@ -25,18 +25,26 @@ export class LoginView extends Component<MyProps, MyState> {
   render() {
     return (
       <>
+      <form
+      onSubmit={() => {}}>
         <TextField
           label="Login to submit a vote"
           placeholder="First Name"
           onChanged={this.onChanged}
         />
         <p></p>
+        <TextField
+        placeholder="Employee number">
+        </TextField>
+        <p></p>
         <Button
+          type="submit"
           buttonType={ButtonType.primary}
           onClick={() => this.props.function(this.state.name)}
         >
           Log In
         </Button>
+        </form>
       </>
     );
   }

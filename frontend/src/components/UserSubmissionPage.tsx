@@ -7,6 +7,7 @@ import thermaLogo from "../images/logo.svg";
 import LoginView from "./LoginView";
 import VoteView from "./VoteView";
 import VoteConfirmationView from "./VoteConfirmationView";
+import axios, { AxiosResponse } from "axios"
 
 type MyProps = {};
 type MyState = {
@@ -31,12 +32,14 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
     //Make post request to server (on localhost for now)
     const axios = require("axios");
     axios
-      .post("https://themapollbackend.azurewebsites.net/vote", {
+      .post("http://127.0.0.1:3001/vote/", {
         submitter: this.state.voterName,
         opinion: opinion
-      })
-      .then(function(response: String) {
-        // console.log(response);
+      },
+      {headers: { "Content-Type": "application/json",
+      Accept: "application/json"}} )
+      .then(function(response: AxiosResponse) {
+        console.log(response);
         console.log("User has voted: " + opinion);
       })
       .catch(function(error: String) {
