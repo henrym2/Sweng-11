@@ -2,7 +2,7 @@
     "users": [
         {
             "id": 123456,
-            "name": "John test",
+            "name": "John",
             "area": "1A",
             "desk": "17"
         }

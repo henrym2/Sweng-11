@@ -45,7 +45,7 @@ app.post('/vote', (req, res) => {
     console.log("New set of votes: ")
     voterStore.keys.forEach(vote => console.log(vote))
     res.statusCode = 200
-    res.send()
+    res.send(voterStore.keys)
 })
 
 app.post('/sensorSubmit', (req, res) => {
@@ -56,8 +56,6 @@ app.post('/sensorSubmit', (req, res) => {
         time == undefined) {
         res.statusCode = 400
         res.send()
-
-        return
     }
 
     console.log("Got: {" + id + ", \"" + location + "\", " + temperature + ", \"" + time + "\"}")
@@ -66,7 +64,7 @@ app.post('/sensorSubmit', (req, res) => {
     sensorData.keys.forEach(sensor => console.log(sensor))
 
     res.statusCode = 200
-    res.send()
+    res.send(sensorData.keys)
 })
 
 let server = app.listen(port, () => {

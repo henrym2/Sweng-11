@@ -5,7 +5,6 @@ const fs = require('fs');
 class sensorStore {
     constructor() {
         this.keys = new Array
-        this.length = 0;
         this.defaultValue = null;
     }
 
@@ -16,16 +15,9 @@ class sensorStore {
     }
     
     store(id, location, temperature, time) {
-        if (isFinite(id)) {     // had issues with "instanceof"
-            this.keys[id] = {location, temperature, time}
-            this.length++;
-        } else {
-            for (k in this.keys) {
-                if (k.location == location) {
-                    this.keys[k.id] = {location, temperature, time}
-                }
-            }
-        }
+        let sensorIdx = this.keys.findIndex(s => s.id == id)
+        this.keys[sensorIdx].temperature = temperature
+        this.keys[sensorIdx].time = time
     }
 
     get(id) {
