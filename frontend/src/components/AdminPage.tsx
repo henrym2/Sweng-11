@@ -8,10 +8,23 @@ import LoginView from "./LoginView";
 import VoteView from "./VoteView";
 import VoteConfirmationView from "./VoteConfirmationView";
 
+import {
+  Stack,
+  Text,
+  DefaultButton,
+  PrimaryButton,
+  IStackTokens,
+  Button,
+  TextField,
+  ButtonType,
+  calculatePrecision
+} from "office-ui-fabric-react";
+
 type MyProps = {};
 type MyState = {
   pageState: number;
-  txt: string;
+
+  floorState: number;
 };
 
 export class AdminPage extends Component<MyProps, MyState> {
@@ -19,17 +32,53 @@ export class AdminPage extends Component<MyProps, MyState> {
 
   state: MyState = {
     pageState: 0,
-    txt: ""
+    floorState: 0 //when state is 0, show all the alerts
   };
 
   render() {
     return (
       <div className="admin-page__main">
-        <div>Top Bar (Milu)</div>
+        <div
+          style={{
+            marginTop: "100px",
+            position: "relative",
+            textAlign: "center"
+          }}
+        >
+          <PrimaryButton onClick={() => (this.state.floorState = 1)}>
+            1st floor
+          </PrimaryButton>
+          <PrimaryButton
+            onClick={() => (this.state.floorState = 2)}
+            style={{ marginLeft: "7%" }}
+          >
+            2nd floor
+          </PrimaryButton>
+          <PrimaryButton
+            onClick={() => (this.state.floorState = 3)}
+            style={{ marginLeft: "7%" }}
+          >
+            3rd floor
+          </PrimaryButton>
+          <PrimaryButton
+            onClick={() => (this.state.floorState = 4)}
+            style={{ marginLeft: "7%" }}
+          >
+            4th floor
+          </PrimaryButton>
+          <PrimaryButton
+            onClick={() => (this.state.floorState = 5)}
+            style={{ marginLeft: "7%" }}
+          >
+            5th floor
+          </PrimaryButton>
+        </div>
         <div>
           Bottom part
           <div>Side Bar</div>
-          <div>{this.state.txt}</div>
+          <div>
+            Page Content (Matthew - put notification/alert card in here for now)
+          </div>
         </div>
       </div>
     );

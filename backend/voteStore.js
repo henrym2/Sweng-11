@@ -15,16 +15,17 @@ class votes {
     }
     
     store(identifier, vote) {
-        if (identifier instanceof Number) {
-            this.keys[identifier].vote = vote
-        } else {
-            for (k in keys) {
-                if (k.name == identifier) {
-                    this.keys[k.id].vote = vote
-                }
+        let voterIdx = this.keys.findIndex(v => {
+            if (identifier instanceof Number && v.id == identifier){
+                return v
+            } else if(v.name == identifier) {
+                return v
             }
+        })
+        if (voterIdx == undefined) {
+            this.keys.push()
         }
-        // this.length++;
+        this.keys[voterIdx].vote = vote
     }
 
     get(id) {
