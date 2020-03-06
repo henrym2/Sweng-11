@@ -19,7 +19,7 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
 
   state: MyState = {
     pageState: 0,
-    voterName: "Testy McTestFace"
+    voterName: ""
   };
 
   login = (name: String) => {

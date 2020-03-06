@@ -43,7 +43,7 @@
 @media only screen and (max-width: 750px) {
   .submission-page__inner-box {
     width: 75%;
-    height: 400px;
+    height: auto;
   }
   .submission-page__logo {
     width: auto;
@@ -55,7 +55,7 @@
 @media only screen and (max-width: 400px) {
   .submission-page__inner-box {
     width: 350px;
-    height: 400px;
+    height: auto;
   }
   .submission-page__logo {
     width: auto;

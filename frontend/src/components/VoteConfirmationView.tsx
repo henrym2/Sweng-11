@@ -29,7 +29,7 @@ export class VoteConfirmationView extends Component<MyProps, MyState> {
             fontWeight: "bold"
           }}
         >
-          Thanks {this.props.name} for your vote
+          Thanks for your vote {this.props.name}!
         </Text>
         <Text
           variant="large"
