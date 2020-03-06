@@ -11,13 +11,15 @@ import VoteConfirmationView from "./VoteConfirmationView";
 type MyProps = {};
 type MyState = {
   pageState: number;
+  txt: string;
 };
 
 export class AdminPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
 
   state: MyState = {
-    pageState: 0
+    pageState: 0,
+    txt: ""
   };
 
   render() {
@@ -27,9 +29,7 @@ export class AdminPage extends Component<MyProps, MyState> {
         <div>
           Bottom part
           <div>Side Bar</div>
-          <div>
-            Page Content (Matthew - put notification/alert card in here for now)
-          </div>
+          <div>{this.state.txt}</div>
         </div>
       </div>
     );
