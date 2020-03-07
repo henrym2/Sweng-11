@@ -12,22 +12,19 @@ class votes {
         this.keys = users
     }
   
-    store(id, vote) {
-        if (typeof(id) == 'number') {
-            for(let i = 0; i < this.keys.length; i++) {
-                if (this.keys[i].id == id) {
-                    this.keys[i].vote = vote
-                }
+    store(identifier, vote) {
+        let voterIdx = this.keys.findIndex(v => {
+            if (identifier instanceof Number && v.id == identifier){
+                return v
+            } 
+            else if(v.name == identifier) {
+                return v
             }
+        })
+        if (voterIdx == undefined) {
+            this.keys.push()
         }
-        else {
-            for (k in keys) {
-                if (k.name == id) {
-                    this.keys[k.id].vote = vote
-                }
-            }
-        }
-        // this.length++;
+        this.keys[voterIdx].vote = vote
     }
 
     get(id) {
