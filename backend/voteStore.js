@@ -6,12 +6,12 @@ class votes {
         this.keys = new Array
     }
 
-    populate() {
+    populate(){
         let rawdata = fs.readFileSync('mockUserData.json');
         let users = JSON.parse(rawdata).users;
         this.keys = users
     }
-    
+  
     store(id, vote) {
         if (typeof(id) == 'number') {
             for(let i = 0; i < this.keys.length; i++) {
