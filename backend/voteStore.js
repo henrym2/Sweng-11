@@ -4,22 +4,25 @@ const fs = require('fs');
 class votes {
     constructor() {
         this.keys = new Array
-        this.length = 0;
-        this.defaultValue = null;
     }
 
-    populate(){
+    populate() {
         let rawdata = fs.readFileSync('mockUserData.json');
         let users = JSON.parse(rawdata).users;
         this.keys = users
     }
     
-    store(identifier, vote) {
-        if (identifier instanceof Number) {
-            this.keys[identifier].vote = vote
-        } else {
+    store(id, vote) {
+        if (typeof(id) == 'number') {
+            for(let i = 0; i < this.keys.length; i++) {
+                if (this.keys[i].id == id) {
+                    this.keys[i].vote = vote
+                }
+            }
+        }
+        else {
             for (k in keys) {
-                if (k.name == identifier) {
+                if (k.name == id) {
                     this.keys[k.id].vote = vote
                 }
             }
@@ -33,4 +36,3 @@ class votes {
 }
 
 module.exports = votes
-
