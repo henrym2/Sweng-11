@@ -3,7 +3,7 @@ import "./AdminPage.css";
 import { Depths } from "@uifabric/fluent-theme/lib/fluent/FluentDepths";
 import { ICardTokens } from "@uifabric/react-cards";
 import mlogo from "../images/mlogo.png";
-import thermaLogo from "../images/logo.svg";
+import thermaLogo from "../images/logo-white.svg";
 import LoginView from "./LoginView";
 import VoteView from "./VoteView";
 import VoteConfirmationView from "./VoteConfirmationView";
@@ -23,10 +23,16 @@ export class AdminPage extends Component<MyProps, MyState> {
   render() {
     return (
       <div className="admin-page__main">
-        <div>Top Bar (Milu)</div>
-        <div>
-          Bottom part
-          <div>Side Bar</div>
+        <div className="admin-page__top-bar">
+          <img
+            src={thermaLogo}
+            alt="therma logo"
+            className="admin-page__logo "
+          />
+          Top Bar (Milu)
+        </div>
+        <div className="admin-page__bottom">
+          <div className="admin-page__side-bar">Side Bar</div>
           <div>
             Page Content (Matthew - put notification/alert card in here for now)
           </div>
