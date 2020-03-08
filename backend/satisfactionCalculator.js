@@ -32,7 +32,7 @@ class calculator {
                     critMass++
                 }
             }
-            if(areaList[i].size/2 == critMass) {
+            if(areaList[j].size/2 == critMass) {
                 let num = calculate(voteStore, areaList[i].name)
                 this.alerter(areaList[i].name, 0, num)
             }
