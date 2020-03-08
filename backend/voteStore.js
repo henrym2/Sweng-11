@@ -4,8 +4,6 @@ const fs = require('fs');
 class votes {
     constructor() {
         this.keys = new Array
-        this.length = 0;
-        this.defaultValue = null;
     }
 
     populate(){
@@ -13,12 +11,13 @@ class votes {
         let users = JSON.parse(rawdata).users;
         this.keys = users
     }
-    
+  
     store(identifier, vote) {
         let voterIdx = this.keys.findIndex(v => {
             if (identifier instanceof Number && v.id == identifier){
                 return v
-            } else if(v.name == identifier) {
+            } 
+            else if(v.name == identifier) {
                 return v
             }
         })
@@ -34,4 +33,3 @@ class votes {
 }
 
 module.exports = votes
-
