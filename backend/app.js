@@ -1,4 +1,5 @@
 const express = require('express')
+const mongoose = require('mongoose')
 
 const votes = require('./voteStore')
 const sensorStore = require('./sensorStore')
@@ -65,11 +66,22 @@ app.post('/sensorSubmit', (req, res) => {
 
     res.statusCode = 200
     res.send(sensorData.keys)
-})
+});
+
+
+function setupDB() {
+    mongoose.connect(process.env.DB_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
+    global.db = mongoose.connection
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', () => {
+        console.log("Database connection successful")
+    });
+}
 
 let server = app.listen(port, () => {
     voterStore.populate()
     sensorData.populate()
+    setupDB()
     console.debug(
         `Server launched on port ${port}\n`,
         envLoaded.parsed
