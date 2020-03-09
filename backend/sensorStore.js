@@ -21,16 +21,11 @@ class sensorStore {
     }
 
     get(id) {
-        return this.keys[id] || undefined
+        return this.keys.find(s => s.id == id)
     }
 
-    get(location) {
-        for(sensor in this.keys) {
-            if(sensor.location == location) {
-                return sensor
-            }
-        }
-        return undefined
+    getByLocation(location) {
+        return this.keys.find(l => l.location == location)
     }
 
     toString() {

@@ -14,12 +14,8 @@ class votes {
   
     store(identifier, vote) {
         let voterIdx = this.keys.findIndex(v => {
-            if (identifier instanceof Number && v.id == identifier){
-                return v
-            } 
-            else if(v.name == identifier) {
-                return v
-            }
+            if(v.id === identifier) return true
+            if(v.name === identifier) return true
         })
         if (voterIdx == undefined) {
             this.keys.push()
@@ -28,7 +24,7 @@ class votes {
     }
 
     get(id) {
-        return this.keys[id] || undefined
+        return this.keys.find(v => v.id == id)
     }
 }
 
