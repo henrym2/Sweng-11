@@ -32,6 +32,12 @@
   flex-direction: column;
 }
 
+.admin-page__notifications {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .admin-page__logo {
   width: auto;
   height: 60px;

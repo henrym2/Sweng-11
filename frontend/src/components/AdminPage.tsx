@@ -33,8 +33,10 @@ export class AdminPage extends Component<MyProps, MyState> {
         </div>
         <div className="admin-page__bottom">
           <div className="admin-page__side-bar">Side Bar</div>
-          <div>
+          <div className="admin-page__notifications">
             Page Content (Matthew - put notification/alert card in here for now)
+            <div>asdfasdf</div>
+            <div>asdf8888</div>
           </div>
         </div>
       </div>
