@@ -5,3 +5,42 @@
   display: flex;
   flex-direction: column;
 }
+
+.admin-page__top-bar {
+  background-color: #1f1f2b;
+  height: 110px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.admin-page__bottom {
+  background-color: #faf9f8;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  flex-direction: row;
+}
+.admin-page__side-bar {
+  background-color: #ffffff;
+  height: auto;
+  width: 30%;
+  display: flex;
+  box-shadow: 3px 0px 5px 0px rgba(50, 50, 50, 0.24);
+
+  flex-direction: column;
+}
+
+.admin-page__notifications {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.admin-page__logo {
+  width: auto;
+  height: 60px;
+  margin: auto;
+  margin-left: 35px;
+}
