@@ -25,7 +25,7 @@
 .admin-page__side-bar {
   background-color: #ffffff;
   height: auto;
-  width: 30%;
+  width: 40%;
   display: flex;
   box-shadow: 3px 0px 5px 0px rgba(50, 50, 50, 0.24);
 
@@ -35,7 +35,18 @@
 .admin-page__notifications {
   display: flex;
   flex-direction: column;
+  padding: 25px;
   width: 100%;
+  margin: 0px;
+  overflow: scroll;
+}
+
+.admin-page__floor-plan {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  width: 100%;
+  margin: 0px;
 }
 
 .admin-page__logo {
