@@ -31,8 +31,9 @@ mongoose.connection.dropDatabase().then(
         ...e
         })
       })
-      Entry.create(eModels).then(async err => {
-        let s = new Sensor({...sensors[0], entries: [eModels[0]._id]})
+      Entry.create(eModels, (err, ents) => {
+        let s = new Sensor({...sensors[0]})
+        s.entries.push(ents[0]._id)
         s.save((err) => {
         if (err) {
           console.log(err)
@@ -45,7 +46,7 @@ mongoose.connection.dropDatabase().then(
           })
         })
         aModels[0].content[0].sensorID = s._id
-        await Alert.create(aModels, (err) => {
+        Alert.create(aModels, (err) => {
           console.log(err)
         })
       })
