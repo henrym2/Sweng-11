@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 const VotesSchema = mongoose.Schema({
     opinion: Number,
-    time: Date,
+    time: String,
     area: String
 })
 
@@ -34,7 +34,7 @@ UserSchema.statics.addVote = async function(id, vote) {
 const SensorSchema = mongoose.Schema({
     id: Number,
     area: String,
-    temperatures: [
+    entries: [
         {
             entry: mongoose.Types.ObjectId
         }
@@ -43,7 +43,7 @@ const SensorSchema = mongoose.Schema({
 
 const EntrySchema = mongoose.Schema({
     temperature: Number,
-    time: Date,
+    time: String,
     area: String
 })
 
@@ -64,12 +64,11 @@ SensorSchema.statics.addEntry = async function(id, entry) {
 }
 
 const AlertSchema = mongoose.Schema({
-    type: Number,
-    time: Date,
+    time: String,
     active: Boolean,
     content: [
         {   
-            sensorID: Number,
+            sensorID: mongoose.Types.ObjectId,
             area: String,
             temperature: Number,
             change: Number,
@@ -81,7 +80,7 @@ const AlertSchema = mongoose.Schema({
 const User = mongoose.model('User', UserSchema)
 const Sensor = mongoose.model('Sensor', SensorSchema)
 const Alert = mongoose.model('Alert', AlertSchema)
-const TempEntry = mongoose.model('TempEntry', EntrySchema)
+const Entry = mongoose.model('Entry', EntrySchema)
 const Vote = mongoose.model('Vote', VotesSchema)
 
-module.exports = {User, Sensor, Alert}
+module.exports = {User, Sensor, Alert, Entry, Vote }

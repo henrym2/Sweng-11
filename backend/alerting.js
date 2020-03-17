@@ -1,6 +1,6 @@
 const sendgrid = require('@sendgrid/mail');
 const {HTMLTemplates, textTemplates } = require('./mailTemplates.js')
-
+const { Alert } = require('./db/schemas')
 const dotenv = require("dotenv").config()
 
 sendgrid.setApiKey(process.env.SENDGRID_KEY);
@@ -95,7 +95,16 @@ class alerter {
      */
     sendAlert(email) {
         sendgrid.send(email)
-        .then(() => this.lastMail = email)
+        .then(() => {
+            this.lastMail = email
+            let a = new Alert({
+                title: email.subject,
+                content: email.content,
+                time: new Date(),
+                active: true,
+            })
+            a.save(err => console.log(err))
+        })
         .catch((err) => console.error(err))
     } 
 }

@@ -1,6 +1,7 @@
 // Similar to voteStore
 //const server = require('/server')
 const fs = require('fs');
+const { Sensor, Entry } = require("./db/schemas")
 
 class sensorStore {
     constructor() {
@@ -18,6 +19,23 @@ class sensorStore {
         let sensorIdx = this.keys.findIndex(s => s.id == id)
         this.keys[sensorIdx].temperature = temperature
         this.keys[sensorIdx].time = time
+        /*
+        let e = new Entry({
+            _id: new mongoose.Types.ObjectId
+            temp: temperature,
+            time: time
+        })
+        let s = new Sensor({
+            id: id,
+            area: location,
+            temperatures: [
+                { e._id }
+            ]
+        })
+        s.save(err => {
+            console.log(err)
+        })
+        */
     }
 
     get(id) {
