@@ -62,6 +62,7 @@
   position: relative;
 }
 
+/* FOR JENNA */
 .admin-page__zone1 {
   position: absolute;
   /* Use top and left to position a triangle on x-y axis */
@@ -71,7 +72,8 @@
   width: 150px;
   height: 130px;
   /* Color */
-  background-color: pink;
+  background-color: blue;
+  opacity: 0.7;
 }
 
 .admin-page__display-zone-info {

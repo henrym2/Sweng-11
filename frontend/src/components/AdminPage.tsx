@@ -21,7 +21,7 @@ export class AdminPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
 
   state: MyState = {
-    pageState: 0,
+    pageState: 1,
     showZoneInfo: false,
     selectedZone: 0
   };
