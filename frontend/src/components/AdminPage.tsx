@@ -8,6 +8,7 @@ import AdminNotification from "./AdminNotification";
 import SideBarButton from "./SideBarButton";
 import alertIcon from "../images/alert-icon.svg";
 import mapIcon from "../images/map-icon.svg";
+import floorPlan from "../images/floor-plan.svg";
 
 type MyProps = {};
 type MyState = {
@@ -65,7 +66,11 @@ export class AdminPage extends Component<MyProps, MyState> {
   };
 
   floorPlanScreen = () => {
-    return <div className="admin-page__floor-plan"></div>;
+    return (
+      <div className="admin-page__floor-plan">
+        <img src={floorPlan} />
+      </div>
+    );
   };
 
   render() {
