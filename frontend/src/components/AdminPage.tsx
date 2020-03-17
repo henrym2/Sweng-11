@@ -13,13 +13,41 @@ import floorPlan from "../images/floor-plan.svg";
 type MyProps = {};
 type MyState = {
   pageState: number;
+  showZoneInfo: boolean;
+  selectedZone: number;
 };
 
 export class AdminPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
 
   state: MyState = {
-    pageState: 0
+    pageState: 0,
+    showZoneInfo: false,
+    selectedZone: 0
+  };
+
+  setIsShown = (zone, show) => {
+    this.setState({ showZoneInfo: show, selectedZone: zone });
+  };
+
+  floorPlanScreen = () => {
+    return (
+      <div className="admin-page__floor-plan">
+        {this.state.showZoneInfo && (
+          <div className="admin-page__display-zone-info">
+            Display info about zone {this.state.selectedZone} here
+          </div>
+        )}
+        <div className="admin-page__box">
+          <img src={floorPlan} />
+          <div
+            className="admin-page__zone1"
+            onMouseEnter={() => this.setIsShown(1, true)}
+            onMouseLeave={() => this.setIsShown(1, false)}
+          ></div>
+        </div>
+      </div>
+    );
   };
 
   viewAlerts = () => {
@@ -61,14 +89,6 @@ export class AdminPage extends Component<MyProps, MyState> {
           title="Please Adjust Temperature"
           desctription="A temperature adjustment is needed on floor 2."
         />
-      </div>
-    );
-  };
-
-  floorPlanScreen = () => {
-    return (
-      <div className="admin-page__floor-plan">
-        <img src={floorPlan} />
       </div>
     );
   };
