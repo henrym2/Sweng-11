@@ -17,8 +17,7 @@ class sensorStore {
     
     store(id, location, temperature, time) {
         let sensorIdx = this.keys.findIndex(s => s.id == id)
-        this.keys[sensorIdx].temperature = temperature
-        this.keys[sensorIdx].time = time
+
         Sensor.findOne({id: id}).exec((err, s) => {
             let e = new Entry({
                 _id: new mongoose.Types.ObjectId,
@@ -34,6 +33,12 @@ class sensorStore {
         })
         
         
+        if(this.keys[sensorIdx] == undefined) {
+            this.keys.push({id, location, temperature, time})
+        } else {
+            this.keys[sensorIdx].temperature = temperature
+            this.keys[sensorIdx].time = time
+        }
     }
 
     get(id) {
