@@ -67,6 +67,15 @@ app.post('/sensorSubmit', (req, res) => {
     res.send(sensorData.keys)
 })
 
+app.get('/sensorData', (req, res) => {
+    if(sensorStore.length == 0) {   // If there is no sensor data,
+        res.statusCode = 204        // Successful, no content returned
+    } else {                        // There is sensor data,
+        res.statusCode = 200        // Request received and processed OK
+        res.send(sensorStore.keys)  // Return the sensor data
+    }
+})
+
 let server = app.listen(port, () => {
     voterStore.populate()
     sensorData.populate()

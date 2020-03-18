@@ -16,8 +16,12 @@ class sensorStore {
     
     store(id, location, temperature, time) {
         let sensorIdx = this.keys.findIndex(s => s.id == id)
-        this.keys[sensorIdx].temperature = temperature
-        this.keys[sensorIdx].time = time
+        if(this.keys[sensorIdx] == undefined) {
+            this.keys.push({id, location, temperature, time})
+        } else {
+            this.keys[sensorIdx].temperature = temperature
+            this.keys[sensorIdx].time = time
+        }
     }
 
     get(id) {

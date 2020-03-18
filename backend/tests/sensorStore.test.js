@@ -24,3 +24,53 @@ describe('Populate and store', () => {
         done()
     })
 })
+
+describe('Get all sensor data', () => {
+    test("Ensure the data received corresponds to the data posted previously", async (done) => {
+        const sensorStore = new Store()
+
+        sensorStore.populate()
+        sensorStore.store({
+            "id": 3,
+            "location": "2D042",
+            "temperature": 21.3,
+            "time": "12:06:21T18:3:2020"
+        })
+        sensorStore.store({
+            "id": 83,
+            "location": "2D041",
+            "temperature": 20.9,
+            "time": "12:06:40T18:3:2020"
+        })
+        sensorStore.store({
+            "id": 36,
+            "location": "2D040",
+            "temperature": 20.8,
+            "time": "12:06:56T18:3:2020"
+        })
+
+        expect(JSON.stringify(sensorStore.keys) == JSON.stringify({
+            "sensors": [
+                {
+                    "id": 3,
+                    "location": "2D042",
+                    "temperature": 21.3,
+                    "time": "12:06:21T18:3:2020"
+                },
+                {
+                    "id": 83,
+                    "location": "2D041",
+                    "temperature": 20.9,
+                    "time": "12:06:40T18:3:2020"
+                },
+                {
+                    "id": 36,
+                    "location": "2D040",
+                    "temperature": 20.8,
+                    "time": "12:06:56T18:3:2020"
+                }
+            ]
+        }))
+        done()
+    })
+})
