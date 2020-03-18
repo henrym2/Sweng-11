@@ -23,16 +23,19 @@ class votes {
         }
         this.keys[voterIdx].vote = vote
 
-        let u = await User.find({name: identifier})
-        if (u != undefined){
-            let v = new Vote({
-                time: new Date(),
-                area: u.area,
-                opinion: vote
-            })
-            u.votes.push(v._id)
-            u.save()
-        }
+        User.findOne({name: identifier}).exec((err, u) => {
+            if (u != undefined){
+                let v = new Vote({
+                    time: new Date(),
+                    area: u.area,
+                    opinion: vote
+                })
+                Vote.create(v, (err, vx)=> {
+                    u.votes.push(vx._id)
+                    u.save()
+                })
+            }
+        })
     }
 
     get(id) {
