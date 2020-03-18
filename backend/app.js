@@ -68,11 +68,29 @@ app.post('/sensorSubmit', (req, res) => {
 })
 
 app.get('/sensorData', (req, res) => {
-    if(sensorStore.length == 0) {   // If there is no sensor data,
-        res.statusCode = 204        // Successful, no content returned
-    } else {                        // There is sensor data,
-        res.statusCode = 200        // Request received and processed OK
-        res.send(sensorStore.keys)  // Return the sensor data
+    if(sensorData.keys.length == 0) {   // If there is no sensor data,
+        res.statusCode = 204            // Successful, no content returned
+        res.send()
+        console.log("/sensorData: no sensor data exists")
+    } else {                             // There is sensor data,
+        if(req.query.id != undefined) { // Check if the request asks for a particular sensor
+            let desiredSensorIndex = sensorData.keys.findIndex(s => s.id == req.query.id)
+
+            if(desiredSensorIndex == -1) {
+                res.statusCode = 404    // Couldn't find a sensor with that id
+                res.send()
+                console.log("/sensorData: failed to find the specified sensor")
+            } else {                    // Return the sensor with the requested id
+                res.statusCode = 200
+                res.send(sensorData.keys[desiredSensorIndex])
+                console.log("/sensorData: returned specified sensor data")
+            }
+
+        } else {                        // Send back all the sensor data
+            res.statusCode = 200
+            res.send(sensorData.keys)
+            console.log("/sensorData: returned all data")
+        }
     }
 })
 
