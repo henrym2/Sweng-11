@@ -6,11 +6,21 @@ const { User } = require('./db/schemas')
 class votes {
     constructor() {
         User.find({}).exec((err, res) => this.keys = res)
-        this.keys = User.find({})
+        this.users = User.find({})
+        this.votes = Vote.find({})
+        this.references = User.find({}).populate('votes')
     }
 
     async updateVotesList(){
-        this.keys = await User.find({})
+        this.votes = await User.find({})
+    }
+
+    async updateUserList(){
+        this.votes = await Vote.find({})
+    }
+
+    async updateReferenceList() {
+        this.references = User.find({}).populate('votes')
     }
 
     async store(identifier, vote) {
@@ -29,11 +39,33 @@ class votes {
     }
 
     async get(id) {
-        return this.keys.find(k => k.id == id) || User.findOne({id: id})
+        let user = this.users.find(k => k.id == id)
+        if (user == undefined){
+            return User.findOne({id: id})
+        }
+        return user
+    }
+
+    async getAllUsers() {
+        this.updateUserList()
+        return this.users
+    }
+
+    async getAllVotes() {
+        this.updateVotesList()
+        return this.votes
+    }
+
+    async getAll() {
+        this.updateReferenceList()
+        return this.references
     }
 
     async getByName(name) {
-        return this.keys.find(k => k.name == name) || User.findOne({name: name})
+        let user = this.users.find(k => k.name == name) 
+        if (user == undefined) {
+            return User.findOne({name: name})
+        }
     }
 }
 

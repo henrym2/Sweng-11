@@ -5,11 +5,21 @@ const { Sensor, Entry } = require("./db/schemas")
 
 class sensorStore {
     constructor() {
-        Sensor.find({}).exec((err, res ) => this.keys = res)
+        Sensor.find({}).exec((err, res ) => this.sensors = res)
+        Entry.find({}).exec((err, res) => this.entries = res)
+        Sensor.find({}).populate("entries").exec((err, res) => this.references = res)
     }
 
-    async updateKeys() {
-        this.keys = await Sensor.find({})
+    async updateSensors() {
+        this.sensors = await Sensor.find({})
+    }
+
+    async updateEntries() {
+        this.entries = await Entry.find({})
+    }
+
+    async updateReferences() {
+        this.references = await Sensor.find({}).populate("entries")
     }
 
     async store(id, area, temperature, time) {
@@ -21,19 +31,40 @@ class sensorStore {
         })
         sensor.entries.push(e._id)
         await sensor.save()
-        await this.updateKeys()
+        await this.updateSensors()
     }
 
     async get(id) {
-        return await Sensor.findOne({id: id}).populate("entries") 
+        let sensor = this.sensors.find(k => k.id == id)
+        if (sensor == undefined) {
+            return await Sensor.findOne({id: id}).populate("entries") 
+        }
+        return sensor
     }
 
     async getAll() {
-        return this.keys || await Sensor.find({})
+        this.updateReferences()
+        return this.references
     }
 
+    async getEntries() {
+        this.updateEntries()
+        return this.entries
+    }
+
+
     async getByLocation(location) {
-        return this.keys.find(k => k.location == location) || await Sensor.find({location: location})
+        let sensor = this.sensors.find(k => k.location == location) 
+        if (sensor == undefined) {
+            return await Sensor.find({location: location})
+        }
+        return sensor
+        
+    }
+
+    async getLocationHistory(location) {
+        let hist = this.entries.filter(e => e.location == location)
+        return hist
     }
 
     toString() {
