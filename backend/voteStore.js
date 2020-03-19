@@ -5,41 +5,35 @@ const { User } = require('./db/schemas')
 
 class votes {
     constructor() {
-        this.keys = new Array
+        User.find({}).exec((err, res) => this.keys = res)
+        this.keys = User.find({})
     }
 
-    populate(){
-        let rawdata = fs.readFileSync('mockUserData.json');
-        let users = JSON.parse(rawdata).users;
-        this.keys = users
+    async updateVotesList(){
+        this.keys = await User.find({})
     }
-    store(identifier, vote) {
-        let voterIdx = this.keys.findIndex(v => {
-            if(v.id === identifier) return true
-            if(v.name === identifier) return true
-        })
-        if (voterIdx == undefined) {
-            this.keys.push()
+
+    async store(identifier, vote) {
+        let u = this.get(identifier)
+        if (identifier instanceof String) {
+            let u = await this.getByName()
         }
-        this.keys[voterIdx].vote = vote
-
-        User.findOne({name: identifier}).exec((err, u) => {
-            if (u != undefined){
-                let v = new Vote({
-                    time: new Date(),
-                    area: u.area,
-                    opinion: vote
-                })
-                Vote.create(v, (err, vx)=> {
-                    u.votes.push(vx._id)
-                    u.save()
-                })
-            }
-        })
+        if (u != undefined){
+            let v = await Vote.create({time: new Date().toISOString(), area: u.area, opinion: vote})
+            u.votes.push(v._id)
+            await u.save()
+            await this.updateVotesList()
+        } else {
+            console.log("User not found")
+        }
     }
 
-    get(id) {
-        return this.keys.find(v => v.id == id)
+    async get(id) {
+        return this.keys.find(k => k.id == id) || User.findOne({id: id})
+    }
+
+    async getByName(name) {
+        return this.keys.find(k => k.name == name) || User.findOne({name: name})
     }
 }
 

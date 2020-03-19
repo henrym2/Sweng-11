@@ -5,48 +5,35 @@ const { Sensor, Entry } = require("./db/schemas")
 
 class sensorStore {
     constructor() {
-        this.keys = new Array
-        this.defaultValue = null;
+        Sensor.find({}).exec((err, res ) => this.keys = res)
     }
 
-    populate(){
-        let rawdata = fs.readFileSync('mockSensorData.json');
-        let sensors = JSON.parse(rawdata).sensors;
-        this.keys = sensors
+    async updateKeys() {
+        this.keys = await Sensor.find({})
     }
-    
-    store(id, location, temperature, time) {
-        let sensorIdx = this.keys.findIndex(s => s.id == id)
 
-        Sensor.findOne({id: id}).exec((err, s) => {
-            let e = new Entry({
-                _id: new mongoose.Types.ObjectId,
-                temperature: temperature,
-                time: time
-            })
-            Entry.create(e, (err, ent) => {
-                s.push(ent._id)
-                s.save(err => {
-                    console.log(err)
-                })
-            })
+    async store(id, area, temperature, time) {
+        let sensor = await this.get(id)
+        let e = await Entry.create({
+            temperature: temperature,
+            time: time,
+            area: area
         })
-        
-        
-        if(this.keys[sensorIdx] == undefined) {
-            this.keys.push({id, location, temperature, time})
-        } else {
-            this.keys[sensorIdx].temperature = temperature
-            this.keys[sensorIdx].time = time
-        }
+        sensor.entries.push(e._id)
+        await sensor.save()
+        await this.updateKeys()
     }
 
-    get(id) {
-        return this.keys.find(s => s.id == id)
+    async get(id) {
+        return await Sensor.findOne({id: id}).populate("entries") 
     }
 
-    getByLocation(location) {
-        return this.keys.find(l => l.location == location)
+    async getAll() {
+        return this.keys || await Sensor.find({})
+    }
+
+    async getByLocation(location) {
+        return this.keys.find(k => k.location == location) || await Sensor.find({location: location})
     }
 
     toString() {

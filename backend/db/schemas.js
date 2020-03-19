@@ -12,7 +12,10 @@ const UserSchema = mongoose.Schema({
     desk: String,
     area: String,
     votes: [
-        {vote: mongoose.Types.ObjectId}
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'Vote'
+        }
     ]
 })
 /**
@@ -33,10 +36,12 @@ UserSchema.statics.addVote = async function(id, vote) {
 
 const SensorSchema = mongoose.Schema({
     id: Number,
-    area: String,
+    location: String,
+    temperature: Number,
     entries: [
         {
-            entry: mongoose.Types.ObjectId
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Entry'
         }
     ]
 })
@@ -68,7 +73,10 @@ const AlertSchema = mongoose.Schema({
     active: Boolean,
     content: [
         {   
-            sensorID: mongoose.Types.ObjectId,
+            sensorID: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Sensor'
+            },
             area: String,
             temperature: Number,
             change: Number,

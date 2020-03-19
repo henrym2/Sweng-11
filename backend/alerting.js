@@ -106,7 +106,17 @@ class alerter {
             a.save(err => console.log(err))
         })
         .catch((err) => console.error(err))
-    } 
+    }
+
+    async getActiveAlerts(){
+        return await Alert.find({active: true}).populate("content.sensor")
+    }
+    async dismissAlert(){
+        Alert.find({ id: id }).then(a => {
+            a.active = false
+            await a.save()
+        })
+    }
 }
 
 module.exports = alerter
