@@ -94,7 +94,7 @@ app.get('/sensorData', async (req, res) => {
         }
     } else {                        // Send back all the sensor data
         res.statusCode = 200
-        res.send(await sensorData.getAll())
+        res.send(await sensorData.getSensors())
         console.log("/sensorData: returned all data")
     }
 })

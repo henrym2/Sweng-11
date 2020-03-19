@@ -47,17 +47,17 @@ class votes {
     }
 
     async getAllUsers() {
-        this.updateUserList()
+        await this.updateUserList()
         return this.users
     }
 
     async getAllVotes() {
-        this.updateVotesList()
+        await this.updateVotesList()
         return this.votes
     }
 
     async getAll() {
-        this.updateReferenceList()
+        await this.updateReferenceList()
         return this.references
     }
 

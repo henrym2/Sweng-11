@@ -42,13 +42,18 @@ class sensorStore {
         return sensor
     }
 
+    async getSensors() {
+        await this.updateSensors()
+        return this.sensors
+    }
+
     async getAll() {
-        this.updateReferences()
+        await this.updateReferences()
         return this.references
     }
 
     async getEntries() {
-        this.updateEntries()
+        await this.updateEntries()
         return this.entries
     }
 
