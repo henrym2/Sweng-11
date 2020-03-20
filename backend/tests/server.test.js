@@ -3,7 +3,7 @@ const app = require('../app')
 
 
 
-describe('Example test', () => {
+describe('Launch test', () => {
     test('Should get a { test: "test" } object', async (done) => {
       const res = await request(app)
         .get('/')
