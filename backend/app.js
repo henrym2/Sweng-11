@@ -4,8 +4,10 @@ const { Sensor, User } = require('./db/schemas')
 
 const votes = require('./voteStore')
 const sensorStore = require('./sensorStore')
+const alerter = require('./alerting')
 var voterStore = new votes()
 var sensorData = new sensorStore()
+var alerts = new alerter()
 
 //Load in dotenv for parsing environment variables (secrets and stuff)
 const dotenv = require('dotenv')
@@ -97,6 +99,18 @@ app.get('/sensorData', async (req, res) => {
         res.send(await sensorData.getSensors())
         console.log("/sensorData: returned all data")
     }
+})
+
+app.get('/alerts', async (req, res) => {
+    res.status = 200
+    res.send(await alerts.getActiveAlerts())
+})
+
+app.post('/dismissAlert', async (req, res) => {
+    const { id } = req.body
+    let a = await alerts.dismissAlert(id)
+    res.status = 200
+    res.send(a)
 })
 
 let server = app.listen(port, () => {
