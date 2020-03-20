@@ -3,10 +3,13 @@ import "./AdminPage.css";
 import { Depths } from "@uifabric/fluent-theme/lib/fluent/FluentDepths";
 import { ICardTokens } from "@uifabric/react-cards";
 import mlogo from "../images/mlogo.png";
-import thermaLogo from "../images/logo.svg";
-import LoginView from "./LoginView";
-import VoteView from "./VoteView";
-import VoteConfirmationView from "./VoteConfirmationView";
+import thermaLogo from "../images/logo-white.svg";
+import AdminNotification from "./AdminNotification";
+import SideBarButton from "./SideBarButton";
+import alertIcon from "../images/alert-icon.svg";
+import mapIcon from "../images/map-icon.svg";
+import floorPlan from "../images/floor-plan.svg";
+import axios from "axios";
 
 import {
   Stack,
@@ -24,61 +27,119 @@ type MyProps = {};
 type MyState = {
   pageState: number;
 
-  floorState: number;
+  showZoneInfo: boolean;
+  selectedZone: number;
 };
 
 export class AdminPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
 
   state: MyState = {
-    pageState: 0,
-    floorState: 0 //when state is 0, show all the alerts
+    pageState: 1,
+    showZoneInfo: false,
+    selectedZone: 0
+  };
+
+  setIsShown = (zone, show) => {
+    this.setState({ showZoneInfo: show, selectedZone: zone });
+  };
+
+  componentDidMount(): void {
+    // axios.get('url');
+  }
+
+  floorPlanScreen = () => {
+    return (
+      <div className="admin-page__floor-plan">
+        {this.state.showZoneInfo && (
+          <div className="admin-page__display-zone-info">
+            Display info about zone {this.state.selectedZone} here
+          </div>
+        )}
+        <div className="admin-page__box">
+          <img src={floorPlan} />
+          <div
+            className="admin-page__zone1"
+            onMouseEnter={() => this.setIsShown(1, true)}
+            onMouseLeave={() => this.setIsShown(1, false)}
+          ></div>
+        </div>
+      </div>
+    );
+  };
+
+  viewAlerts = () => {
+    this.setState({ pageState: 0 });
+  };
+
+  viewFloorplan = () => {
+    this.setState({ pageState: 1 });
+  };
+
+  alertScreen = () => {
+    return (
+      <div className="admin-page__notifications">
+        <AdminNotification
+          title="Please Adjust Temperature"
+          desctription="A temperature adjustment is needed on floor 4."
+        />
+        <AdminNotification
+          title="Please Adjust Temperature"
+          desctription="A temperature adjustment is needed on floor 2."
+        />
+        <AdminNotification
+          title="Please Adjust Temperature"
+          desctription="A temperature adjustment is needed on floor 2."
+        />
+        <AdminNotification
+          title="Please Adjust Temperature"
+          desctription="A temperature adjustment is needed on floor 2."
+        />
+        <AdminNotification
+          title="Please Adjust Temperature"
+          desctription="A temperature adjustment is needed on floor 2."
+        />
+        <AdminNotification
+          title="Please Adjust Temperature"
+          desctription="A temperature adjustment is needed on floor 2."
+        />
+        <AdminNotification
+          title="Please Adjust Temperature"
+          desctription="A temperature adjustment is needed on floor 2."
+        />
+      </div>
+    );
   };
 
   render() {
     return (
       <div className="admin-page__main">
-        <div
-          style={{
-            marginTop: "100px",
-            position: "relative",
-            textAlign: "center"
-          }}
-        >
-          <PrimaryButton onClick={() => (this.state.floorState = 1)}>
-            1st floor
-          </PrimaryButton>
-          <PrimaryButton
-            onClick={() => (this.state.floorState = 2)}
-            style={{ marginLeft: "7%" }}
-          >
-            2nd floor
-          </PrimaryButton>
-          <PrimaryButton
-            onClick={() => (this.state.floorState = 3)}
-            style={{ marginLeft: "7%" }}
-          >
-            3rd floor
-          </PrimaryButton>
-          <PrimaryButton
-            onClick={() => (this.state.floorState = 4)}
-            style={{ marginLeft: "7%" }}
-          >
-            4th floor
-          </PrimaryButton>
-          <PrimaryButton
-            onClick={() => (this.state.floorState = 5)}
-            style={{ marginLeft: "7%" }}
-          >
-            5th floor
-          </PrimaryButton>
+        <div className="admin-page__top-bar">
+          <img
+            src={thermaLogo}
+            alt="therma logo"
+            className="admin-page__logo "
+          />
+          Top Bar (Milu)
         </div>
-        <div>
-          Bottom part
-          <div>Side Bar</div>
-          <div>
-            Page Content (Matthew - put notification/alert card in here for now)
+        <div className="admin-page__bottom">
+          <div className="admin-page__side-bar">
+            <SideBarButton
+              title="Alerts &amp; Notifications"
+              icon={alertIcon}
+              color={this.state.pageState == 0 ? "#F8F8FF" : "white"}
+              switchDisplay={() => this.viewAlerts()}
+            />
+            <SideBarButton
+              title="Floorplan &amp; Heatmap"
+              icon={mapIcon}
+              color={this.state.pageState == 1 ? "#F8F8FF" : "white"}
+              switchDisplay={() => this.viewFloorplan()}
+            />
           </div>
+          {this.state.pageState == 0
+            ? this.alertScreen()
+            : this.floorPlanScreen()}
         </div>
       </div>
     );
