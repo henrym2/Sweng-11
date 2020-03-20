@@ -9,6 +9,7 @@ import SideBarButton from "./SideBarButton";
 import alertIcon from "../images/alert-icon.svg";
 import mapIcon from "../images/map-icon.svg";
 import floorPlan from "../images/floor-plan.svg";
+import axios from "axios";
 
 type MyProps = {};
 type MyState = {
@@ -29,6 +30,10 @@ export class AdminPage extends Component<MyProps, MyState> {
   setIsShown = (zone, show) => {
     this.setState({ showZoneInfo: show, selectedZone: zone });
   };
+
+  componentDidMount(): void {
+    // axios.get('url');
+  }
 
   floorPlanScreen = () => {
     return (
