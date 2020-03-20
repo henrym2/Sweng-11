@@ -111,11 +111,12 @@ class alerter {
     async getActiveAlerts(){
         return await Alert.find({active: true}).populate("content.sensor")
     }
-    async dismissAlert(){
-        Alert.find({ id: id }).then(a => {
-            a.active = false
-            await a.save()
-        })
+    
+    async dismissAlert(id){
+        let a = await Alert.findOne({_id: id})
+        a.active = false
+        await a.save()
+        return a
     }
 }
 
