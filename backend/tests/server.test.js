@@ -3,7 +3,7 @@ const app = require('../app')
 
 
 
-describe('Example test', () => {
+describe('Launch test', () => {
     test('Should get a { test: "test" } object', async (done) => {
       const res = await request(app)
         .get('/')
@@ -23,6 +23,7 @@ describe('Submission test', () => {
       .post('/vote')
       .send(user)
     expect(res.statusCode).toEqual(200)
+    console.log(res.body)
 
     const malformedUser = {
       test: "incorrect"
@@ -47,6 +48,7 @@ describe("Sensor test", () => {
       .post('/sensorSubmit')
       .send(sensor)
     expect(res.statusCode).toEqual(200)
+    console.log(res.body)
 
     const malformedSensor = {
       "test": "incorrect"
@@ -56,6 +58,7 @@ describe("Sensor test", () => {
       .post('/sensorSubmit')
       .send(malformedSensor)
     expect(res.statusCode).toEqual(400)
+    done();
   })
 })
 
