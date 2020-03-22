@@ -1,10 +1,13 @@
 import React from "react";
 import { Stack, Text, Link, FontWeights } from "office-ui-fabric-react";
+import { initializeIcons } from '@uifabric/icons';
 import { UserSubmissionPage } from "./components/UserSubmissionPage";
 import { AdminPage } from "./components/AdminPage";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 const boldStyle = { root: { fontWeight: FontWeights.semibold } };
+
+initializeIcons();
 
 export const App: React.FunctionComponent = () => {
   return (
