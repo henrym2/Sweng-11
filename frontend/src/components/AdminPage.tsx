@@ -26,7 +26,7 @@ import {
 type MyProps = {};
 type MyState = {
   pageState: number;
-
+  alerts: Object[];
   showZoneInfo: boolean;
   selectedZone: number;
 };
@@ -37,7 +37,8 @@ export class AdminPage extends Component<MyProps, MyState> {
   state: MyState = {
     pageState: 1,
     showZoneInfo: false,
-    selectedZone: 0
+    selectedZone: 0,
+    alerts: []
   };
 
   setIsShown = (zone, show) => {
@@ -46,7 +47,15 @@ export class AdminPage extends Component<MyProps, MyState> {
 
   componentDidMount(): void {
     // axios.get('url');
+    this.getAlerts()
   }
+
+  getAlerts(): void {
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/alerts`).then((res) => {
+      const alerts = res.data
+      this.setState({alerts: alerts})
+    }).catch(err => console.log(err))
+  } 
 
   floorPlanScreen = () => {
     return (

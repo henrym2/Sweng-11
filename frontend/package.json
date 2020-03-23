@@ -11,6 +11,7 @@
     "@uifabric/fluent-theme": "^0.16.7",
     "@uifabric/react-cards": "^0.109.23",
     "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
     "office-ui-fabric-react": "^6.174.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

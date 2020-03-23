@@ -32,7 +32,7 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
     //Make post request to server (on localhost for now)
     const axios = require("axios");
     axios
-      .post("http://127.0.0.1:3001/vote/", {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/vote`, {
         submitter: this.state.voterName,
         opinion: opinion
       },

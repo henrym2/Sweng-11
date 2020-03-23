@@ -119,7 +119,7 @@ export class VoteView extends Component<MyProps, MyState> {
               min={-2}
               max={2}
               defaultValue={0}
-              originFromZero
+              // originFromZero={true}
               showValue={false}
               onChange={(val: number) => this.setVoteValue(val)}
               valueFormat={(value: number) => values[value + 2]}
