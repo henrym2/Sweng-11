@@ -16,7 +16,7 @@ const dotenv = require("dotenv");
 const envLoaded = dotenv.config();
 
 if (envLoaded.error) {
-  throw envLoaded.error;
+  console.log("Be aware .env file not found")
 }
 
 //Load in body parser for parsing json
