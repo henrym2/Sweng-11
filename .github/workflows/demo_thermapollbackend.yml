@@ -22,14 +22,12 @@ jobs:
 
     - name: npm install, build, and test
       run: |
-        npm install
-        npm run build --if-present
-        npm run test --if-present
-
+        cd ./backend
+        yarn
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v1
       with:
         app-name: 'thermapollbackend'
-        slot-name: 'production'
+        slot-name: 'development'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_cecd2a5dfdf443018d4b53db38e846c3 }}
-        package: .
+        package: ./backend
