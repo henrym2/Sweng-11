@@ -33,7 +33,6 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
     - name: npm install, build, and test
-    - working-directory: ./backend
       run: |
         # Build and test the project, then
         # deploy to Azure Web App.
