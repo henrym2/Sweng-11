@@ -15,6 +15,7 @@ const dotenv = require("dotenv");
 
 const envLoaded = dotenv.config();
 
+
 if (envLoaded.error) {
   console.log("Be aware .env file not found")
 }
