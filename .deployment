@@ -1,2 +1,2 @@
 [config] 
-project = ./backend
+command = bash ./deploy.sh
