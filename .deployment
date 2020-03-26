@@ -1,4 +1,2 @@
 [config]
-command = |
-    cd ./backend |
-    yarn start
+command = yarn & cd ./backend & yarn start
