@@ -1,2 +1,2 @@
-[config]
+[config] 
 command = yarn & cd ./backend & yarn start
