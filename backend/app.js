@@ -142,22 +142,5 @@ let server = app.listen(process.env.APP_PORT || 3000, () => {
   setupDB();
   console.debug(`Server launched on port ${process.env.APP_PORT || 3000}\n`, envLoaded.parsed);
 });
-// Not needed anymore, used to add test data for alerts as none were being returned
-// addData = () => {
-//   let a = new Schema.Alert({
-//     content: [
-//       {
-//         sensorID: "5e7384c4a9973e33eceb7b70",
-//         area: "Zone 3",
-//         temperature: 26,
-//         change: 2
-//       }
-//     ],
-//     time: new Date(),
-//     active: true
-//   });
-//   a.save(err => console.log(err));
-// };
-// addData();
 
 module.exports = server;
