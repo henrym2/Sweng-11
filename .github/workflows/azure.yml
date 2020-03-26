@@ -12,6 +12,7 @@ on:
   push:
     branches: 
       - demo
+      - master
   pull_request:
     branches: 
       - master
