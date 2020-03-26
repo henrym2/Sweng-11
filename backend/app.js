@@ -25,7 +25,6 @@ const app = express();
 
 //Make sure the express server uses body parser
 app.use(bodyParser.json());
-const port = process.env.APP_PORT;
 
 //Setup CORS
 var cors = require("cors");
@@ -146,7 +145,7 @@ app.post("/dismissAlert", async (req, res) => {
   res.send(a);
 });
 
-let server = app.listen(port, () => {
+let server = app.listen(process.env.APP_PORT || 3000, () => {
   setupDB();
   console.debug(`Server launched on port ${port}\n`, envLoaded.parsed);
 });
