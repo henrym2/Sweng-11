@@ -34,10 +34,12 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
     - name: npm install, build, and test
+    - working-directory: ./backend
       run: |
         # Build and test the project, then
         # deploy to Azure Web App.
-        npm install
+        
+        yarn
         npm run build --if-present
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
@@ -45,3 +47,10 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        working-directory: ./backend 
+      env: 
+        APP_PORT: 8080
+        SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
+        ALERT_SENDER: henrym2@tcd.ie
+        ALERT_RECIPIENT: henrym2@tcd.ie
+        DB_STRING: ${{ secrets.DB_STRING }}
