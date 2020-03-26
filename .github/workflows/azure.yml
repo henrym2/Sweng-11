@@ -40,6 +40,12 @@ jobs:
         cd ./backend
         yarn
         yarn start --if-present
+      env: 
+        APP_PORT: 8080
+        SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
+        ALERT_SENDER: henrym2@tcd.ie
+        ALERT_RECIPIENT: henrym2@tcd.ie
+        DB_STRING: ${{ secrets.DB_STRING }}
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
