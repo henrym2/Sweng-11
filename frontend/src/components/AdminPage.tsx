@@ -50,6 +50,51 @@ export class AdminPage extends Component<MyProps, MyState> {
             onMouseEnter={() => this.setIsShown(1, true)}
             onMouseLeave={() => this.setIsShown(1, false)}
           ></div>
+          <div
+            className="admin-page__zone2"
+            onMouseEnter={() => this.setIsShown(2, true)}
+            onMouseLeave={() => this.setIsShown(2, false)}
+          ></div>
+          <div
+            className="admin-page__zone3"
+            onMouseEnter={() => this.setIsShown(3, true)}
+            onMouseLeave={() => this.setIsShown(3, false)}
+          ></div>
+          <div
+            className="admin-page__zone4"
+            onMouseEnter={() => this.setIsShown(4, true)}
+            onMouseLeave={() => this.setIsShown(4, false)}
+          ></div>
+          <div
+            className="admin-page__zone5"
+            onMouseEnter={() => this.setIsShown(5, true)}
+            onMouseLeave={() => this.setIsShown(5, false)}
+          ></div>
+          <div
+            className="admin-page__zone6"
+            onMouseEnter={() => this.setIsShown(6, true)}
+            onMouseLeave={() => this.setIsShown(6, false)}
+          ></div>
+          <div
+            className="admin-page__zone7"
+            onMouseEnter={() => this.setIsShown(7, true)}
+            onMouseLeave={() => this.setIsShown(7, false)}
+          ></div>
+          <div
+            className="admin-page__zone8"
+            onMouseEnter={() => this.setIsShown(8, true)}
+            onMouseLeave={() => this.setIsShown(8, false)}
+          ></div>
+          <div
+            className="admin-page__zone9"
+            onMouseEnter={() => this.setIsShown(9, true)}
+            onMouseLeave={() => this.setIsShown(9, false)}
+          ></div>
+          <div
+            className="admin-page__zone10"
+            onMouseEnter={() => this.setIsShown(10, true)}
+            onMouseLeave={() => this.setIsShown(10, false)}
+          ></div>
         </div>
       </div>
     );
