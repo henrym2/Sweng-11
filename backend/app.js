@@ -140,7 +140,7 @@ app.post("/dismissAlert", async (req, res) => {
 
 let server = app.listen(process.env.APP_PORT || 3000, () => {
   setupDB();
-  console.debug(`Server launched on port ${port}\n`, envLoaded.parsed);
+  console.debug(`Server launched on port ${process.env.APP_PORT || 3000}\n`, envLoaded.parsed);
 });
 // Not needed anymore, used to add test data for alerts as none were being returned
 // addData = () => {
