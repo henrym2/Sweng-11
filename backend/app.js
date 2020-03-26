@@ -125,14 +125,6 @@ app.get("/sensorData", async (req, res) => {
   }
 });
 
-let server = app.listen(port, () => {
-    console.log(voterStore.keys)
-    console.debug(
-        `Server launched on port ${port}\n`,
-        envLoaded.parsed
-    )
-    }
-)
 app.get("/alerts", async (req, res) => {
   res.status = 200;
   res.send(await alerts.getActiveAlerts());
