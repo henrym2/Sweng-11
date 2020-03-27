@@ -25,6 +25,7 @@ env:
   FRONTEND_AZURE_WEBAPP_NAME: thermaPollFrontend
 
   
+  
 jobs:
   build-frontend-and-deploy:
     name: Build build-frontend-and-deploy
