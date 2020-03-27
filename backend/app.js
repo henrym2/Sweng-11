@@ -138,9 +138,9 @@ app.post("/dismissAlert", async (req, res) => {
   res.send(a);
 });
 
-let server = app.listen(process.env.APP_PORT || 3000, () => {
+let server = app.listen(process.env.APP_PORT || 8080, () => {
   setupDB();
-  console.debug(`Server launched on port ${process.env.APP_PORT || 3000}\n`, envLoaded.parsed);
+  console.debug(`Server launched on port ${process.env.APP_PORT || 8080}\n`, envLoaded.parsed);
 });
 
 
