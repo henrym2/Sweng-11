@@ -19,14 +19,36 @@ on:
     types: [created]
 
 env:
-  AZURE_WEBAPP_NAME: thermaPollBackend    # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: './backend'      # set this to the path to your web app project, defaults to the repository root
+  BACKEND_AZURE_WEBAPP_NAME: thermaPollBackend    # set this to your application's name
+  BACKEND_AZURE_WEBAPP_PACKAGE_PATH: './backend'      # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '12.x'                # set this to the node version to use
+  FRONTEND_AZURE_WEBAPP_NAME: thermaPollFrontend
 
   
 jobs:
-  build-and-deploy:
-    name: Build and Deploy
+  build-frontend-and-deploy:
+    name: Build build-frontend-and-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: yarn install, build
+        working-directory: ./frontend
+        run: |
+          yarn
+          yarn build
+      - name: 'Deploy to Azure WebApp'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.FRONTEND_AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.FRONTEND_WEBAPP_PUBLISH_PROFILE }}
+          package: './frontend'
+
+  build-backend-and-deploy:
+    name: Build backend and Deploy
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -34,7 +56,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
-    - name: npm install, build, and test
+    - name: yarn install, build, and test
       working-directory: ./backend
       run: |
         # Build and test the project, then
@@ -43,6 +65,6 @@ jobs:
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        app-name: ${{ env.BACKEND_AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: './backend'
