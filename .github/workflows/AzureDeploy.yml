@@ -43,10 +43,5 @@ jobs:
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_cecd2a5dfdf443018d4b53db38e846c3 }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-      env: 
-        APP_PORT: 8080
-        SENDGRID_KEY: ${{ secrets.SENDGRID_KEY }}
-        ALERT_SENDER: henrym2@tcd.ie
-        ALERT_RECIPIENT: henrym2@tcd.ie
-        DB_STRING: ${{ secrets.DB_STRING }}
+        package: './backend'
+        startup-command: yarn start
