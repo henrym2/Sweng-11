@@ -73,7 +73,7 @@
   height: 130px;
   /* Color */
   background-color: blue;
-  opacity: 0.7;
+  opacity: 0;
 }
 
 .admin-page__zone2 {
@@ -83,7 +83,7 @@
   width: 120px;
   height: 130px;
   background-color: blue;
-  opacity: 0.7;
+  opacity: 0;
 }
 
 .admin-page__zone3 {
@@ -93,7 +93,7 @@
   width: 120px;
   height: 130px;
   background-color: blue;
-  opacity: 0.7;
+  opacity: 0;
 }
 
 .admin-page__zone4 {
@@ -103,7 +103,7 @@
   width: 140px;
   height: 130px;
   background-color: blue;
-  opacity: 0.7;
+  opacity: 0;
 }
 
 .admin-page__zone5 {
@@ -113,57 +113,57 @@
   width: 150px;
   height: 130px;
   background-color: blue;
-  opacity: 0.7;
+  opacity: 0;
 }
 
 .admin-page__zone6 {
   position: absolute;
-  top: 515px;
+  top: 500px;
   left: 240px;
   width: 140px;
   height: 100px;
   background-color: blue;
-  opacity: 0.7;
+  opacity: 0;
 }
 
 .admin-page__zone7 {
   position: absolute;
-  top: 565px;
-  left: 420px;
+  top: 525px;
+  left: 385px;
   width: 90px;
   height: 95px;
   background-color: blue;
-  opacity: 0.7;
+  opacity: 0;
 }
 
 .admin-page__zone8 {
   position: absolute;
-  top: 500px;
-  left: 485px;
+  top: 470px;
+  left: 455px;
   width: 100px;
   height: 110px;
   background-color: blue;
-  opacity: 0.7;
+  opacity: 0;
 }
 
 .admin-page__zone9 {
   position: absolute;
-  top: 550px;
-  left: 593px;
+  top: 540px;
+  left: 543px;
   width: 150px;
   height: 130px;
   background-color: blue;
-  opacity: 0.7;
+  opacity: 0;
 }
 
 .admin-page__zone10 {
   position: absolute;
-  top: 385px;
-  left: 615px;
+  top: 355px;
+  left: 565px;
   width: 130px;
   height: 150px;
   background-color: blue;
-  opacity: 0.7;
+  opacity: 0;
 }
 
 .admin-page__display-zone-info {
@@ -173,4 +173,6 @@
   background-color: white;
   box-shadow: 3px 0px 5px 0px rgba(50, 50, 50, 0.24);
   z-index: 5;
+  padding: 15px;
+  font-family: Arial, Helvetica, sans-serif;
 }

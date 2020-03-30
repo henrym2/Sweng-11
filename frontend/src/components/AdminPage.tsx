@@ -40,7 +40,11 @@ export class AdminPage extends Component<MyProps, MyState> {
       <div className="admin-page__floor-plan">
         {this.state.showZoneInfo && (
           <div className="admin-page__display-zone-info">
-            Display info about zone {this.state.selectedZone} here
+            <h3>Zone {this.state.selectedZone}</h3>
+            Information about the temperature in zone {
+              this.state.selectedZone
+            }{" "}
+            ...
           </div>
         )}
         <div className="admin-page__box">
