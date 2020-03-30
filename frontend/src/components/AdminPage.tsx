@@ -11,9 +11,22 @@ import mapIcon from "../images/map-icon.svg";
 import floorPlan from "../images/floor-plan.svg";
 import axios from "axios";
 
+import {
+  Stack,
+  Text,
+  DefaultButton,
+  PrimaryButton,
+  IStackTokens,
+  Button,
+  TextField,
+  ButtonType,
+  calculatePrecision
+} from "office-ui-fabric-react";
+
 type MyProps = {};
 type MyState = {
   pageState: number;
+
   showZoneInfo: boolean;
   selectedZone: number;
   alerts: any;

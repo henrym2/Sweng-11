@@ -37,6 +37,7 @@ export class LoginView extends Component<MyProps, MyState> {
           placeholder="e.g. 18372936"
           onChanged={this.onChangedEmployeeNumber}
         />
+
         <p></p>
         <Button
           buttonType={ButtonType.primary}
