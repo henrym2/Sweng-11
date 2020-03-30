@@ -30,6 +30,7 @@ export class LoginView extends Component<MyProps, MyState> {
           placeholder="First Name"
           onChanged={this.onChanged}
         />
+        <TextField label="Employee Number" placeholder="e.g. 103829802" />
         <p></p>
         <Button
           buttonType={ButtonType.primary}

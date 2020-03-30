@@ -29,15 +29,17 @@ type MyState = {
 
   showZoneInfo: boolean;
   selectedZone: number;
+  alerts: any;
 };
 
 export class AdminPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
 
   state: MyState = {
-    pageState: 1,
+    pageState: 0,
     showZoneInfo: false,
-    selectedZone: 0
+    selectedZone: 0,
+    alerts: []
   };
 
   setIsShown = (zone, show) => {
@@ -45,7 +47,10 @@ export class AdminPage extends Component<MyProps, MyState> {
   };
 
   componentDidMount(): void {
-    // axios.get('url');
+    axios.get("http://localhost:8080/alerts").then(res => {
+      console.log(res.data);
+      this.setState({ alerts: res.data });
+    });
   }
 
   floorPlanScreen = () => {
@@ -77,38 +82,14 @@ export class AdminPage extends Component<MyProps, MyState> {
   };
 
   alertScreen = () => {
-    return (
-      <div className="admin-page__notifications">
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 4."
-        />
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 2."
-        />
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 2."
-        />
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 2."
-        />
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 2."
-        />
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 2."
-        />
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 2."
-        />
-      </div>
-    );
+    let list = this.state.alerts;
+    const listItems = list.map(item => (
+      <AdminNotification
+        title="Temperature Adjustment Required"
+        desctription={`A temperature adjustment is needed in ${item.content[0].area}`}
+      />
+    ));
+    return <div className="admin-page__notifications">{listItems}</div>;
   };
 
   render() {
