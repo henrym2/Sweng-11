@@ -32,7 +32,10 @@ export class AdminPage extends Component<MyProps, MyState> {
   };
 
   componentDidMount(): void {
-    // axios.get('url');
+    axios.get("http://localhost:8080/alerts").then(res => {
+      console.log(res.data);
+      this.setState({ alerts: res.data });
+    });
   }
 
   floorPlanScreen = () => {
