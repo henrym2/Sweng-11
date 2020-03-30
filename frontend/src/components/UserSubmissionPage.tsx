@@ -40,7 +40,7 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
     //Make post request to server (on localhost for now)
     const axios = require("axios");
     axios
-      .post("https://themapollbackend.azurewebsites.net/vote", {
+      .post("https://thermapollbackend.azurewebsites.net/vote", {
         submitter: this.state.voterName,
         opinion: opinion
       })

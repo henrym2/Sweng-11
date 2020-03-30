@@ -21,10 +21,15 @@ import {
 
 export type NotificationProps = {
   title: string;
-  desctription: string;
+  description: string;
+  notificationID: number;
+  dismiss: (id: number) => void;
 };
 
 export default class AdminNotification extends Component<NotificationProps> {
+  dismiss = () => {
+    this.props.dismiss(this.props.notificationID);
+  };
   render() {
     const cardStyles: ICardStyles = {
       root: {
@@ -89,11 +94,15 @@ export default class AdminNotification extends Component<NotificationProps> {
       <Card tokens={cardTokens} horizontal styles={cardStyles}>
         <Card.Section styles={cardSectionStyles} fill>
           <Text styles={titleStyles}>{this.props.title}</Text>
-          <Text styles={descriptionStyles}>{this.props.desctription}</Text>
+          <Text styles={descriptionStyles}>{this.props.description}</Text>
           <Link styles={linkStyles}>More details</Link>
         </Card.Section>
         <Card.Section styles={buttonSectionStyles}>
-          <IconButton iconProps={buttonProps} styles={buttonStyles} />
+          <IconButton
+            iconProps={buttonProps}
+            styles={buttonStyles}
+            onClick={this.dismiss}
+          />
         </Card.Section>
       </Card>
     );
