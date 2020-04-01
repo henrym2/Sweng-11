@@ -30,6 +30,7 @@ type MyState = {
   showZoneInfo: boolean;
   selectedZone: number;
   alerts: any;
+  zoneInfo: any;
 };
 
 export class AdminPage extends Component<MyProps, MyState> {
@@ -39,7 +40,19 @@ export class AdminPage extends Component<MyProps, MyState> {
     pageState: 0,
     showZoneInfo: false,
     selectedZone: 0,
-    alerts: []
+    alerts: [],
+    zoneInfo: [
+      { name: "Zone 1", temp: [], active: false },
+      { name: "Zone 2", temp: [], active: false },
+      { name: "Zone 3", temp: [], active: false },
+      { name: "Zone 4", temp: [], active: false },
+      { name: "Zone 5", temp: [], active: false },
+      { name: "Zone 6", temp: [], active: false },
+      { name: "Zone 7", temp: [], active: false },
+      { name: "Zone 8", temp: [], active: false },
+      { name: "Zone 9", temp: [], active: false },
+      { name: "Zone 10", temp: [], active: false }
+    ]
   };
 
   setIsShown = (zone, show) => {
@@ -52,19 +65,54 @@ export class AdminPage extends Component<MyProps, MyState> {
       .then(res => {
         console.log(res.data);
         this.setState({ alerts: res.data });
+
+        let data = res.data;
+        data.forEach(element => {
+          let area = element.content[0].area;
+
+          let zoneNumber = 0;
+          for (let i = 1; i <= 10; i++) {
+            if (area.includes(i)) {
+              zoneNumber = i;
+            }
+          }
+          console.log(zoneNumber);
+
+          let temperatureValue = element.content[0].temperature;
+          //Get the current data for the zones
+          let ziArr = this.state.zoneInfo;
+          //Get the zone associated with this reading
+          //Activate it for showing UI
+          ziArr[zoneNumber - 1].active = true;
+          //Add the current temperature as a value
+          ziArr[zoneNumber - 1].temp.push({ val: temperatureValue });
+          this.setState({ zoneInfo: ziArr });
+        });
       });
   }
 
   floorPlanScreen = () => {
+    let selectedZone = this.state.zoneInfo[this.state.selectedZone - 1];
+    let averageTemp = 0.0;
+    if (selectedZone) {
+      let total = 0.0;
+      selectedZone.temp.forEach(val => {
+        total += val.val;
+      });
+      total /= selectedZone.temp.length;
+      averageTemp = total;
+    }
     return (
       <div className="admin-page__floor-plan">
         {this.state.showZoneInfo && (
           <div className="admin-page__display-zone-info">
-            <h3>Zone {this.state.selectedZone}</h3>
-            Information about the temperature in zone {
-              this.state.selectedZone
-            }{" "}
-            ...
+            <h3>{selectedZone.name} Info:</h3>
+            {selectedZone.active && (
+              <div>Average temperature readings: {averageTemp}&#176;C</div>
+            )}
+            {!selectedZone.active && (
+              <div>No information available for this zone!</div>
+            )}
           </div>
         )}
         <div className="admin-page__box">
@@ -171,7 +219,6 @@ export class AdminPage extends Component<MyProps, MyState> {
             alt="therma logo"
             className="admin-page__logo "
           />
-          Top Bar (Milu)
         </div>
         <div className="admin-page__bottom">
           <div className="admin-page__side-bar">
