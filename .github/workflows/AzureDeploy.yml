@@ -45,7 +45,6 @@ jobs:
         run: |
           yarn
           yarn build
-          
       - name: 'Deploy to Azure WebApp'
       - uses: lauchacarro/Azure-Storage-Action@master
         with:
