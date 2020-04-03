@@ -21,7 +21,7 @@ on:
 env:
   BACKEND_AZURE_WEBAPP_NAME: thermaPollBackend    # set this to your application's name
   BACKEND_AZURE_WEBAPP_PACKAGE_PATH: './backend'      # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '12.x'                # set this to the node version to use
+  NODE_VERSION: '12.14.0'                # set this to the node version to use
   FRONTEND_AZURE_WEBAPP_NAME: thermaPollFrontend
 
   
