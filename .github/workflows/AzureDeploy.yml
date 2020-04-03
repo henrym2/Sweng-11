@@ -46,7 +46,7 @@ jobs:
           yarn build
 
       - name: 'Deploy to Azure WebApp'
-      - uses: lauchacarro/Azure-Storage-Action@master
+        uses: lauchacarro/Azure-Storage-Action@v1.0
         with:
           enabled-static-website: 'true'
           folder: './frontend/build'
