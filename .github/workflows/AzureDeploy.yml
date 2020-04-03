@@ -29,11 +29,6 @@ jobs:
   build-frontend-and-deploy:
     name: Build build-frontend-and-deploy
     runs-on: ubuntu-latest
-
-    env:
-      app-name: ${{ env.FRONTEND_AZURE_WEBAPP_NAME }}
-      publish-profile: ${{ secrets.FRONTEND_WEBAPP_PUBLISH_PROFILE }}
-
     steps:
       - uses: actions/checkout@v2
 
