@@ -8,6 +8,7 @@ import LoginView from "./LoginView";
 import VoteView from "./VoteView";
 import VoteConfirmationView from "./VoteConfirmationView";
 import { Redirect } from "react-router-dom";
+import { AxiosResponse } from "axios";
 
 type MyProps = {};
 type MyState = {
