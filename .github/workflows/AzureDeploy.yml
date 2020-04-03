@@ -47,11 +47,11 @@ jobs:
           yarn build
           
       - name: 'Deploy to Azure WebApp'
-        uses: azure/webapps-deploy@v2
+      - uses: lauchacarro/Azure-Storage-Action@master
         with:
-          app-name: ${{ env.FRONTEND_AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.FRONTEND_WEBAPP_PUBLISH_PROFILE }}
-          package: './frontend'
+          enabled-static-website: 'true'
+          folder: './frontend/build'
+          connection-string: ${{ secrets.STORAGE_CONNECTION_STRING }}
 
   build-backend-and-deploy:
     name: Build backend and Deploy
