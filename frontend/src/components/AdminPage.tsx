@@ -26,16 +26,17 @@ import {
 type MyProps = {};
 type MyState = {
   pageState: number;
-  alerts: Object[];
+
   showZoneInfo: boolean;
   selectedZone: number;
+  alerts: any;
 };
 
 export class AdminPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
 
   state: MyState = {
-    pageState: 1,
+    pageState: 0,
     showZoneInfo: false,
     selectedZone: 0,
     alerts: []
@@ -46,23 +47,24 @@ export class AdminPage extends Component<MyProps, MyState> {
   };
 
   componentDidMount(): void {
-    // axios.get('url');
-    this.getAlerts()
+    axios
+      .get("https://thermapollbackend.azurewebsites.net/alerts")
+      .then(res => {
+        console.log(res.data);
+        this.setState({ alerts: res.data });
+      });
   }
-
-  getAlerts(): void {
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/alerts`).then((res) => {
-      const alerts = res.data
-      this.setState({alerts: alerts})
-    }).catch(err => console.log(err))
-  } 
 
   floorPlanScreen = () => {
     return (
       <div className="admin-page__floor-plan">
         {this.state.showZoneInfo && (
           <div className="admin-page__display-zone-info">
-            Display info about zone {this.state.selectedZone} here
+            <h3>Zone {this.state.selectedZone}</h3>
+            Information about the temperature in zone {
+              this.state.selectedZone
+            }{" "}
+            ...
           </div>
         )}
         <div className="admin-page__box">
@@ -71,6 +73,51 @@ export class AdminPage extends Component<MyProps, MyState> {
             className="admin-page__zone1"
             onMouseEnter={() => this.setIsShown(1, true)}
             onMouseLeave={() => this.setIsShown(1, false)}
+          ></div>
+          <div
+            className="admin-page__zone2"
+            onMouseEnter={() => this.setIsShown(2, true)}
+            onMouseLeave={() => this.setIsShown(2, false)}
+          ></div>
+          <div
+            className="admin-page__zone3"
+            onMouseEnter={() => this.setIsShown(3, true)}
+            onMouseLeave={() => this.setIsShown(3, false)}
+          ></div>
+          <div
+            className="admin-page__zone4"
+            onMouseEnter={() => this.setIsShown(4, true)}
+            onMouseLeave={() => this.setIsShown(4, false)}
+          ></div>
+          <div
+            className="admin-page__zone5"
+            onMouseEnter={() => this.setIsShown(5, true)}
+            onMouseLeave={() => this.setIsShown(5, false)}
+          ></div>
+          <div
+            className="admin-page__zone6"
+            onMouseEnter={() => this.setIsShown(6, true)}
+            onMouseLeave={() => this.setIsShown(6, false)}
+          ></div>
+          <div
+            className="admin-page__zone7"
+            onMouseEnter={() => this.setIsShown(7, true)}
+            onMouseLeave={() => this.setIsShown(7, false)}
+          ></div>
+          <div
+            className="admin-page__zone8"
+            onMouseEnter={() => this.setIsShown(8, true)}
+            onMouseLeave={() => this.setIsShown(8, false)}
+          ></div>
+          <div
+            className="admin-page__zone9"
+            onMouseEnter={() => this.setIsShown(9, true)}
+            onMouseLeave={() => this.setIsShown(9, false)}
+          ></div>
+          <div
+            className="admin-page__zone10"
+            onMouseEnter={() => this.setIsShown(10, true)}
+            onMouseLeave={() => this.setIsShown(10, false)}
           ></div>
         </div>
       </div>
@@ -85,39 +132,34 @@ export class AdminPage extends Component<MyProps, MyState> {
     this.setState({ pageState: 1 });
   };
 
+  dismissNotification = (id: number) => {
+    axios
+      .post("https://thermapollbackend.azurewebsites.net/dismissAlert", {
+        id: id
+      })
+      .then(res => {
+        if (res.status == 200) {
+          axios
+            .get("https://thermapollbackend.azurewebsites.net/alerts")
+            .then(res => {
+              console.log(res.data);
+              this.setState({ alerts: res.data });
+            });
+        }
+      });
+  };
+
   alertScreen = () => {
-    return (
-      <div className="admin-page__notifications">
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 4."
-        />
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 2."
-        />
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 2."
-        />
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 2."
-        />
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 2."
-        />
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 2."
-        />
-        <AdminNotification
-          title="Please Adjust Temperature"
-          desctription="A temperature adjustment is needed on floor 2."
-        />
-      </div>
-    );
+    let list = this.state.alerts;
+    const listItems = list.map(item => (
+      <AdminNotification
+        title="Temperature Adjustment Required"
+        description={`A temperature adjustment is needed in ${item.content[0].area}`}
+        dismiss={this.dismissNotification}
+        notificationID={item._id}
+      />
+    ));
+    return <div className="admin-page__notifications">{listItems}</div>;
   };
 
   render() {

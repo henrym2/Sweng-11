@@ -7,12 +7,14 @@ import thermaLogo from "../images/logo.svg";
 import LoginView from "./LoginView";
 import VoteView from "./VoteView";
 import VoteConfirmationView from "./VoteConfirmationView";
-import axios, { AxiosResponse } from "axios"
+import { Redirect } from "react-router-dom";
 
 type MyProps = {};
 type MyState = {
   pageState: number;
   voterName: String;
+  employeeNumber: String;
+  showAdmin: boolean;
 };
 
 export class UserSubmissionPage extends Component<MyProps, MyState> {
@@ -20,11 +22,17 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
 
   state: MyState = {
     pageState: 0,
-    voterName: "Testy McTestFace"
+    voterName: "Testy McTestFace",
+    employeeNumber: "",
+    showAdmin: false
   };
 
-  login = (name: String) => {
-    this.setState({ pageState: 1, voterName: name }); //Log in -> change page state to 1
+  login = (name: String, employeeNumber: String) => {
+    this.setState({
+      pageState: 1,
+      voterName: name,
+      employeeNumber: employeeNumber
+    }); //Log in -> change page state to 1
     console.log("Thanks " + name);
   };
 
@@ -32,7 +40,7 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
     //Make post request to server (on localhost for now)
     const axios = require("axios");
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/vote`, {
+      .post("https://thermapollbackend.azurewebsites.net/vote", {
         submitter: this.state.voterName,
         opinion: opinion
       },
@@ -51,6 +59,9 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
 
   home = () => {
     this.setState({ pageState: 0 }); //Return to the login page
+  };
+  showAdminPage = () => {
+    this.setState({ showAdmin: true });
   };
 
   CurrentView() {
@@ -78,6 +89,8 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
   render() {
     return (
       <div className="submission-page__main">
+        {this.state.showAdmin && <Redirect from="/" to="/admin" />}
+
         <div className="submission-page__centre">
           <img
             src={thermaLogo}
@@ -95,6 +108,18 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
             />
 
             <div className="submission-page__view">{this.CurrentView()}</div>
+          </div>
+          <div
+            style={{
+              textAlign: "center",
+              textDecoration: "underline",
+              marginTop: "20px",
+              cursor: "grab",
+              color: "lightgrey"
+            }}
+            onClick={this.showAdminPage}
+          >
+            Admin Page
           </div>
         </div>
       </div>

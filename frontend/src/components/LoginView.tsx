@@ -11,15 +11,17 @@ import {
 } from "office-ui-fabric-react";
 
 type MyProps = {
-  function: (name: string) => void;
+  function: (name: string, employeeNumber: string) => void;
 };
 type MyState = {
   name: string;
+  employeeNumber: string;
 };
 
 export class LoginView extends Component<MyProps, MyState> {
   state: MyState = {
-    name: ""
+    name: "",
+    employeeNumber: ""
   };
 
   render() {
@@ -32,6 +34,12 @@ export class LoginView extends Component<MyProps, MyState> {
           placeholder="First Name"
           onChanged={this.onChanged}
         />
+        <TextField
+          label="Employee Number"
+          placeholder="e.g. 18372936"
+          onChanged={this.onChangedEmployeeNumber}
+        />
+
         <p></p>
         <TextField
         placeholder="Employee number">
@@ -40,7 +48,9 @@ export class LoginView extends Component<MyProps, MyState> {
         <Button
           type="submit"
           buttonType={ButtonType.primary}
-          onClick={() => this.props.function(this.state.name)}
+          onClick={() =>
+            this.props.function(this.state.name, this.state.employeeNumber)
+          }
         >
           Log In
         </Button>
@@ -51,6 +61,9 @@ export class LoginView extends Component<MyProps, MyState> {
 
   onChanged = (newValue: string) => {
     this.setState({ name: newValue });
+  };
+  onChangedEmployeeNumber = (newValue: string) => {
+    this.setState({ employeeNumber: newValue });
   };
 }
 
