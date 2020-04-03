@@ -38,13 +38,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: yarn install, build
-
         working-directory: ./frontend
         env: 
           PORT: 8080
         run: |
           yarn
           yarn build
+
       - name: 'Deploy to Azure WebApp'
       - uses: lauchacarro/Azure-Storage-Action@master
         with:
