@@ -51,7 +51,7 @@ jobs:
         with:
           app-name: ${{ env.FRONTEND_AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.FRONTEND_WEBAPP_PUBLISH_PROFILE }}
-          package: './frontend/build'
+          package: './frontend'
 
   build-backend-and-deploy:
     name: Build backend and Deploy
