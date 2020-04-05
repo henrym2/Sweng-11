@@ -99,7 +99,7 @@ class alerter {
             let a = new Alert({
                 title: email.subject,
                 content: email.content,
-                time: new Date(),
+                time: new Date().toISOString(),
                 active: true,
             })
             a.save(err => console.log(err))
