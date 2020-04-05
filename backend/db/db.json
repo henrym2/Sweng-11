@@ -1,8 +1,8 @@
 {
     "sensors": [
         {
-            "id": 12345678,
-            "location": "17",
+            "id": 0,
+            "location": "1",
             "temperature": 21,
             "entries": []
         }
