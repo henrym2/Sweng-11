@@ -29,7 +29,7 @@ export class VoteConfirmationView extends Component<MyProps, MyState> {
             fontWeight: "bold"
           }}
         >
-          Thanks {this.props.name} for your vote
+          Thanks for your vote {this.props.name}
         </Text>
         <Text
           variant="large"
@@ -39,12 +39,6 @@ export class VoteConfirmationView extends Component<MyProps, MyState> {
           Our maintenance team is on the way. Have a nice day!
         </Text>
         <p></p>
-        <Button
-          buttonType={ButtonType.primary}
-          onClick={() => this.props.function()}
-        >
-          Retry
-        </Button>
       </div>
     );
   }

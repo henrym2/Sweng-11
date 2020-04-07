@@ -27,6 +27,8 @@ export class LoginView extends Component<MyProps, MyState> {
   render() {
     return (
       <>
+      <form
+      onSubmit={() => {}}>
         <TextField
           label="Login to submit a vote"
           placeholder="First Name"
@@ -39,7 +41,12 @@ export class LoginView extends Component<MyProps, MyState> {
         />
 
         <p></p>
+        <TextField
+        placeholder="Employee number">
+        </TextField>
+        <p></p>
         <Button
+          type="submit"
           buttonType={ButtonType.primary}
           onClick={() =>
             this.props.function(this.state.name, this.state.employeeNumber)
@@ -47,6 +54,7 @@ export class LoginView extends Component<MyProps, MyState> {
         >
           Log In
         </Button>
+        </form>
       </>
     );
   }

@@ -24,14 +24,26 @@ class sensorStore {
 
     async store(id, area, temperature, time) {
         let sensor = await this.get(id)
+        if (sensor == undefined) {
+            console.log("Sensor not found")
+            sensor = await Sensor.create({
+                id: id,
+                location: area,
+                temperature: temperature
+            })
+            console.log("Registered sensor")
+            
+        } 
         let e = await Entry.create({
             temperature: temperature,
             time: time,
             area: area
         })
+        
         sensor.entries.push(e._id)
         await sensor.save()
         await this.updateSensors()
+        return true
     }
 
     async get(id) {
