@@ -42,6 +42,7 @@ jobs:
       - name: yarn install, build
         working-directory: ./frontend
         env: 
+          CI: false
           PORT: 8080
         run: |
           yarn
