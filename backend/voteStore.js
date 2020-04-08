@@ -29,7 +29,11 @@ class votes {
             let u = await this.getByName()
         }
         if (u != undefined){
-            let v = await Vote.create({time: new Date().toISOString(), area: u.area, opinion: vote})
+            let v = await Vote.create({
+                time: new Date().toISOString(), 
+                area: u.area, 
+                opinion: vote
+            })
             u.votes.push(v._id)
             await u.save()
             await this.updateVotesList()

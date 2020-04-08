@@ -3,6 +3,9 @@ const Store = require('../voteStore')
 describe('Constructor', () => {
     test('Ensure constructor returns instance', async (done) => {
         const voteStore = new Store()
+        voteStore.store(123456, 1)
+        voteStore.store(123457, 1)
+        voteStore.store(123458, 1)
         expect(voteStore.keys).toBeDefined()
         done()
     })

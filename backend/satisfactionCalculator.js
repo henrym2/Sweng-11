@@ -28,7 +28,8 @@ class calculator {
             }
             let critMass = 0;
             for(let i = 0; i < tempArray.length; i++) {
-                if (tempArray[i].timeStamp == timebucket('h').subtract(1) + '') {
+                let tempVar = timebucket(tempArray[i].time).resize('h')
+                if (tempVar + '' == timebucket('h').subtract(1) + '') {
                     critMass++
                 }
             }
@@ -46,6 +47,7 @@ class calculator {
      * @returns {number} The new temperature 
      */
     calculate (voteStore, areaToCheck) {
+        console.log(voteStore)
         let tempArray = new Array
 
         for(let i = 0; i < voteStore.keys.length; i++) {
@@ -71,7 +73,11 @@ class calculator {
     }
 }
 
+// voteStorage.store(123456, 1)
+// voteStorage.store(123457, 1)
+// voteStorage.store(123458, 1)
+//voteStorage.updateReferenceList()
 // output = calculator.prototype.calculate(voteStorage, '1A')
-// console.log("\n" + output)
+console.log("\n" + output)
 // console.log(timebucket('h') + '')
 module.exports = calculator
