@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const { Sensor, User } = require("./db/schemas");
+const calculator = require("./satisfactionCalculator")
 
 const votes = require("./voteStore");
 const sensorStore = require("./sensorStore");
@@ -9,7 +10,7 @@ var voterStore = new votes();
 var sensorData = new sensorStore();
 var alerts = new alerter();
 var Schema = require("./db/schemas");
-
+var calc = new calculator;
 //Load in dotenv for parsing environment variables (secrets and stuff)
 const dotenv = require("dotenv");
 
@@ -67,10 +68,10 @@ app.post("/vote", async (req, res) => {
 });
 
 app.post("/sensorSubmit", async (req, res) => {
-  const { id, location, temperature, time } = req.body;
+  const { id, area, temperature, time } = req.body;
   if (
     id == undefined ||
-    location === undefined ||
+    area === undefined ||
     temperature == undefined ||
     time == undefined
   ) {
@@ -79,9 +80,9 @@ app.post("/sensorSubmit", async (req, res) => {
   }
 
   console.log(
-    "Got: {" + id + ', "' + location + '", ' + temperature + ', "' + time + '"}'
+    "Got: {" + id + ', "' + area + '", ' + temperature + ', "' + time + '"}'
   );
-  await sensorData.store(id, location, temperature, time);
+  await sensorData.store(id, area, temperature, time);
   console.log("All sensor data");
   // sensorData.keys.forEach(sensor => console.log(sensor))
 
@@ -136,10 +137,31 @@ app.post("/dismissAlert", async (req, res) => {
   res.send(a);
 });
 
-let server = app.listen(process.env.APP_PORT || 8080, () => {
+let server = app.listen(process.env.APP_PORT || 8080, async () => {
   setupDB();
   console.debug(`Server launched on port ${process.env.APP_PORT || 8080}\n`, envLoaded.parsed);
+  await alertLoop()
+  setInterval(alertLoop, 3.6e+6)
 });
+
+async function alertLoop() {
+  let sensors = await sensorData.getSensors()
+  let votesByArea = await Promise.all(sensors.map(async s => {
+    let votes = await voterStore.getVotesByLocation(s.area)
+        let obj = {
+        name: s.area,
+        votes: votes
+      }
+      return obj
+  }))
+
+
+  let content = calc.areaCheck(votesByArea, sensors)
+  console.log(content)
+  if (content.length != 0) {
+    // alerts.createAlert("Temperature Change request", content, alerts.alertType.TEMP_REQUEST)
+  }
+}
 
 
 module.exports = server;

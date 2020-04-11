@@ -28,7 +28,7 @@ class sensorStore {
             console.log("Sensor not found")
             sensor = await Sensor.create({
                 id: id,
-                location: area,
+                area: area,
                 temperature: temperature
             })
             console.log("Registered sensor")
@@ -70,17 +70,17 @@ class sensorStore {
     }
 
 
-    async getByLocation(location) {
-        let sensor = this.sensors.find(k => k.location == location) 
+    async getByLocation(area) {
+        let sensor = this.sensors.find(k => k.area == area) 
         if (sensor == undefined) {
-            return await Sensor.find({location: location})
+            return await Sensor.find({area: area})
         }
         return sensor
         
     }
 
-    async getLocationHistory(location) {
-        let hist = this.entries.filter(e => e.location == location)
+    async getLocationHistory(area) {
+        let hist = this.entries.filter(e => e.area == area)
         return hist
     }
 

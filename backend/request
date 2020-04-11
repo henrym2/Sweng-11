@@ -4,7 +4,7 @@ POST http://localhost:3000/sensorSubmit HTTP/1.1
 content-type: application/json
 {
     "id": 12348,
-    "location": "B5",
+    "area": "B5",
     "temperature": 19.5,
     "time": "01:02:03T20:12:2020"
 }
