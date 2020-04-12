@@ -24,9 +24,12 @@ class votes {
     }
 
     async store(identifier, vote) {
-        let u = this.get(identifier)
-        if (identifier instanceof String) {
-            let u = await this.getByName()
+        let u = undefined
+        if (typeof identifier == "string") {
+            u = await this.getByName(identifier)
+        }
+        else {
+            u = await this.get(identifier)
         }
         if (u != undefined){
             let v = await Vote.create({
@@ -43,9 +46,12 @@ class votes {
     }
 
     async get(id) {
-        let user = this.users.find(k => k.id == id)
+        let user = undefined
+        if (this.users.length > 0){   
+            user = this.users.find(k => k._id == id)
+        }
         if (user == undefined){
-            return User.findOne({id: id})
+            return await User.findOne({id: id})
         }
         return user
     }
@@ -60,16 +66,24 @@ class votes {
         return this.votes
     }
 
+    async getVotesByLocation(area) {
+        return await Vote.find({area: area})
+    }
+
     async getAll() {
         await this.updateReferenceList()
         return this.references
     }
 
     async getByName(name) {
-        let user = this.users.find(k => k.name == name) 
-        if (user == undefined) {
-            return User.findOne({name: name})
+        let user = undefined
+        if (this.users.length > 0){        
+            user = this.users.find(k => k.name == name) 
         }
+        if (user == undefined) {
+            return await User.findOne({name: name})
+        }
+        return user
     }
 }
 
