@@ -36,7 +36,7 @@ UserSchema.statics.addVote = async function(id, vote) {
 
 const SensorSchema = mongoose.Schema({
     id: Number,
-    location: String,
+    area: String,
     temperature: Number,
     entries: [
         {

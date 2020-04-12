@@ -2,7 +2,7 @@
     "sensors": [
         {
             "id": 0,
-            "location": "1",
+            "area": "1",
             "temperature": 21,
             "entries": []
         }
@@ -10,23 +10,23 @@
     
     "users": [
         {
-            "id": 123456,
+            "id": 0,
             "name": "John",
-            "area": "1A",
+            "area": "1",
             "desk": "17",
             "votes": []
         },
         {
-            "id": 123457,
-            "name": "Brother One",
-            "area": "1A",
+            "id": 1,
+            "name": "Jane",
+            "area": "1",
             "desk": "18",
             "votes": []
         },
         {
-            "id": 123458,
-            "name": "Brother Two",
-            "area": "1A",
+            "id": 2,
+            "name": "Jack",
+            "area": "2",
             "desk": "19",
             "votes": []
         }
@@ -56,7 +56,7 @@
         {
             "opinion": -1,
             "time": "33:25:19T29:2:2020",
-            "area": ""
+            "area": "1"
         }
     ]
 }
