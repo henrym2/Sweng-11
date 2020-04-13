@@ -54,10 +54,10 @@ class calculator {
     }
 
     async historicalDelta(voterStore, sensorData) {
-        // Get latest vote on same day from last week
+        // Setup
         let sensors = await sensorData.getSensors()
         let sensorsByArea = await Promise.all(sensors.map(async s => {
-            let votes = await sensorData.getEntries(s.area)
+            let votes = await sensorData.getSensors(s.area)
             let obj = {
                 name: s.area,
                 votes: votes
@@ -73,13 +73,14 @@ class calculator {
             }
             return obj
         }))
-
-        console.log("Before:\n")
-        votesByArea.forEach(area => console.log(area.votes))
         
-        // Sort by time in reverse
-        console.log("After:\n")
+        // Get latest vote on same day from last week
         votesByArea.forEach(area => {
+
+            console.log("Before:")
+            console.log(area.votes)
+
+            // Sort votes for this area by time in reverse
             area.votes.sort(function(a, b) {
                 let aDate = Date.parse(a.time)
                 let bDate = Date.parse(b.time)
@@ -91,14 +92,12 @@ class calculator {
                     return 1
             })
 
+            console.log("\nAfter:")
             console.log(area.votes)
-        })
 
-
-        // Get closest vote consensus within 2 hours from that time
-        votesByArea.forEach(area => {
+            // Get closest vote consensus within 2 hours from that time
             // Loop through the votes for this area
-            area.votes.forEach(function(vote) {
+            area.votes.every(function(vote) {
                 // Find the first occurrence between now a week ago and two hours earlier
                 let oneWeekAgo = new Date()
                 oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
@@ -110,25 +109,21 @@ class calculator {
                 console.log("Checking " + voteTime + ", " + oneWeekAgo + ", " + twoHoursEarlier)
                 if(voteTime < oneWeekAgo && voteTime > twoHoursEarlier) {
                     console.log("Found one:\n" + voteTime)
-                    if(!('weekAgoRecentTime' in area))
-                        area.weekAgoRecentTime = voteTime
+
+                    // Find closest sensor entry for this time using the same logic
+                    console.log("Sensor readings:")
+
+                    // Use the vote opinion with the average sensor reading at that time and
+                    // if they're more than two degrees higher or lower than the current
+                    // temperature, send an alert suggesting to take action
+
+                    return false    // Equivalent to break in Array.every()
                 }
+
+                return true
             })
         })
-
-        // Compare with current time
-        votesByArea.forEach(area => {
-            if(!('weekAgoRecentTime' in area)) {
-                console.log(area.weekAgoRecentTime)
-            }
-        })
-        // Find sensor 
-
-        // If not within 2 degrees
-
-        // Send alert
     }
-
 }
 
 module.exports = calculator
