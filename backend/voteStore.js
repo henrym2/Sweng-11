@@ -31,12 +31,20 @@ class votes {
         else {
             u = await this.get(identifier)
         }
-        if (u != undefined){
+        if (u != undefined) {
+            let timeDiff = 60 * 1000
             let v = await Vote.create({
                 time: new Date().toISOString(), 
                 area: u.area, 
                 opinion: vote
             })
+            
+            if (u.votes.time - (new Date) > timeDiff) {
+                res.statusCode = 429;
+                res.send();
+                return;
+            }
+
             u.votes.push(v._id)
             await u.save()
             await this.updateVotesList()
