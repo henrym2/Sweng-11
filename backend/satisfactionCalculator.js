@@ -58,7 +58,7 @@ class calculator {
         let sensors = await sensorData.getSensors()
         let sensorsByArea = await Promise.all(sensors.map(async s => {
             let votes = await sensorData.getEntries(s.area)
-                let obj = {
+            let obj = {
                 name: s.area,
                 votes: votes
             }
@@ -67,19 +67,62 @@ class calculator {
 
         let votesByArea = await Promise.all(sensors.map(async s => {
           let votes = await voterStore.getVotesByLocation(s.area)
-              let obj = {
-              name: s.area,
-              votes: votes
+            let obj = {
+                name: s.area,
+                votes: votes
             }
             return obj
         }))
 
-        console.log("Vote data is: \n")
-        votesByArea.forEach(area => console.log(area))
+        console.log("Before:\n")
+        votesByArea.forEach(area => console.log(area.votes))
+        
+        // Sort by time in reverse
+        console.log("After:\n")
+        votesByArea.forEach(area => {
+            area.votes.sort(function(a, b) {
+                let aDate = Date.parse(a.time)
+                let bDate = Date.parse(b.time)
+                if(aDate > bDate)
+                    return -1
+                else if(aDate === bDate)
+                    return 0
+                else
+                    return 1
+            })
+
+            console.log(area.votes)
+        })
+
 
         // Get closest vote consensus within 2 hours from that time
+        votesByArea.forEach(area => {
+            // Loop through the votes for this area
+            area.votes.forEach(function(vote) {
+                // Find the first occurrence between now a week ago and two hours earlier
+                let oneWeekAgo = new Date()
+                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+                let twoHoursEarlier = new Date(oneWeekAgo)
+                twoHoursEarlier.setHours(oneWeekAgo.getHours() - 2)
+                
+                let voteTime = new Date(vote.time)
+
+                console.log("Checking " + voteTime + ", " + oneWeekAgo + ", " + twoHoursEarlier)
+                if(voteTime < oneWeekAgo && voteTime > twoHoursEarlier) {
+                    console.log("Found one:\n" + voteTime)
+                    if(!('weekAgoRecentTime' in area))
+                        area.weekAgoRecentTime = voteTime
+                }
+            })
+        })
 
         // Compare with current time
+        votesByArea.forEach(area => {
+            if(!('weekAgoRecentTime' in area)) {
+                console.log(area.weekAgoRecentTime)
+            }
+        })
+        // Find sensor 
 
         // If not within 2 degrees
 
