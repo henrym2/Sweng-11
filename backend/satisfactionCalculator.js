@@ -53,8 +53,37 @@ class calculator {
         return content
     }
 
-    historicalDelta(sensors) {
+    async historicalDelta(voterStore, sensorData) {
+        // Get latest vote on same day from last week
+        let sensors = await sensorData.getSensors()
+        let sensorsByArea = await Promise.all(sensors.map(async s => {
+            let votes = await sensorData.getEntries(s.area)
+                let obj = {
+                name: s.area,
+                votes: votes
+            }
+            return obj
+        }))
 
+        let votesByArea = await Promise.all(sensors.map(async s => {
+          let votes = await voterStore.getVotesByLocation(s.area)
+              let obj = {
+              name: s.area,
+              votes: votes
+            }
+            return obj
+        }))
+
+        console.log("Vote data is: \n")
+        votesByArea.forEach(area => console.log(area))
+
+        // Get closest vote consensus within 2 hours from that time
+
+        // Compare with current time
+
+        // If not within 2 degrees
+
+        // Send alert
     }
 
 }
