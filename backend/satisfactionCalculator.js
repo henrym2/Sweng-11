@@ -53,6 +53,10 @@ class calculator {
         return content
     }
 
+    historicalDelta(sensors) {
+
+    }
+
 }
 
 module.exports = calculator

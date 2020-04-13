@@ -161,6 +161,18 @@ async function alertLoop() {
   if (content.length != 0) {
     // alerts.createAlert("Temperature Change request", content, alerts.alertType.TEMP_REQUEST)
   }
+
+  // Predictive alerts based on historical data
+  // Runs twice a day; from 8am - 9am and 12pm - 1pm
+  let date = new Date();
+  // Only from 8am - 9am and 12pm - 1pm UTC
+  if(date.getUTCHours() == 8 || date.getUTCHours == 12) {
+    // Not on weekends
+    if(date.getUTCDay() != 6 && date.getUTCDay() != 7) {
+      
+    }
+  }
+  
 }
 
 
