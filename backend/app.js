@@ -57,14 +57,19 @@ app.post("/vote", async (req, res) => {
     res.statusCode = 400;
     res.send();
   }
+  if (await voterStore.hasVotedRecently(submitter)) {
+    console.log("User voted too often")
+    res.status = 429;
+    res.send()
+    return
+  }
   console.log("Voter is " + submitter);
-
   await voterStore.store(submitter, opinion);
 
   console.log("New set of votes: ");
   // voterStore.keys.forEach(vote => console.log(vote))
   res.statusCode = 200;
-  res.send(voterStore.keys);
+  res.send();
 });
 
 app.post("/sensorSubmit", async (req, res) => {
