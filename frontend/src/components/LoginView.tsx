@@ -7,7 +7,7 @@ import {
   IStackTokens,
   Button,
   TextField,
-  ButtonType
+  ButtonType,
 } from "office-ui-fabric-react";
 
 type MyProps = {
@@ -21,39 +21,36 @@ type MyState = {
 export class LoginView extends Component<MyProps, MyState> {
   state: MyState = {
     name: "",
-    employeeNumber: ""
+    employeeNumber: "",
+  };
+
+  login = () => {
+    if (this.state.name != "" && this.state.employeeNumber != "") {
+      this.props.function(this.state.name, this.state.employeeNumber);
+    } else {
+      alert("Please enter a valid employee name and number!");
+    }
   };
 
   render() {
     return (
       <>
-      <form
-      onSubmit={() => {}}>
-        <TextField
-          label="Login to submit a vote"
-          placeholder="First Name"
-          onChanged={this.onChanged}
-        />
-        <TextField
-          label="Employee Number"
-          placeholder="e.g. 18372936"
-          onChanged={this.onChangedEmployeeNumber}
-        />
+        <form onSubmit={() => {}}>
+          <TextField
+            label="Login to submit a vote"
+            placeholder="First Name"
+            onChanged={this.onChanged}
+          />
+          <TextField
+            label="Employee Number"
+            placeholder="e.g. 18372936"
+            onChanged={this.onChangedEmployeeNumber}
+          />
 
-        <p></p>
-        <TextField
-        placeholder="Employee number">
-        </TextField>
-        <p></p>
-        <Button
-          type="submit"
-          buttonType={ButtonType.primary}
-          onClick={() =>
-            this.props.function(this.state.name, this.state.employeeNumber)
-          }
-        >
-          Log In
-        </Button>
+          <p></p>
+          <Button buttonType={ButtonType.primary} onClick={() => this.login()}>
+            Log In
+          </Button>
         </form>
       </>
     );

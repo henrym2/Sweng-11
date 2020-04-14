@@ -5,7 +5,7 @@ import {
   Text,
   TextField,
   FontWeights,
-  ButtonType
+  ButtonType,
 } from "office-ui-fabric-react";
 const boldStyle = { root: { fontWeight: FontWeights.semibold } };
 
@@ -26,10 +26,10 @@ export class VoteConfirmationView extends Component<MyProps, MyState> {
           style={{
             margin: "auto",
             textAlign: "center",
-            fontWeight: "bold"
+            fontWeight: "bold",
           }}
         >
-          Thanks for your vote {this.props.name}
+          Thanks for your vote {this.props.name}!
         </Text>
         <Text
           variant="large"

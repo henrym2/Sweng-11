@@ -15,8 +15,8 @@ export default class SideBarButton extends Component<CardProps> {
       fontSize: 22,
       fontWeight: FontWeights.bold,
       margin: "auto",
-      lineHeight: "100px"
-    }
+      lineHeight: "100px",
+    },
   };
 
   render() {
@@ -29,7 +29,8 @@ export default class SideBarButton extends Component<CardProps> {
           justifyContent: "center",
           height: "100px",
           borderBottom: "1px solid #DCDCDC",
-          backgroundColor: this.props.color
+          backgroundColor: this.props.color,
+          cursor: "grab",
         }}
       >
         <div style={{ margin: "auto" }}>
@@ -37,7 +38,7 @@ export default class SideBarButton extends Component<CardProps> {
             src={this.props.icon}
             style={{
               width: "30px",
-              marginRight: "15px"
+              marginRight: "15px",
             }}
           />
           <Text styles={this.titleStyles}>{this.props.title}</Text>
