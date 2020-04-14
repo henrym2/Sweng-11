@@ -5,7 +5,7 @@ import {
   Card,
   ICardTokens,
   ICardStyles,
-  ICardSectionStyles
+  ICardSectionStyles,
 } from "@uifabric/react-cards";
 import {
   Text,
@@ -16,7 +16,7 @@ import {
   IconButton,
   Stack,
   IIconProps,
-  IIconStyles
+  IIconStyles,
 } from "office-ui-fabric-react";
 
 type NotificationState = {
@@ -59,8 +59,8 @@ export default class AdminNotification extends Component<NotificationProps> {
         maxWidth: "100%",
         minWidth: "400px",
         minHeight: "120px",
-        marginBottom: "25px"
-      }
+        marginBottom: "25px",
+      },
     };
 
     const cardTokens: ICardTokens = {};
@@ -68,15 +68,15 @@ export default class AdminNotification extends Component<NotificationProps> {
     const titleStyles: ITextStyles = {
       root: {
         fontSize: 22,
-        fontWeight: FontWeights.bold
-      }
+        fontWeight: FontWeights.bold,
+      },
     };
 
     const descriptionStyles: ITextStyles = {
       root: {
         fontSize: 18,
-        marginTop: 2
-      }
+        marginTop: 2,
+      },
     };
 
     const linkStyles: ILinkStyles = {
@@ -84,32 +84,32 @@ export default class AdminNotification extends Component<NotificationProps> {
         textDecoration: "underline",
         fontSize: 16,
         marginTop: 2,
-        color: "#E85B6D"
-      }
+        color: "#E85B6D",
+      },
     };
 
     const cardSectionStyles: ICardSectionStyles = {
       root: {
         width: "95%",
-        margin: "10px 15px"
-      }
+        margin: "10px 15px",
+      },
     };
 
     const buttonSectionStyles: ICardSectionStyles = {
       root: {
         alignSelf: "stretch",
-        margin: 10
-      }
+        margin: 10,
+      },
     };
 
     const buttonProps: IIconProps = {
-      iconName: "Cancel"
+      iconName: "Cancel",
     };
 
     const buttonStyles: IIconStyles = {
       root: {
-        color: "grey"
-      }
+        color: "grey",
+      },
     };
 
     return (

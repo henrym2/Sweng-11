@@ -9,7 +9,9 @@ import SideBarButton from "./SideBarButton";
 import alertIcon from "../images/alert-icon.svg";
 import mapIcon from "../images/map-icon.svg";
 import floorPlan from "../images/floor-plan.svg";
+import closeBtn from "../images/close.svg";
 import axios from "axios";
+import { ITextStyles, FontWeights } from "office-ui-fabric-react";
 
 import {
   Stack,
@@ -20,8 +22,9 @@ import {
   Button,
   TextField,
   ButtonType,
-  calculatePrecision
+  calculatePrecision,
 } from "office-ui-fabric-react";
+import { Redirect } from "react-router";
 
 type MyProps = {};
 type MyState = {
@@ -30,18 +33,40 @@ type MyState = {
   showZoneInfo: boolean;
   selectedZone: number;
   alerts: any;
-  zoneInfo: any[];
+  zoneInfo: any;
+  redirect: boolean;
 };
 
 export class AdminPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
-
+  titleStyles: ITextStyles = {
+    root: {
+      fontSize: 22,
+      fontWeight: FontWeights.bold,
+      marginLeft: "10%",
+      marginTop: "20px",
+      marginBottom: "5px",
+      color: "#E85B6D",
+    },
+  };
   state: MyState = {
     pageState: 0,
     showZoneInfo: false,
     selectedZone: 0,
     alerts: [],
-    zoneInfo: []
+    zoneInfo: [
+      { name: "Zone 1", temp: [], active: false },
+      { name: "Zone 2", temp: [], active: false },
+      { name: "Zone 3", temp: [], active: false },
+      { name: "Zone 4", temp: [], active: false },
+      { name: "Zone 5", temp: [], active: false },
+      { name: "Zone 6", temp: [], active: false },
+      { name: "Zone 7", temp: [], active: false },
+      { name: "Zone 8", temp: [], active: false },
+      { name: "Zone 9", temp: [], active: false },
+      { name: "Zone 10", temp: [], active: false },
+    ],
+    redirect: false,
   };
 
   setIsShown = (zone, show) => {
@@ -51,24 +76,32 @@ export class AdminPage extends Component<MyProps, MyState> {
   componentDidMount(): void {
     axios
       .get("https://thermapollbackend.azurewebsites.net/alerts")
-      .then(res => {
+      .then((res) => {
+        console.log(res.data);
         this.setState({ alerts: res.data });
-        axios
-        .get("https://thermapollbackend.azurewebsites.net/alerts").then(
-          res => {
-            let sensors = res.data;
-              sensors = sensors.map(s => {
-              return {...s, alerts: this.state.alerts.filter(a => {
-                if(a.content.find(c => c.area == s.area)){
-                  return a
-                }
-              })
-              }
-            })
-            console.log(res.data);
-            this.setState({zoneInfo: sensors });
+
+        let data = res.data;
+        data.forEach((element) => {
+          let area = element.content[0].area;
+
+          let zoneNumber = 0;
+          for (let i = 1; i <= 10; i++) {
+            if (area.includes(i)) {
+              zoneNumber = i;
+            }
           }
-      )
+          console.log(zoneNumber);
+
+          let temperatureValue = element.content[0].temperature;
+          //Get the current data for the zones
+          let ziArr = this.state.zoneInfo;
+          //Get the zone associated with this reading
+          //Activate it for showing UI
+          ziArr[zoneNumber - 1].active = true;
+          //Add the current temperature as a value
+          ziArr[zoneNumber - 1].temp.push({ val: temperatureValue });
+          this.setState({ zoneInfo: ziArr });
+        });
       });
     
   }
@@ -91,14 +124,6 @@ export class AdminPage extends Component<MyProps, MyState> {
   floorPlanScreen = () => {
     return (
       <div className="admin-page__floor-plan">
-        {this.state.showZoneInfo && (
-          <div className="admin-page__display-zone-info">
-            <h3>Zone {this.state.selectedZone}</h3>
-            {
-              this.getZoneInfo(this.state.selectedZone)
-            }{" "}
-          </div>
-        )}
         <div className="admin-page__box">
           <img src={floorPlan} />
           <div
@@ -167,13 +192,13 @@ export class AdminPage extends Component<MyProps, MyState> {
   dismissNotification = (id: number) => {
     axios
       .post("https://thermapollbackend.azurewebsites.net/dismissAlert", {
-        id: id
+        id: id,
       })
-      .then(res => {
+      .then((res) => {
         if (res.status == 200) {
           axios
             .get("https://thermapollbackend.azurewebsites.net/alerts")
-            .then(res => {
+            .then((res) => {
               console.log(res.data);
               this.setState({ alerts: res.data });
             });
@@ -183,10 +208,10 @@ export class AdminPage extends Component<MyProps, MyState> {
 
   alertScreen = () => {
     let list = this.state.alerts;
-    const listItems = list.map(item => (
+    const listItems = list.map((item) => (
       <AdminNotification
         title="Temperature Adjustment Required"
-        description={`A temperature adjustment is needed in Zone ${item.content[0].area}`}
+        description={`A temperature adjustment is needed in zone ${item.content[0].area}`}
         dismiss={this.dismissNotification}
         content={item.content}
         notificationID={item._id}
@@ -195,7 +220,24 @@ export class AdminPage extends Component<MyProps, MyState> {
     return <div className="admin-page__notifications">{listItems}</div>;
   };
 
+  closePage = () => {
+    this.setState({ redirect: true });
+  };
+
   render() {
+    let selectedZone = this.state.zoneInfo[this.state.selectedZone - 1];
+    let averageTemp = 0.0;
+    if (selectedZone) {
+      let total = 0.0;
+      selectedZone.temp.forEach((val) => {
+        total += val.val;
+      });
+      total /= selectedZone.temp.length;
+      averageTemp = total;
+    }
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="admin-page__main">
         <div className="admin-page__top-bar">
@@ -204,7 +246,11 @@ export class AdminPage extends Component<MyProps, MyState> {
             alt="therma logo"
             className="admin-page__logo "
           />
-          Top Bar (Milu)
+          <img
+            src={closeBtn}
+            style={{ cursor: "grab", marginRight: "20px" }}
+            onClick={() => this.closePage()}
+          />
         </div>
         <div className="admin-page__bottom">
           <div className="admin-page__side-bar">
@@ -220,6 +266,26 @@ export class AdminPage extends Component<MyProps, MyState> {
               color={this.state.pageState == 1 ? "#F8F8FF" : "white"}
               switchDisplay={() => this.viewFloorplan()}
             />
+            {this.state.pageState == 1 && (
+              <Text styles={this.titleStyles}>
+                Zone Selected:{" "}
+                <b style={{ fontWeight: "normal" }}>
+                  {this.state.showZoneInfo
+                    ? `${selectedZone.name}`
+                    : "None Selected"}
+                </b>
+              </Text>
+            )}
+            {this.state.showZoneInfo && (
+              <div className="admin-page__display-zone-info">
+                {selectedZone.active && (
+                  <div>Average temperature reading: {averageTemp}&#176;C</div>
+                )}
+                {!selectedZone.active && (
+                  <div>No information available for this zone!</div>
+                )}
+              </div>
+            )}
           </div>
           {this.state.pageState == 0
             ? this.alertScreen()
