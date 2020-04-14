@@ -1,5 +1,5 @@
 const votes = require('./voteStore')
-const voteStorage = new votes()
+const {Entry } = require('./db/schemas')
 const alerter = require('./alerting.js')
 const alert = new alerter()
 
@@ -54,19 +54,25 @@ class calculator {
     }
 
     async historicalDelta(voterStore, sensorData) {
-        // Setup
+        //Get all currently connected sensors
         let sensors = await sensorData.getSensors()
-        let sensorsByArea = await Promise.all(sensors.map(async s => {
-            let votes = await sensorData.getSensors(s.area)
-            let obj = {
-                name: s.area,
-                votes: votes
+        // Setup
+        //Get all sensor entries for the last week
+        let entries = await Entry.find({"time": {"$gte": (new Date().getHours() -7)}})
+        
+        //Access with entriesByArea[area]
+        let entriesByArea = entries.reduce((allEntries, entry) => {
+            //Construct a Hash map of entry areas to entries where the keys are area names and values are entries
+            if (entry.area in allEntries) {
+                allEntries[entry.area].push(entry)
+            } else {
+                allEntries[entry.area] = [entry]
             }
-            return obj
-        }))
+            return allEntries
+        }, {})
 
         let votesByArea = await Promise.all(sensors.map(async s => {
-          let votes = await voterStore.getVotesByLocation(s.area)
+            let votes = await voterStore.getVotesByLocation(s.area)
             let obj = {
                 name: s.area,
                 votes: votes
@@ -76,6 +82,12 @@ class calculator {
         
         // Get latest vote on same day from last week
         votesByArea.forEach(area => {
+            //Calculate the average of the temperature of the areas
+            let averageTemp = entriesByArea[area.name].reduce((acc, curr) => {
+                acc + curr.temperature
+            }, 0) / entriesByArea[area.name]
+
+            let sensor = sensors.find(s => s.area == area.name)
 
             console.log("Before:")
             console.log(area.votes)
@@ -98,7 +110,6 @@ class calculator {
             // Get closest vote consensus within 2 hours from that time
             // Loop through the votes for this area
             area.votes.every(function(vote) {
-                // Find the first occurrence between now a week ago and two hours earlier
                 let oneWeekAgo = new Date()
                 oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
                 let twoHoursEarlier = new Date(oneWeekAgo)
@@ -109,17 +120,18 @@ class calculator {
                 console.log("Checking " + voteTime + ", " + oneWeekAgo + ", " + twoHoursEarlier)
                 if(voteTime < oneWeekAgo && voteTime > twoHoursEarlier) {
                     console.log("Found one:\n" + voteTime)
-
                     // Find closest sensor entry for this time using the same logic
-                    console.log("Sensor readings:")
+                    console.log("Sensor readings:" + averageTemp)
+                    if(averageTemp > (sensor.temperature+2) && averageTemp < (sensor.temperature-2)) {
+                        //Unfinished, assume we would add all the changes to a single content array and then send them as a block?
 
+                        return false    // Equivalent to break in Array.every()
+                    }
                     // Use the vote opinion with the average sensor reading at that time and
                     // if they're more than two degrees higher or lower than the current
                     // temperature, send an alert suggesting to take action
-
-                    return false    // Equivalent to break in Array.every()
+                    
                 }
-
                 return true
             })
         })
