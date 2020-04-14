@@ -188,6 +188,7 @@ export class AdminPage extends Component<MyProps, MyState> {
         title="Temperature Adjustment Required"
         description={`A temperature adjustment is needed in Zone ${item.content[0].area}`}
         dismiss={this.dismissNotification}
+        content={item.content}
         notificationID={item._id}
       />
     ));
