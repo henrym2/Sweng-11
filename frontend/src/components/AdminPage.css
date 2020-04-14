@@ -74,6 +74,7 @@
   /* Color */
   background-color: blue;
   opacity: 0;
+  cursor: grab;
 }
 
 .admin-page__zone2 {
@@ -84,6 +85,7 @@
   height: 130px;
   background-color: blue;
   opacity: 0;
+  cursor: grab;
 }
 
 .admin-page__zone3 {
@@ -94,6 +96,7 @@
   height: 130px;
   background-color: blue;
   opacity: 0;
+  cursor: grab;
 }
 
 .admin-page__zone4 {
@@ -104,6 +107,7 @@
   height: 130px;
   background-color: blue;
   opacity: 0;
+  cursor: grab;
 }
 
 .admin-page__zone5 {
@@ -114,6 +118,7 @@
   height: 130px;
   background-color: blue;
   opacity: 0;
+  cursor: grab;
 }
 
 .admin-page__zone6 {
@@ -124,6 +129,7 @@
   height: 100px;
   background-color: blue;
   opacity: 0;
+  cursor: grab;
 }
 
 .admin-page__zone7 {
@@ -134,6 +140,7 @@
   height: 95px;
   background-color: blue;
   opacity: 0;
+  cursor: grab;
 }
 
 .admin-page__zone8 {
@@ -144,6 +151,7 @@
   height: 110px;
   background-color: blue;
   opacity: 0;
+  cursor: grab;
 }
 
 .admin-page__zone9 {
@@ -154,6 +162,7 @@
   height: 130px;
   background-color: blue;
   opacity: 0;
+  cursor: grab;
 }
 
 .admin-page__zone10 {
@@ -164,15 +173,16 @@
   height: 150px;
   background-color: blue;
   opacity: 0;
+  cursor: grab;
 }
 
 .admin-page__display-zone-info {
-  position: absolute;
-  width: 200px;
   height: 200px;
-  background-color: white;
-  box-shadow: 3px 0px 5px 0px rgba(50, 50, 50, 0.24);
+  text-align: center;
+  /* background-color: white; */
+  /* box-shadow: 3px 0px 5px 0px rgba(50, 50, 50, 0.24); */
   z-index: 5;
   padding: 15px;
   font-family: Arial, Helvetica, sans-serif;
+  margin-top: 10px;
 }

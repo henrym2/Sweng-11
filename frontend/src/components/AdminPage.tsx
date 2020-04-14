@@ -10,6 +10,7 @@ import alertIcon from "../images/alert-icon.svg";
 import mapIcon from "../images/map-icon.svg";
 import floorPlan from "../images/floor-plan.svg";
 import axios from "axios";
+import { ITextStyles, FontWeights } from "office-ui-fabric-react";
 
 import {
   Stack,
@@ -20,7 +21,7 @@ import {
   Button,
   TextField,
   ButtonType,
-  calculatePrecision
+  calculatePrecision,
 } from "office-ui-fabric-react";
 
 type MyProps = {};
@@ -35,7 +36,16 @@ type MyState = {
 
 export class AdminPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
-
+  titleStyles: ITextStyles = {
+    root: {
+      fontSize: 22,
+      fontWeight: FontWeights.bold,
+      marginLeft: "10%",
+      marginTop: "20px",
+      marginBottom: "5px",
+      color: "#E85B6D",
+    },
+  };
   state: MyState = {
     pageState: 0,
     showZoneInfo: false,
@@ -51,8 +61,8 @@ export class AdminPage extends Component<MyProps, MyState> {
       { name: "Zone 7", temp: [], active: false },
       { name: "Zone 8", temp: [], active: false },
       { name: "Zone 9", temp: [], active: false },
-      { name: "Zone 10", temp: [], active: false }
-    ]
+      { name: "Zone 10", temp: [], active: false },
+    ],
   };
 
   setIsShown = (zone, show) => {
@@ -62,12 +72,12 @@ export class AdminPage extends Component<MyProps, MyState> {
   componentDidMount(): void {
     axios
       .get("https://thermapollbackend.azurewebsites.net/alerts")
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
         this.setState({ alerts: res.data });
 
         let data = res.data;
-        data.forEach(element => {
+        data.forEach((element) => {
           let area = element.content[0].area;
 
           let zoneNumber = 0;
@@ -92,29 +102,8 @@ export class AdminPage extends Component<MyProps, MyState> {
   }
 
   floorPlanScreen = () => {
-    let selectedZone = this.state.zoneInfo[this.state.selectedZone - 1];
-    let averageTemp = 0.0;
-    if (selectedZone) {
-      let total = 0.0;
-      selectedZone.temp.forEach(val => {
-        total += val.val;
-      });
-      total /= selectedZone.temp.length;
-      averageTemp = total;
-    }
     return (
       <div className="admin-page__floor-plan">
-        {this.state.showZoneInfo && (
-          <div className="admin-page__display-zone-info">
-            <h3>{selectedZone.name} Info:</h3>
-            {selectedZone.active && (
-              <div>Average temperature readings: {averageTemp}&#176;C</div>
-            )}
-            {!selectedZone.active && (
-              <div>No information available for this zone!</div>
-            )}
-          </div>
-        )}
         <div className="admin-page__box">
           <img src={floorPlan} />
           <div
@@ -183,13 +172,13 @@ export class AdminPage extends Component<MyProps, MyState> {
   dismissNotification = (id: number) => {
     axios
       .post("https://thermapollbackend.azurewebsites.net/dismissAlert", {
-        id: id
+        id: id,
       })
-      .then(res => {
+      .then((res) => {
         if (res.status == 200) {
           axios
             .get("https://thermapollbackend.azurewebsites.net/alerts")
-            .then(res => {
+            .then((res) => {
               console.log(res.data);
               this.setState({ alerts: res.data });
             });
@@ -199,10 +188,10 @@ export class AdminPage extends Component<MyProps, MyState> {
 
   alertScreen = () => {
     let list = this.state.alerts;
-    const listItems = list.map(item => (
+    const listItems = list.map((item) => (
       <AdminNotification
         title="Temperature Adjustment Required"
-        description={`A temperature adjustment is needed in ${item.content[0].area}`}
+        description={`A temperature adjustment is needed in zone ${item.content[0].area}`}
         dismiss={this.dismissNotification}
         notificationID={item._id}
       />
@@ -211,6 +200,16 @@ export class AdminPage extends Component<MyProps, MyState> {
   };
 
   render() {
+    let selectedZone = this.state.zoneInfo[this.state.selectedZone - 1];
+    let averageTemp = 0.0;
+    if (selectedZone) {
+      let total = 0.0;
+      selectedZone.temp.forEach((val) => {
+        total += val.val;
+      });
+      total /= selectedZone.temp.length;
+      averageTemp = total;
+    }
     return (
       <div className="admin-page__main">
         <div className="admin-page__top-bar">
@@ -234,6 +233,26 @@ export class AdminPage extends Component<MyProps, MyState> {
               color={this.state.pageState == 1 ? "#F8F8FF" : "white"}
               switchDisplay={() => this.viewFloorplan()}
             />
+            {this.state.pageState == 1 && (
+              <Text styles={this.titleStyles}>
+                Zone Selected:{" "}
+                <b style={{ fontWeight: "normal" }}>
+                  {this.state.showZoneInfo
+                    ? `${selectedZone.name}`
+                    : "None Selected"}
+                </b>
+              </Text>
+            )}
+            {this.state.showZoneInfo && (
+              <div className="admin-page__display-zone-info">
+                {selectedZone.active && (
+                  <div>Average temperature reading: {averageTemp}&#176;C</div>
+                )}
+                {!selectedZone.active && (
+                  <div>No information available for this zone!</div>
+                )}
+              </div>
+            )}
           </div>
           {this.state.pageState == 0
             ? this.alertScreen()
