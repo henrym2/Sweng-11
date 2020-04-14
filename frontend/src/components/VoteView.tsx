@@ -40,6 +40,7 @@ export class VoteView extends Component<MyProps, MyState> {
     ];
 
     return (
+      <form>
       <Stack
         horizontalAlign="center"
         verticalAlign="center"
@@ -118,7 +119,6 @@ export class VoteView extends Component<MyProps, MyState> {
               min={-2}
               max={2}
               defaultValue={0}
-              originFromZero
               showValue={false}
               onChange={(val: number) => this.setVoteValue(val)}
               valueFormat={(value: number) => values[value + 2]}
@@ -127,11 +127,14 @@ export class VoteView extends Component<MyProps, MyState> {
         </Stack>
         <Stack>
           <PrimaryButton
+            type="submit"
             text="Submit"
             onClick={() => this.props.function(this.state.opinion)}
           />
+          
         </Stack>
       </Stack>
+      </form>
     );
   }
 }

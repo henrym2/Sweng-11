@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const { Sensor, User } = require("./db/schemas");
+const calculator = require("./satisfactionCalculator")
 
 const votes = require("./voteStore");
 const sensorStore = require("./sensorStore");
@@ -9,14 +10,15 @@ var voterStore = new votes();
 var sensorData = new sensorStore();
 var alerts = new alerter();
 var Schema = require("./db/schemas");
-
+var calc = new calculator;
 //Load in dotenv for parsing environment variables (secrets and stuff)
 const dotenv = require("dotenv");
 
 const envLoaded = dotenv.config();
 
+
 if (envLoaded.error) {
-  throw envLoaded.error;
+  console.log("Be aware .env file not found")
 }
 
 //Load in body parser for parsing json
@@ -25,24 +27,21 @@ const app = express();
 
 //Make sure the express server uses body parser
 app.use(bodyParser.json());
-const port = process.env.APP_PORT;
 
 //Setup CORS
 var cors = require("cors");
-var whitelist = ["http://localhost:3000", "http://frontendurl"];
-var corsOptions = {
-  origin: function(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  }
-};
+// var whitelist = ["http://localhost:3000", "https://thermapollfrontend.z22.web.core.windows.net"];
+// var corsOptions = {
+//   origin: function(origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   }
+// };
 
-app.use(cors(corsOptions));
-
-//let votes = new Array();
+app.use(cors());
 
 app.get("/", (req, res) => {
   //Example of how you might construct a JSON response
@@ -69,10 +68,10 @@ app.post("/vote", async (req, res) => {
 });
 
 app.post("/sensorSubmit", async (req, res) => {
-  const { id, location, temperature, time } = req.body;
+  const { id, area, temperature, time } = req.body;
   if (
     id == undefined ||
-    location === undefined ||
+    area === undefined ||
     temperature == undefined ||
     time == undefined
   ) {
@@ -81,9 +80,9 @@ app.post("/sensorSubmit", async (req, res) => {
   }
 
   console.log(
-    "Got: {" + id + ', "' + location + '", ' + temperature + ', "' + time + '"}'
+    "Got: {" + id + ', "' + area + '", ' + temperature + ', "' + time + '"}'
   );
-  await sensorData.store(id, location, temperature, time);
+  await sensorData.store(id, area, temperature, time);
   console.log("All sensor data");
   // sensorData.keys.forEach(sensor => console.log(sensor))
 
@@ -138,26 +137,31 @@ app.post("/dismissAlert", async (req, res) => {
   res.send(a);
 });
 
-let server = app.listen(port, () => {
+let server = app.listen(process.env.APP_PORT || 8080, async () => {
   setupDB();
-  console.debug(`Server launched on port ${port}\n`, envLoaded.parsed);
+  console.debug(`Server launched on port ${process.env.APP_PORT || 8080}\n`, envLoaded.parsed);
+  await alertLoop()
+  setInterval(alertLoop, 3.6e+6)
 });
-// Not needed anymore, used to add test data for alerts as none were being returned
-// addData = () => {
-//   let a = new Schema.Alert({
-//     content: [
-//       {
-//         sensorID: "5e7384c4a9973e33eceb7b70",
-//         area: "Zone 3",
-//         temperature: 26,
-//         change: 2
-//       }
-//     ],
-//     time: new Date(),
-//     active: true
-//   });
-//   a.save(err => console.log(err));
-// };
-// addData();
+
+async function alertLoop() {
+  let sensors = await sensorData.getSensors()
+  let votesByArea = await Promise.all(sensors.map(async s => {
+    let votes = await voterStore.getVotesByLocation(s.area)
+        let obj = {
+        name: s.area,
+        votes: votes
+      }
+      return obj
+  }))
+
+
+  let content = calc.areaCheck(votesByArea, sensors)
+  console.log(content)
+  if (content.length != 0) {
+    // alerts.createAlert("Temperature Change request", content, alerts.alertType.TEMP_REQUEST)
+  }
+}
+
 
 module.exports = server;

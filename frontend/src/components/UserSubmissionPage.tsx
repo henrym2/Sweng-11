@@ -8,6 +8,7 @@ import LoginView from "./LoginView";
 import VoteView from "./VoteView";
 import VoteConfirmationView from "./VoteConfirmationView";
 import { Redirect } from "react-router-dom";
+import { AxiosResponse } from "axios";
 
 type MyProps = {};
 type MyState = {
@@ -43,9 +44,11 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
       .post("https://thermapollbackend.azurewebsites.net/vote", {
         submitter: this.state.voterName,
         opinion: opinion
-      })
-      .then(function(response: String) {
-        // console.log(response);
+      },
+      {headers: { "Content-Type": "application/json",
+      Accept: "application/json"}} )
+      .then(function(response: AxiosResponse) {
+        console.log(response);
         console.log("User has voted: " + opinion);
       })
       .catch(function(error: String) {

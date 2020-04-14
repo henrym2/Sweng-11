@@ -35,21 +35,23 @@ export class LoginView extends Component<MyProps, MyState> {
   render() {
     return (
       <>
-        <TextField
-          label="Login to submit a vote"
-          placeholder="First Name"
-          onChanged={this.onChanged}
-        />
-        <TextField
-          label="Employee Number"
-          placeholder="e.g. 18372936"
-          onChanged={this.onChangedEmployeeNumber}
-        />
+        <form onSubmit={() => {}}>
+          <TextField
+            label="Login to submit a vote"
+            placeholder="First Name"
+            onChanged={this.onChanged}
+          />
+          <TextField
+            label="Employee Number"
+            placeholder="e.g. 18372936"
+            onChanged={this.onChangedEmployeeNumber}
+          />
 
-        <p></p>
-        <Button buttonType={ButtonType.primary} onClick={() => this.login()}>
-          Log In
-        </Button>
+          <p></p>
+          <Button buttonType={ButtonType.primary} onClick={() => this.login()}>
+            Log In
+          </Button>
+        </form>
       </>
     );
   }

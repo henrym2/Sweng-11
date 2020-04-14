@@ -39,12 +39,6 @@ export class VoteConfirmationView extends Component<MyProps, MyState> {
           Our maintenance team is on the way. Have a nice day!
         </Text>
         <p></p>
-        <Button
-          buttonType={ButtonType.primary}
-          onClick={() => this.props.function()}
-        >
-          Retry
-        </Button>
       </div>
     );
   }

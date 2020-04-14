@@ -5,20 +5,19 @@ const dotenv = require("dotenv").config()
 
 sendgrid.setApiKey(process.env.SENDGRID_KEY);
 
-class alerter {
-    /**
-     * @final
-     * @typedef
-     * @description Constants for deciding on the type of alert to be sent.
-     * TEMP_REQUEST - - A temperature change request email type
-     * SENSOR_ERROR - - A sensor error email type, to be sent if a sensor or set of sensors fail to send data in a time frame
-     * TEMP_ERROR   - - A temperature error, to be sent if the temperature in an error exceeds a legal limit
-     */
-    
+class alerter {    
     constructor() {
         this.lastMail = new Array
         this.recipient = process.env.ALERT_RECIPIENT
         this.sender = process.env.ALERT_SENDER
+        /**
+        * @final
+        * @typedef
+        * @description Constants for deciding on the type of alert to be sent.
+        * TEMP_REQUEST - - A temperature change request email type
+        * SENSOR_ERROR - - A sensor error email type, to be sent if a sensor or set of sensors fail to send data in a time frame
+        * TEMP_ERROR   - - A temperature error, to be sent if the temperature in an error exceeds a legal limit
+        */
         this.alertType = {
             TEMP_REQUEST: 0,
             SENSOR_ERROR: 1,
@@ -66,12 +65,12 @@ class alerter {
                     HTMLContent: HTMLTemplates.TEMP_REQUEST(contentList),
                     textContent: textTemplates.TEMP_REQUEST(contentList)
                 }
-            case alerter.alertType.SENSOR_ERROR:
+            case this.alertType.SENSOR_ERROR:
                 return {
                     HTMLContent: HTMLTemplates.SENSOR_ERROR(contentList),
                     textContent: textTemplates.SENSOR_ERROR(contentList)
                 }
-            case alerter.alertType.TEMP_ERROR:
+            case this.alertType.TEMP_ERROR:
                 return {
                     HTMLContent: HTMLTemplates.TEMP_ERROR(contentList),
                     textContent: textTemplates.TEMP_ERROR(contentList)
@@ -100,7 +99,7 @@ class alerter {
             let a = new Alert({
                 title: email.subject,
                 content: email.content,
-                time: new Date(),
+                time: new Date().toISOString(),
                 active: true,
             })
             a.save(err => console.log(err))
