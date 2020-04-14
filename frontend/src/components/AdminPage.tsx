@@ -9,6 +9,7 @@ import SideBarButton from "./SideBarButton";
 import alertIcon from "../images/alert-icon.svg";
 import mapIcon from "../images/map-icon.svg";
 import floorPlan from "../images/floor-plan.svg";
+import closeBtn from "../images/close.svg";
 import axios from "axios";
 import { ITextStyles, FontWeights } from "office-ui-fabric-react";
 
@@ -23,6 +24,7 @@ import {
   ButtonType,
   calculatePrecision,
 } from "office-ui-fabric-react";
+import { Redirect } from "react-router";
 
 type MyProps = {};
 type MyState = {
@@ -32,6 +34,7 @@ type MyState = {
   selectedZone: number;
   alerts: any;
   zoneInfo: any;
+  redirect: boolean;
 };
 
 export class AdminPage extends Component<MyProps, MyState> {
@@ -63,6 +66,7 @@ export class AdminPage extends Component<MyProps, MyState> {
       { name: "Zone 9", temp: [], active: false },
       { name: "Zone 10", temp: [], active: false },
     ],
+    redirect: false,
   };
 
   setIsShown = (zone, show) => {
@@ -199,6 +203,10 @@ export class AdminPage extends Component<MyProps, MyState> {
     return <div className="admin-page__notifications">{listItems}</div>;
   };
 
+  closePage = () => {
+    this.setState({ redirect: true });
+  };
+
   render() {
     let selectedZone = this.state.zoneInfo[this.state.selectedZone - 1];
     let averageTemp = 0.0;
@@ -210,6 +218,9 @@ export class AdminPage extends Component<MyProps, MyState> {
       total /= selectedZone.temp.length;
       averageTemp = total;
     }
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="admin-page__main">
         <div className="admin-page__top-bar">
@@ -217,6 +228,11 @@ export class AdminPage extends Component<MyProps, MyState> {
             src={thermaLogo}
             alt="therma logo"
             className="admin-page__logo "
+          />
+          <img
+            src={closeBtn}
+            style={{ cursor: "grab", marginRight: "20px" }}
+            onClick={() => this.closePage()}
           />
         </div>
         <div className="admin-page__bottom">

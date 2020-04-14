@@ -7,7 +7,7 @@ import {
   IStackTokens,
   Button,
   TextField,
-  ButtonType
+  ButtonType,
 } from "office-ui-fabric-react";
 
 type MyProps = {
@@ -21,7 +21,15 @@ type MyState = {
 export class LoginView extends Component<MyProps, MyState> {
   state: MyState = {
     name: "",
-    employeeNumber: ""
+    employeeNumber: "",
+  };
+
+  login = () => {
+    if (this.state.name != "" && this.state.employeeNumber != "") {
+      this.props.function(this.state.name, this.state.employeeNumber);
+    } else {
+      alert("Please enter a valid employee name and number!");
+    }
   };
 
   render() {
@@ -39,12 +47,7 @@ export class LoginView extends Component<MyProps, MyState> {
         />
 
         <p></p>
-        <Button
-          buttonType={ButtonType.primary}
-          onClick={() =>
-            this.props.function(this.state.name, this.state.employeeNumber)
-          }
-        >
+        <Button buttonType={ButtonType.primary} onClick={() => this.login()}>
           Log In
         </Button>
       </>
