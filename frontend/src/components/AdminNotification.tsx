@@ -23,6 +23,7 @@ export type NotificationProps = {
   title: string;
   description: string;
   notificationID: number;
+  
   dismiss: (id: number) => void;
 };
 

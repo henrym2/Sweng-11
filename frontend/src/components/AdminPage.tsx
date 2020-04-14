@@ -30,6 +30,7 @@ type MyState = {
   showZoneInfo: boolean;
   selectedZone: number;
   alerts: any;
+  zoneInfo: any[];
 };
 
 export class AdminPage extends Component<MyProps, MyState> {
@@ -39,7 +40,8 @@ export class AdminPage extends Component<MyProps, MyState> {
     pageState: 0,
     showZoneInfo: false,
     selectedZone: 0,
-    alerts: []
+    alerts: [],
+    zoneInfo: []
   };
 
   setIsShown = (zone, show) => {
@@ -50,9 +52,40 @@ export class AdminPage extends Component<MyProps, MyState> {
     axios
       .get("https://thermapollbackend.azurewebsites.net/alerts")
       .then(res => {
-        console.log(res.data);
         this.setState({ alerts: res.data });
+        axios
+        .get("https://thermapollbackend.azurewebsites.net/alerts").then(
+          res => {
+            let sensors = res.data;
+              sensors = sensors.map(s => {
+              return {...s, alerts: this.state.alerts.filter(a => {
+                if(a.content.find(c => c.area == s.area)){
+                  return a
+                }
+              })
+              }
+            })
+            console.log(res.data);
+            this.setState({zoneInfo: sensors });
+          }
+      )
       });
+    
+  }
+
+  getZoneInfo(zone): any {
+    if (this.state.zoneInfo[zone-1]) {
+      console.log(this.state.zoneInfo)
+      return (<div>
+        <p>Temperature: {this.state.zoneInfo[zone-1].temperature}°C</p>
+        <p>Active alerts: {this.state.zoneInfo[zone-1].alerts.length}</p>
+      </div>
+      )
+    } else {
+      return (<div>
+        <p>No Sensor data</p>
+      </div>)
+    }
   }
 
   floorPlanScreen = () => {
@@ -61,10 +94,9 @@ export class AdminPage extends Component<MyProps, MyState> {
         {this.state.showZoneInfo && (
           <div className="admin-page__display-zone-info">
             <h3>Zone {this.state.selectedZone}</h3>
-            Information about the temperature in zone {
-              this.state.selectedZone
+            {
+              this.getZoneInfo(this.state.selectedZone)
             }{" "}
-            ...
           </div>
         )}
         <div className="admin-page__box">
@@ -154,7 +186,7 @@ export class AdminPage extends Component<MyProps, MyState> {
     const listItems = list.map(item => (
       <AdminNotification
         title="Temperature Adjustment Required"
-        description={`A temperature adjustment is needed in ${item.content[0].area}`}
+        description={`A temperature adjustment is needed in Zone ${item.content[0].area}`}
         dismiss={this.dismissNotification}
         notificationID={item._id}
       />
