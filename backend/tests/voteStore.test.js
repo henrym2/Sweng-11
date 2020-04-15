@@ -2,8 +2,12 @@ const Store = require('../voteStore')
 
 describe('Constructor', () => {
     test('Ensure constructor returns instance', async (done) => {
+        console.log(new Date())
         const voteStore = new Store()
-        expect(voteStore.keys).toBeDefined()
+        voteStore.store(123456, 1)
+        voteStore.store(123457, 1)
+        voteStore.store(123458, 1)
+        expect(voteStore.keys.length).toBeDefined()
         done()
     })
 })
