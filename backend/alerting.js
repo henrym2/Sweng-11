@@ -19,9 +19,10 @@ class alerter {
         * TEMP_ERROR   - - A temperature error, to be sent if the temperature in an error exceeds a legal limit
         */
         this.alertType = {
-            TEMP_REQUEST: 0,
-            SENSOR_ERROR: 1,
-            TEMP_ERROR:   2
+            TEMP_REQUEST:        0,
+            SENSOR_ERROR:        1,
+            TEMP_ERROR:          2,
+            PERIODIC_ADJUSTMENT: 3
         }
     }
     /**
@@ -74,6 +75,11 @@ class alerter {
                 return {
                     HTMLContent: HTMLTemplates.TEMP_ERROR(contentList),
                     textContent: textTemplates.TEMP_ERROR(contentList)
+                }
+            case this.alertType.PERIODIC_ADJUSTMENT:
+                return {
+                    HTMLContent: HTMLTemplates.PERIODIC_ADJUSTMENT(contentList),
+                    textContent: textTemplates.PERIODIC_ADJUSTMENT(contentList)
                 }
             default:
                 console.error("Incorrect alert type:", type)

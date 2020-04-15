@@ -47,6 +47,22 @@ The following sensors have not been sending temperature data over an extended pe
 All other sensors are operating correctly
         `)
     },
+    PERIODIC_ADJUSTMENT: (content) => { 
+        let tableContent = new String()
+        content.forEach(e => {
+            tableContent +=
+            (`  - Area: ${e.area}, Temperature: ${e.temperature}, Change: ${e.change}
+            `)
+        })
+        return (
+`Periodic adjustments
+
+Historical trends predict the following temperature requests:    
+    ${tableContent}
+
+All other areas are satisfied with the current temperature.
+        `)
+    }
 }
 
 HTMLTemplates = {
@@ -154,6 +170,41 @@ HTMLTemplates = {
                 <p>All other sensors are operating correctly &nbsp;</p>
             </body>`
         )
+    },
+    PERIODIC_ADJUSTMENT: (content) => { 
+        let tableContent = new String()
+        content.forEach(e => {
+            tableContent +=
+            (`<tr style="height: 17px;">
+                <td style="width: 33.3333%; height: 17px;">${e.area}</td>
+                <td style="width: 33.3333%; height: 17px;">${e.temperature}</td>
+                <td style="width: 33.3333%; height: 17px;">${e.change < 0 ? "-" : "+"}${e.change}℃</td>
+            </tr>`)
+        })
+        return (
+        `<!doctype html>
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <title>ThermaPoll periodic adjustments</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        </head>
+        <body>
+            <p>Periodic adjustments</p>
+            <p>Historical trends predict the following temperature requests:</p>
+            <table style="border-collapse: collapse; width: 100%; height: 34px;" border="1">
+                <tbody>
+                    <tr style="height: 17px;">
+                        <td style="width: 33.3333%; height: 17px;">Area</td>
+                        <td style="width: 33.3333%; height: 17px;">Current Temperature</td>
+                        <td style="width: 33.3333%; height: 17px;">Change predicted</td>
+                    </tr>
+                    ${tableContent}
+                </tbody>
+            </table>
+            <p>All other areas are satisfied with the current temperature.</p>
+        </body>
+        </html>`)
     }
 }
 
