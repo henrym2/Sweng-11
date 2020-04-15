@@ -12,9 +12,11 @@ on:
   push:
     branches: 
       - demo
+      - dev
   pull_request:
     branches: 
       - master
+      - dev
   release:
     types: [created]
 
@@ -40,6 +42,7 @@ jobs:
       - name: yarn install, build
         working-directory: ./frontend
         env: 
+          CI: false
           PORT: 8080
         run: |
           yarn
