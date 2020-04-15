@@ -172,7 +172,7 @@ export class AdminPage extends Component<MyProps, MyState> {
     .get("https://thermapollbackend.azurewebsites.net/alerts")
     .then((res) => {
       this.setState({ alerts: res.data });
-      axios.get("http://localhost:8080/sensorData").then(sensorRes => {
+      axios.get("https://thermapollbackend.azurewebsites.net/sensorData").then(sensorRes => {
         let sensors = sensorRes.data;
             sensors = sensors.map(s => {
             return {...s, alerts: this.state.alerts.filter(a => {
