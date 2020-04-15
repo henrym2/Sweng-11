@@ -53,7 +53,7 @@ jobs:
         uses: lauchacarro/Azure-Storage-Action@v1.0
         with:
           enabled-static-website: 'true'
-          folder: './frontend/build'
+          folder: '/home/runner/work/Sweng-11/Sweng-11/frontend/build'
           connection-string: ${{ secrets.STORAGE_CONNECTION_STRING }}
 
   build-backend-and-deploy:
