@@ -31,8 +31,12 @@ class votes {
         else {
             u = await this.get(identifier)
         }
-        if (u != undefined){
-            let v = await Vote.create({time: new Date().toISOString(), area: u.area, opinion: vote})
+        if (u != undefined) {
+            let v = await Vote.create({
+                time: new Date().toISOString(), 
+                area: u.area, 
+                opinion: vote
+            })
             u.votes.push(v._id)
             await u.save()
             await this.updateVotesList()
@@ -50,6 +54,15 @@ class votes {
             return await User.findOne({id: id})
         }
         return user
+    }
+
+    async hasVotedRecently(identifier) {
+        let user = await this.getByName(identifier)
+        await user.populate("votes").populate("votes").execPopulate();
+        if(new Date(user.votes.slice(-1)[0].time) > new Date() - (60 * 1000)) {
+            return true
+        }
+        return false
     }
 
     async getAllUsers() {
