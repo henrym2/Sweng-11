@@ -168,7 +168,7 @@ async function alertLoop() {
   
   if (content.length != 0) {
     console.log(content)
-    // alerts.createAlert("Temperature change request", content, alerts.alertType.TEMP_REQUEST)
+    alerts.createAlert("Temperature change request", content, alerts.alertType.TEMP_REQUEST)
   }
 
   // Predictive alerts based on historical data
