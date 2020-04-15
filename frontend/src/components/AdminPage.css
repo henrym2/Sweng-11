@@ -1,0 +1,197 @@
+.admin-page__main {
+  background-color: #faf9f8;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-page__top-bar {
+  background-color: #1f1f2b;
+  height: 110px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.admin-page__bottom {
+  background-color: #faf9f8;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  flex-direction: row;
+}
+.admin-page__side-bar {
+  background-color: #ffffff;
+  height: auto;
+  width: 40%;
+  display: flex;
+  box-shadow: 3px 0px 5px 0px rgba(50, 50, 50, 0.24);
+
+  flex-direction: column;
+}
+
+.admin-page__notifications {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  width: 100%;
+  margin: 0px;
+  overflow: scroll;
+}
+
+.admin-page__floor-plan {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  width: 100%;
+  margin: 0px;
+}
+
+.admin-page__logo {
+  width: auto;
+  height: 60px;
+  margin: auto;
+  margin-left: 35px;
+}
+
+.admin-page__box {
+  width: 70%;
+  margin: auto;
+  position: relative;
+}
+
+/* FOR JENNA */
+.admin-page__zone1 {
+  position: absolute;
+  /* Use top and left to position a triangle on x-y axis */
+  top: 0%;
+  left: 10%;
+  /* Use the following for size */
+  width: 20%;
+  height: 20%;
+  /* Color */
+  background-color: blue;
+  opacity: 0;
+  cursor: grab;
+}
+
+.admin-page__zone2 {
+  position: absolute;
+  top: 21%;
+  left: 13%;
+  /* Use the following for size */
+  width: 20%;
+  height: 20%;
+  background-color: blue;
+  opacity: 0;
+  cursor: grab;
+}
+
+.admin-page__zone3 {
+  position: absolute;
+  top: 1%;
+  left: 30%;
+  /* Use the following for size */
+  width: 20%;
+  height: 20%;
+  background-color: blue;
+  opacity: 0;
+  cursor: grab;
+}
+
+.admin-page__zone4 {
+  position: absolute;
+  top: 48%;
+  left: 13%;
+  width: 20%;
+  height: 20%;
+  background-color: blue;
+  opacity: 0;
+  cursor: grab;
+}
+
+.admin-page__zone5 {
+  position: absolute;
+  top: 70%;
+  left: 12%;
+  /* Use the following for size */
+  width: 20%;
+  height: 20%;
+  background-color: blue;
+  opacity: 0;
+  cursor: grab;
+}
+
+.admin-page__zone6 {
+  position: absolute;
+  top: 70%;
+  left: 34%;
+  /* Use the following for size */
+  width: 20%;
+  height: 20%;
+  background-color: blue;
+  opacity: 0;
+  cursor: grab;
+}
+
+.admin-page__zone7 {
+  position: absolute;
+  top: 73%;
+  left: 56%;
+  /* Use the following for size */
+  width: 12%;
+  height: 22%;
+  background-color: blue;
+  opacity: 0;
+  cursor: grab;
+}
+
+.admin-page__zone8 {
+  position: absolute;
+  top: 65%;
+  left: 66%;
+  /* Use the following for size */
+  width: 15%;
+  height: 20%;
+  background-color: blue;
+  opacity: 0;
+  cursor: grab;
+}
+
+.admin-page__zone9 {
+  position: absolute;
+  top: 78%;
+  left: 76%;
+  /* Use the following for size */
+  width: 25%;
+  height: 16%;
+  background-color: blue;
+  opacity: 0;
+  cursor: grab;
+}
+
+.admin-page__zone10 {
+  position: absolute;
+  top: 53%;
+  left: 83%;
+  /* Use the following for size */
+  width: 15%;
+  height: 20%;
+  background-color: blue;
+  opacity: 0;
+  cursor: grab;
+}
+
+.admin-page__display-zone-info {
+  height: 200px;
+  text-align: left;
+  margin-left: 10%;
+  /* background-color: white; */
+  /* box-shadow: 3px 0px 5px 0px rgba(50, 50, 50, 0.24); */
+  z-index: 5;
+  /* padding: 15px; */
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 10px;
+}

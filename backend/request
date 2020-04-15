@@ -1,0 +1,24 @@
+Sample /sensorSubmit request
+POST http://localhost:3000/sensorSubmit HTTP/1.1
+
+content-type: application/json
+{
+    "id": 12348,
+    "area": "B5",
+    "temperature": 19.5,
+    "time": "01:02:03T20:12:2020"
+}
+
+Sample /vote request:
+POST http://localhost:3000/vote HTTP/1.1
+
+content-type: application/json
+{
+    "submitter": "John",
+    "opinion": -1
+}
+
+Sample /sensorData request:
+GET http://localhost:3000/sensorData?id=69 HTTP/1.1
+GET http://localhost:3000/sensorData?id=12345678 HTTP/1.1
+GET http://localhost:3000/sensorData?id=420 HTTP/1.1
