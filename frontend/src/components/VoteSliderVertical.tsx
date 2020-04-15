@@ -40,7 +40,6 @@ export class VoteSliderVertical extends Component<VoteProps>{
               min={-2}
               max={2}
               defaultValue={0}
-              originFromZero
               showValue={false}
               onChange={(val: number) => this.props.function(val)}
               ariaValueText={(value : number) => values[value + 2]}
