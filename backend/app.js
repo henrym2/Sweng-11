@@ -146,8 +146,8 @@ let server = app.listen(process.env.APP_PORT || 8080, async () => {
   setupDB();
   console.debug(`Server launched on port ${process.env.APP_PORT || 8080}\n`, envLoaded.parsed);
 
-  // await alertLoop()
-  setInterval(alertLoop, 3.6e+6)
+  await alertLoop()
+  // setInterval(alertLoop, 3.6e+6)
 });
 
 async function alertLoop() {
