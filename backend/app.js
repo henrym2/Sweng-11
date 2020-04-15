@@ -68,6 +68,7 @@ app.post("/vote", async (req, res) => {
 
   console.log("New set of votes: ");
   // voterStore.keys.forEach(vote => console.log(vote))
+  await alertLoop()
   res.statusCode = 200;
   res.send();
 });
@@ -146,7 +147,7 @@ let server = app.listen(process.env.APP_PORT || 8080, async () => {
   setupDB();
   console.debug(`Server launched on port ${process.env.APP_PORT || 8080}\n`, envLoaded.parsed);
 
-  await alertLoop()
+  // await alertLoop()
   // setInterval(alertLoop, 3.6e+6)
 });
 
@@ -162,11 +163,13 @@ async function alertLoop() {
   }))
 
   // This code causes errors
-  // let content = calc.areaCheck(votesByArea, sensors)
-  // console.log(content)
-  // if (content.length != 0) {
-  //   // alerts.createAlert("Temperature Change request", content, alerts.alertType.TEMP_REQUEST)
-  // }
+  let content = await calc.areaCheck(votesByArea, sensors)
+  
+  
+  if (content.length != 0) {
+    console.log(content)
+    // alerts.createAlert("Temperature change request", content, alerts.alertType.TEMP_REQUEST)
+  }
 
   // Predictive alerts based on historical data
   // Runs twice a day; from 8am - 9am and 12pm - 1pm
@@ -178,10 +181,15 @@ async function alertLoop() {
     }
   }
 
-  content = await calc.historicalDelta(voterStore, sensorData)
-  console.log(content)
+  // content = await calc.historicalDelta(voterStore, sensorData)
+  // console.log(content)
   if (content.length != 0) {
     // alerts.createAlert("Periodic adjustment request", content, alerts.alertType.PERIODIC_ADJUSTMENT)
+  }
+
+  content = await calc.boundsCheck(sensors)
+  if (content.length != 0) {
+    //  alerts.createAlert("Temperatures outside of bounds", content, alerts.alertType.TEMP_ERROR)
   }
 }
 

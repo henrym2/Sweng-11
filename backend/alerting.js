@@ -46,6 +46,13 @@ class alerter {
             html: HTMLContent,
             text: textContent
         }
+        let a = Alert.create({
+            title: subject,
+            content: contentList,
+            time: (new Date()).toISOString(),
+            active: true,
+            type: type
+        }).then(a => {console.log(a) ;a.save}).catch(e => console.log(e))
         
         this.sendAlert(newMail)
     }
@@ -102,19 +109,13 @@ class alerter {
         sendgrid.send(email)
         .then(() => {
             this.lastMail = email
-            let a = new Alert({
-                title: email.subject,
-                content: email.content,
-                time: new Date().toISOString(),
-                active: true,
-            })
-            a.save(err => console.log(err))
+            
         })
         .catch((err) => console.error(err))
     }
 
     async getActiveAlerts(){
-        return await Alert.find({active: true}).populate("content.sensor")
+        return await Alert.find({"active": true})
     }
     
     async dismissAlert(id){

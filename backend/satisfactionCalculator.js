@@ -5,6 +5,8 @@ const alert = new alerter()
 
 const thresholdNeg = -1
 const thresholdPos = 1
+const upperLimit = 26
+const lowerLimit = 17.5
 class calculator {
 
     /**
@@ -19,15 +21,13 @@ class calculator {
      *           I would really liked this looked over as I think this is what's needed but 
      *           I'm not fully sure.
      */
-    areaCheck (areaVotes, sensors) {
+    async areaCheck (areaVotes, sensors) {
         let content = []
-        areaVotes.forEach(area => {
+        await areaVotes.forEach(async area => {
             let bucket = area.votes.map(vote => {
                 let curr = new Date()
-                console.log(curr)
                 let lim = new Date()
                 lim.setHours(curr.getHours() - 1);
-                console.log(lim)
                 let voteTime = new Date(vote.time)
                 console.log(voteTime)
                 if( lim <= voteTime && voteTime <= curr ) {
@@ -39,9 +39,16 @@ class calculator {
             let satisfaction = bucket.reduce((accumulator, currentValue) => {
                 return accumulator + currentValue.opinion
             }, initVal)
-
-            if (thresholdNeg < satisfaction || satisfaction < thresholdPos) {
-                let sensor = sensors.find(s => s.area == area.name)
+        
+            if (satisfaction > 0) {
+                satisfaction = satisfaction % thresholdNeg-2
+            } else if (satisfaction < 0) {
+                satisfaction = satisfaction % thresholdPos+2
+            }
+            console.log(satisfaction)
+            if (satisfaction < thresholdNeg || satisfaction > thresholdPos) {
+                console.log("Sending Temperature Adjustment alert")
+                let sensor = await sensors.find(s => s.area == area.name)
                 content.push({
                     sensorID: sensor.id,
                     area: area.name,
@@ -50,6 +57,20 @@ class calculator {
                 })
             }
         });
+        return content
+    }
+
+    async boundsCheck(sensors) {
+        let content = []
+        sensors.forEach(s => {
+            if (s.temperature > upperLimit || s.temperature < lowerLimit) {
+                content.push({
+                    sensorID: sensor.id,
+                    area: area.name,
+                    temperature: sensor.temperature
+                })
+            }
+        })
         return content
     }
 

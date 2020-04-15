@@ -37,7 +37,6 @@ mongoose.connection.dropDatabase().then(
       s.entries.push(ent[0]._id)
       s = await s.save()
       console.log(s)
-      alerts[0].content[0].sensorID = s._id
       await Alert.create(alerts)
       votes[0].time = new Date().toISOString()
       let vot = await Vote.create(votes)

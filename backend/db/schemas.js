@@ -69,14 +69,13 @@ SensorSchema.statics.addEntry = async function(id, entry) {
 }
 
 const AlertSchema = mongoose.Schema({
-    Date: Date,
+    title: String,
+    type: Number,
+    time: Date,
     active: Boolean,
     content: [
         {   
-            sensorID: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Sensor'
-            },
+            sensorID: Number,
             area: String,
             temperature: Number,
             change: Number,

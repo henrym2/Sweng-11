@@ -86,7 +86,6 @@ export class AdminPage extends Component<MyProps, MyState> {
 
   getZoneInfo(zone): any {
     if (this.state.zoneInfo[zone-1]) {
-      console.log(this.state.zoneInfo)
       return (<div>
         <p>Temperature: {this.state.zoneInfo[zone-1].temperature}°C</p>
         <p>Active alerts: {this.state.zoneInfo[zone-1].alerts.length}</p>
@@ -206,7 +205,6 @@ export class AdminPage extends Component<MyProps, MyState> {
           axios
             .get("https://thermapollbackend.azurewebsites.net/alerts")
             .then((res) => {
-              console.log(res.data);
               this.setState({ alerts: res.data });
             });
         }
@@ -217,7 +215,10 @@ export class AdminPage extends Component<MyProps, MyState> {
     let list = this.state.alerts;
     const listItems = list.map((item) => (
       <AdminNotification
-        title="Temperature Adjustment Required"
+        key={item.id}
+        item={item}
+        type={item.type}
+        title={item.title}
         description={`A temperature adjustment has been requested at ${(new Date(item.time)).toLocaleTimeString()}`}
         dismiss={this.dismissNotification}
         content={item.content}
