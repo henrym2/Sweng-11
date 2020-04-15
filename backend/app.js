@@ -145,6 +145,7 @@ app.post("/dismissAlert", async (req, res) => {
 let server = app.listen(process.env.APP_PORT || 8080, async () => {
   setupDB();
   console.debug(`Server launched on port ${process.env.APP_PORT || 8080}\n`, envLoaded.parsed);
+
   // await alertLoop()
   setInterval(alertLoop, 3.6e+6)
 });
@@ -160,13 +161,28 @@ async function alertLoop() {
       return obj
   }))
 
+  // This code causes errors
+  // let content = calc.areaCheck(votesByArea, sensors)
+  // console.log(content)
+  // if (content.length != 0) {
+  //   // alerts.createAlert("Temperature Change request", content, alerts.alertType.TEMP_REQUEST)
+  // }
 
-  let content = calc.areaCheck(votesByArea, sensors)
+  // Predictive alerts based on historical data
+  // Runs twice a day; from 8am - 9am and 12pm - 1pm
+  let date = new Date();
+  // Only from 8am - 9am and 12pm - 1pm UTC
+  if(date.getUTCHours() == 8 || date.getUTCHours() == 12) {
+    // Not on weekends
+    if(date.getUTCDay() != 6 && date.getUTCDay() != 7) {
+    }
+  }
+
+  content = await calc.historicalDelta(voterStore, sensorData)
   console.log(content)
   if (content.length != 0) {
-    // alerts.createAlert("Temperature Change request", content, alerts.alertType.TEMP_REQUEST)
+    // alerts.createAlert("Periodic adjustment request", content, alerts.alertType.PERIODIC_ADJUSTMENT)
   }
 }
-
 
 module.exports = server;
