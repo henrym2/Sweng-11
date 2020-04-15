@@ -7,19 +7,19 @@ class sensorStore {
     constructor() {
         Sensor.find({}).exec((err, res ) => this.sensors = res)
         Entry.find({}).exec((err, res) => this.entries = res)
-        Sensor.find({}).populate("entries").exec((err, res) => this.references = res)
+        Sensor.find({}).populate({path:"entries", options: {limit: 10}}).exec((err, res) => this.references = res)
     }
 
     async updateSensors() {
-        this.sensors = await Sensor.find({})
+        this.sensors = await Sensor.find({}).populate({path:"entries", options: {limit: 10}})
     }
 
     async updateEntries() {
-        this.entries = await Entry.find({})
+        this.entries = await Entry.find({limit: 100})
     }
 
     async updateReferences() {
-        this.references = await Sensor.find({}).populate("entries")
+        this.references = await Sensor.find({}).populate({path:"entries", options: {limit: 10}})
     }
 
     async store(id, area, temperature, time) {
@@ -49,7 +49,7 @@ class sensorStore {
     async get(id) {
         let sensor = this.sensors.find(k => k.id == id)
         if (sensor == undefined) {
-            return await Sensor.findOne({id: id}).populate("entries") 
+            return await Sensor.findOne({id: id}).populate({path:"entries", options: {limit: 100}}) 
         }
         return sensor
     }

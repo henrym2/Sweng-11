@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 const VotesSchema = mongoose.Schema({
     opinion: Number,
-    time: String,
+    time: Date,
     area: String
 })
 
@@ -48,7 +48,7 @@ const SensorSchema = mongoose.Schema({
 
 const EntrySchema = mongoose.Schema({
     temperature: Number,
-    time: String,
+    time: Date,
     area: String
 })
 
@@ -69,7 +69,7 @@ SensorSchema.statics.addEntry = async function(id, entry) {
 }
 
 const AlertSchema = mongoose.Schema({
-    time: String,
+    Date: Date,
     active: Boolean,
     content: [
         {   

@@ -47,7 +47,7 @@ export default class AdminNotification extends Component<NotificationProps> {
   renderContent = () => {
     let details: JSX.Element[] = []
     this.props.content.forEach(c => {
-      details.push(<p>Area {c.area} requesting a change of {c.change}</p>)
+      details.push(<p>Area {c.area} requesting a change of {c.change}&#176;C</p>)
     })
     return details
   }

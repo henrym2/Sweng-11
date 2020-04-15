@@ -35,6 +35,7 @@ type MyState = {
   alerts: any;
   zoneInfo: any;
   redirect: boolean;
+  interval: any;
 };
 
 export class AdminPage extends Component<MyProps, MyState> {
@@ -55,18 +56,19 @@ export class AdminPage extends Component<MyProps, MyState> {
     selectedZone: 0,
     alerts: [],
     zoneInfo: [
-      { name: "Zone 1", temperature: 0, alerts: [], active: true },
-      { name: "Zone 2", temperature: 0, alerts: [], active: false },
-      { name: "Zone 3", temperature: 0, alerts: [], active: false },
-      { name: "Zone 4", temperature: 0, alerts: [], active: false },
-      { name: "Zone 5", temperature: 0, alerts: [], active: false },
-      { name: "Zone 6", temperature: 0, alerts: [], active: false },
-      { name: "Zone 7", temperature: 0, alerts: [], active: false },
-      { name: "Zone 8", temperature: 0, alerts: [], active: false },
-      { name: "Zone 9", temperature: 0, alerts: [], active: false },
-      { name: "Zone 10", temperature: 0,alerts: [], active: false },
+      { name: "Zone 1", temperature: 0, alerts: [], entries: [], active: true },
+      { name: "Zone 2", temperature: 0, alerts: [], entries: [], active: false },
+      { name: "Zone 3", temperature: 0, alerts: [], entries: [], active: false },
+      { name: "Zone 4", temperature: 0, alerts: [], entries: [], active: false },
+      { name: "Zone 5", temperature: 0, alerts: [], entries: [], active: false },
+      { name: "Zone 6", temperature: 0, alerts: [], entries: [], active: false },
+      { name: "Zone 7", temperature: 0, alerts: [], entries: [], active: false },
+      { name: "Zone 8", temperature: 0, alerts: [], entries: [], active: false },
+      { name: "Zone 9", temperature: 0, alerts: [], entries: [], active: false },
+      { name: "Zone 10", temperature: 0,alerts: [], entries: [], active: false },
     ],
     redirect: false,
+    interval: undefined
   };
 
   setIsShown = (zone, show) => {
@@ -74,57 +76,12 @@ export class AdminPage extends Component<MyProps, MyState> {
   };
 
   componentDidMount(): void {
-    axios
-      .get("https://thermapollbackend.azurewebsites.net/alerts")
-      .then((res) => {
-        this.setState({ alerts: res.data });
-        axios.get("https://thermapollbackend.azurewebsites.net/sensorData").then(sensorRes => {
-          let sensors = sensorRes.data;
-              sensors = sensors.map(s => {
-              return {...s, alerts: this.state.alerts.filter(a => {
-                if(a.content.find(c => c.area == s.area)){
-                  return a
-                }
-              })
-            }
-          })
-          this.setState({
-            zoneInfo: this.state.zoneInfo.map((z, index) => {
-              if(sensors[index] != undefined){
-                return {...z, temperature: sensors[index].temperature, alerts: sensors[index].alerts, active: true}
-              } else {
-                return z
-              }
-            } )
-          })
-        })
-        console.log(res.data);
-        
+    this.retrieveData()
+    this.state.interval = setInterval(this.retrieveData, 10000  )
+  }
 
-        // let data = res.data;
-        // data.forEach((element) => {
-        //   let area = element.content[0].area;
-
-        //   let zoneNumber = 0;
-        //   for (let i = 1; i <= 10; i++) {
-        //     if (area.includes(i)) {
-        //       zoneNumber = i;
-        //     }
-        //   }
-        //   console.log(zoneNumber);
-
-        //   let temperatureValue = element.content[0].temperature;
-        //   //Get the current data for the zones
-        //   let ziArr = this.state.zoneInfo;
-        //   //Get the zone associated with this reading
-        //   //Activate it for showing UI
-        //   ziArr[zoneNumber - 1].active = true;
-        //   //Add the current temperature as a value
-        //   ziArr[zoneNumber - 1].temp.push({ val: temperatureValue });
-        //   this.setState({ zoneInfo: ziArr });
-        // });
-      });
-    
+  componentWillUnmount() :void {
+    clearInterval(this.state.interval)
   }
 
   getZoneInfo(zone): any {
@@ -210,6 +167,35 @@ export class AdminPage extends Component<MyProps, MyState> {
     this.setState({ pageState: 1 });
   };
 
+  retrieveData = () => {
+    axios
+    .get("https://thermapollbackend.azurewebsites.net/alerts")
+    .then((res) => {
+      this.setState({ alerts: res.data });
+      axios.get("http://localhost:8080/sensorData").then(sensorRes => {
+        let sensors = sensorRes.data;
+            sensors = sensors.map(s => {
+            return {...s, alerts: this.state.alerts.filter(a => {
+              if(a.content.find(c => c.area == s.area)){
+                return a
+              }
+            })
+          }
+        })
+        this.setState({
+          zoneInfo: this.state.zoneInfo.map((z, index) => {
+            if(sensors[index] != undefined){
+              return {...z, temperature: sensors[index].temperature, alerts: sensors[index].alerts, active: true, entries: sensors[index].entries}
+            } else {
+              return z
+            }
+          } )
+        })
+      })
+    });
+  }
+
+
   dismissNotification = (id: number) => {
     axios
       .post("https://thermapollbackend.azurewebsites.net/dismissAlert", {
@@ -294,6 +280,14 @@ export class AdminPage extends Component<MyProps, MyState> {
                   <div>
                     <p>Temperature reading: {selectedZone.temperature}&#176;C</p>
                     <p>Active Alerts: {selectedZone.alerts.length}</p>
+                    <h4>Recent readings</h4>
+                    {
+                      selectedZone.entries.map(e => {
+                        return (
+                          <p>Temperature {e.temperature}&#176;C at {(new Date(e.time).toLocaleTimeString())}</p>
+                        )
+                      })
+                    }
                   </div>
                 )}
                 {!selectedZone.active && (
