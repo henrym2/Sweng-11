@@ -156,7 +156,7 @@ async function alertLoop() {
       return obj
   }))
 
-
+  // This code causes errors
   // let content = calc.areaCheck(votesByArea, sensors)
   // console.log(content)
   // if (content.length != 0) {
@@ -170,11 +170,14 @@ async function alertLoop() {
   if(date.getUTCHours() == 8 || date.getUTCHours() == 12) {
     // Not on weekends
     if(date.getUTCDay() != 6 && date.getUTCDay() != 7) {
-      
     }
   }
 
-  let delta = await calc.historicalDelta(voterStore, sensorData)
+  content = await calc.historicalDelta(voterStore, sensorData)
+  console.log(content)
+  if (content.length != 0) {
+    // alerts.createAlert("Periodic adjustment request", content, alerts.alertType.PERIODIC_ADJUSTMENT)
+  }
 }
 
 module.exports = server;

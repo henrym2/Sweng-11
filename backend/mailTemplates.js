@@ -51,7 +51,7 @@ All other sensors are operating correctly
         let tableContent = new String()
         content.forEach(e => {
             tableContent +=
-            (`  - Area: ${e.area}, Temperature: ${e.temperature}, Change: ${e.change < 0 ? "Increase": "Decrease"}
+            (`  - Area: ${e.area}, Temperature: ${e.temperature}, Change: ${e.change}
             `)
         })
         return (
@@ -178,7 +178,7 @@ HTMLTemplates = {
             (`<tr style="height: 17px;">
                 <td style="width: 33.3333%; height: 17px;">${e.area}</td>
                 <td style="width: 33.3333%; height: 17px;">${e.temperature}</td>
-                <td style="width: 33.3333%; height: 17px;">${e.change < 0 ? "Increase": "Decrease"}</td>
+                <td style="width: 33.3333%; height: 17px;">${e.change < 0 ? "-" : "+"}${e.change}℃</td>
             </tr>`)
         })
         return (

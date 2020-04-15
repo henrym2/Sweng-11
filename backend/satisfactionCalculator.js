@@ -58,7 +58,12 @@ class calculator {
         let sensors = await sensorData.getSensors()
         // Setup
         //Get all sensor entries for the last week
-        let entries = await Entry.find({"time": {"$gte": (new Date().getHours() -7)}})
+        let entries = await sensorData.getEntries()
+        
+        // let oneWeekAgo = new Date(1586960008361) // fixed date value for testing
+        let oneWeekAgo = new Date()
+        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+        console.log("One week ago: " + oneWeekAgo)
         
         //Access with entriesByArea[area]
         let entriesByArea = entries.reduce((allEntries, entry) => {
@@ -79,18 +84,26 @@ class calculator {
             }
             return obj
         }))
+
+        // Data structure to hold our alert data
+        let content = []
         
         // Get latest vote on same day from last week
-        votesByArea.forEach(area => {
-            //Calculate the average of the temperature of the areas
-            let averageTemp = entriesByArea[area.name].reduce((acc, curr) => {
-                acc + curr.temperature
-            }, 0) / entriesByArea[area.name]
+        console.log(votesByArea)
+        votesByArea.every(area => {
+            console.log()
+            if(area == undefined)
+                return false
+            // console.log("Votes in area " + area.name + ": " + area.votes)
+            
+            // Rare case where no votes were made for this area for the past week
+            if(area.votes == undefined) {
+                console.error("Error in calculator.historicalDelta(): Couldn't find any votes for area " + area.name + " from this time last week, ignoring area...")
+                return false
+            }
 
-            let sensor = sensors.find(s => s.area == area.name)
-
-            console.log("Before:")
-            console.log(area.votes)
+            // console.log("Before:")
+            // console.log(area.votes)
 
             // Sort votes for this area by time in reverse
             area.votes.sort(function(a, b) {
@@ -104,37 +117,84 @@ class calculator {
                     return 1
             })
 
-            console.log("\nAfter:")
-            console.log(area.votes)
+            // console.log("\nAfter:")
+            // console.log(area.votes)
 
-            // Get closest vote consensus within 2 hours from that time
-            // Loop through the votes for this area
-            area.votes.every(function(vote) {
-                let oneWeekAgo = new Date()
-                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
-                let twoHoursEarlier = new Date(oneWeekAgo)
-                twoHoursEarlier.setHours(oneWeekAgo.getHours() - 2)
+            // Get the average of the votes within 4 hours of one week ago
+            let voteSum = 0
+            let voteCount = 0
+            area.votes.forEach(function(vote) {
+                let fourHoursLater = new Date(oneWeekAgo)
+                fourHoursLater.setHours(oneWeekAgo.getHours() + 4)
                 
                 let voteTime = new Date(vote.time)
 
-                console.log("Checking " + voteTime + ", " + oneWeekAgo + ", " + twoHoursEarlier)
-                if(voteTime < oneWeekAgo && voteTime > twoHoursEarlier) {
-                    console.log("Found one:\n" + voteTime)
-                    // Find closest sensor entry for this time using the same logic
-                    console.log("Sensor readings:" + averageTemp)
-                    if(averageTemp > (sensor.temperature+2) && averageTemp < (sensor.temperature-2)) {
-                        //Unfinished, assume we would add all the changes to a single content array and then send them as a block?
-
-                        return false    // Equivalent to break in Array.every()
-                    }
-                    // Use the vote opinion with the average sensor reading at that time and
-                    // if they're more than two degrees higher or lower than the current
-                    // temperature, send an alert suggesting to take action
-                    
+                // console.log("Processing vote from " + vote.time + " for Area " + area.name)
+                // Only include votes within the 4 hour interval
+                if(voteTime > oneWeekAgo && voteTime < fourHoursLater) {
+                    voteSum += vote.opinion
+                    voteCount++
                 }
                 return true
             })
+
+            area.averageVoteOfLastWeek = voteSum / voteCount
+            console.log("Analyzed votes from area " + area.name + ", averageOfLastWeek was " + area.averageVoteOfLastWeek)
+
+            entries.sort(function(a, b) {
+                let aDate = Date.parse(a.time)
+                let bDate = Date.parse(b.time)
+                if(aDate > bDate)
+                    return 1
+                else if(aDate === bDate)
+                    return 0
+                else
+                    return -1
+            })
+
+            // console.log(entriesByArea)
+            if(entriesByArea[area.name] == undefined) {
+                console.log("Votes were found for area " + area.name + ", but no corresponding sensor data was found, ignoring area...")
+            } else {
+                entriesByArea[area.name].every(entry => {
+                    console.log("Area " + entry.area + " was " + entry.temperature + "℃  at " + entry.time + " [" + entry._id + "]")
+                    
+                    // Find the first sensor reading from now one week ago
+                    if(Date.parse(entry.time) > oneWeekAgo) {
+                        area.temperatureOneWeekAgo = entry.temperature
+                        console.log("First sensor reading from now one week ago for area " + area.name + ": " + area.temperatureOneWeekAgo)
+                        return false
+                    }
+                    return true
+                })
+
+                // Add the vote average to the temperature from a week ago
+                area.comfortableTemperature = area.temperatureOneWeekAgo + area.averageVoteOfLastWeek
+
+                // See if last week's desired temperature is similar to the current temperature
+                let latestSensorReading = entriesByArea[area.name][entriesByArea[area.name].length - 1].temperature
+                console.log("Area " + area.name + "'s comfortable temperature was " + area.comfortableTemperature + ", the latest sensor reading for that area is " + latestSensorReading + "℃")
+                console.log("Area " + area.name + " should be changed by " + (area.comfortableTemperature - latestSensorReading) + "℃")
+                if(latestSensorReading > area.comfortableTemperature + 1) {
+                    content.push({
+                        sensorID: sensor.id,
+                        area: area.name,
+                        temperature: sensor.temperature,
+                        change: Math.ceil(area.comfortableTemperature - latestSensorReading)
+                    })
+                } else if(latestSensorReading < area.comfortableTemperature - 1) {
+                    content.push({
+                        area: area.name,
+                        temperature: latestSensorReading,
+                        change: Math.floor(area.comfortableTemperature - latestSensorReading)
+                    })
+                }
+            }
+
+            return true
         })
+
+        return content
     }
 }
 
