@@ -1,49 +1,44 @@
-import React from 'react';
-import { Stack, Text, Link, FontWeights } from 'office-ui-fabric-react';
+import React, { Component } from "react";
+import { Stack, Text, Link, FontWeights } from "office-ui-fabric-react";
+import { initializeIcons } from "@uifabric/icons";
+import { UserSubmissionPage } from "./components/UserSubmissionPage";
+import { AdminPage } from "./components/AdminPage";
 
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  RouteComponentProps
+} from "react-router-dom";
 const boldStyle = { root: { fontWeight: FontWeights.semibold } };
 
-export const App: React.FunctionComponent = () => {
-  return (
-    <Stack
-      horizontalAlign="center"
-      verticalAlign="center"
-      verticalFill
-      styles={{
-        root: {
-          width: '960px',
-          margin: '0 auto',
-          textAlign: 'center',
-          color: '#605e5c'
-        }
-      }}
-      gap={15}
-    >
-      <img
-        src="https://raw.githubusercontent.com/Microsoft/just/master/packages/just-stack-uifabric/template/src/components/fabric.png"
-        alt="logo"
-      />
-      <Text variant="xxLarge" styles={boldStyle}>
-        Welcome to Your UI Fabric App
-      </Text>
-      <Text variant="large">For a guide on how to customize this project, check out the UI Fabric documentation.</Text>
-      <Text variant="large" styles={boldStyle}>
-        Essential Links
-      </Text>
-      <Stack horizontal gap={15} horizontalAlign="center">
-        <Link href="https://developer.microsoft.com/en-us/fabric">Docs</Link>
-        <Link href="https://stackoverflow.com/questions/tagged/office-ui-fabric">Stack Overflow</Link>
-        <Link href="https://github.com/officeDev/office-ui-fabric-react/">Github</Link>
-        <Link href="https://twitter.com/officeuifabric">Twitter</Link>
-      </Stack>
-      <Text variant="large" styles={boldStyle}>
-        Design System
-      </Text>
-      <Stack horizontal gap={15} horizontalAlign="center">
-        <Link href="https://developer.microsoft.com/en-us/fabric#/styles/icons">Icons</Link>
-        <Link href="https://developer.microsoft.com/en-us/fabric#/styles/typography">Typography</Link>
-        <Link href="https://developer.microsoft.com/en-us/fabric#/styles/themegenerator">Theme</Link>
-      </Stack>
-    </Stack>
-  );
-};
+initializeIcons();
+
+interface Props extends RouteComponentProps<any> {
+  /* Parent component's props*/
+}
+
+export class App extends Component<Props, {}> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {};
+  }
+
+  render() {
+    return (
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <UserSubmissionPage />
+          </Route>
+          <Route path="/admin">
+            <AdminPage />
+          </Route>
+        </Switch>
+      </Router>
+    );
+  }
+}
+
+export default App;

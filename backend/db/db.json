@@ -1,0 +1,78 @@
+{
+    "sensors": [
+        {
+            "id": 0,
+            "area": "1",
+            "temperature": 21,
+            "entries": []
+        }
+    ],
+    
+    "users": [
+        {
+            "id": 0,
+            "name": "John",
+            "area": "1",
+            "desk": "17",
+            "votes": []
+        },
+        {
+            "id": 1,
+            "name": "Jane",
+            "area": "2",
+            "desk": "18",
+            "votes": []
+        },
+        {
+            "id": 2,
+            "name": "Jack",
+            "area": "2",
+            "desk": "19",
+            "votes": []
+        }
+    ],
+    "alerts": [
+        {
+            "title": "Periodic adjustment request",
+            "time": "2020-04-14T12:04:27.471Z",
+            "active": true,
+            "type": 3,
+            "content": [
+                {
+                    "sensorID": 0,
+                    "area": "1",
+                    "temperature": 21,
+                    "change": -1
+                }
+            ]
+        },
+        {
+            "title": "Temperature error report",
+            "time": "2020-04-14T12:04:27.471Z",
+            "active": true,
+            "type": 2,
+            "content": [
+                {
+                    "sensorID": 0,
+                    "area": "3",
+                    "temperature": 300,
+                    "change": -1
+                }
+            ]
+        }
+    ],
+    "entries" : [
+        {
+            "temperature": 21,
+            "time":"2020-04-14T12:04:27.471Z",
+            "area":"1"
+        }
+    ],
+    "votes": [
+        {
+            "opinion": -2,
+            "time": "2020-04-14T12:04:27.471Z",
+            "area": "1"
+        }
+    ]
+}
