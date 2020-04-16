@@ -5,9 +5,10 @@ import { VoteSliderHorizontal } from "./VoteSliderHorizontal";
 import { VoteSliderVertical } from "./VoteSliderVertical";
 
 export type VoteProps = {
-  function: (opinion: number) => void;
+  function: (opinion: number) => void; // Function called on change of value of the VoteSlider
 };
 
+// Values used by screen readers when reading the value of the vote slider
 export const values = [
   "Too Cold",
   "A Bit Cold",
@@ -41,6 +42,7 @@ export class VoteSlider extends Component<VoteProps> {
   }
 }
 
+// Determines if the user is on a mobile device based on the ratio of width to the height of the window.
 function isMobile() {
   return window.innerHeight > 1.6 * window.innerWidth;
 }
