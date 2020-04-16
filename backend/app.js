@@ -33,14 +33,6 @@ var cors = require("cors");
 
 app.use(cors());
 
-app.get("/", (req, res) => {
-  //Example of how you might construct a JSON response
-  let exampleObject = {
-    test: "test"
-  };
-  res.send(exampleObject);
-});
-
 
 /**
  * @param {string|id} submitter
@@ -201,7 +193,7 @@ async function alertLoop() {
 
 
   if (content.length != 0) {
-    // alerts.createAlert("Periodic adjustment request", content, alerts.alertType.PERIODIC_ADJUSTMENT)
+    alerts.createAlert("Periodic adjustment request", content, alerts.alertType.PERIODIC_ADJUSTMENT)
   }
 
   content = await calc.boundsCheck(sensors)
