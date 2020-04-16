@@ -1,3 +1,5 @@
+// Textual descriptions for different types of alerts
+// Can be seen in the dismissable notifications on the admin panel
 textTemplates = {
     TEMP_REQUEST: (content) => { 
         let tableContent = new String()
@@ -65,6 +67,8 @@ All other areas are satisfied with the current temperature.
     }
 }
 
+// HTML email markup
+// Used as the HTML content of the email alerts sent to maintenance
 HTMLTemplates = {
     TEMP_REQUEST: (content) => { 
         let tableContent = new String()

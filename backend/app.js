@@ -189,7 +189,7 @@ async function alertLoop() {
 
   // content = await calc.boundsCheck(sensors)
   if (content.length != 0) {
-    //  alerts.createAlert("Temperatures outside of bounds", content, alerts.alertType.TEMP_ERROR)
+     alerts.createAlert("Temperatures outside of bounds", content, alerts.alertType.TEMP_ERROR)
   }
 }
 
