@@ -11,19 +11,19 @@ class calculator {
 
     /**
      * 
-     * @param {areaList[]} areaList 
-     * @param {votes[]} voteStore
-     * @abstract The basic idea is that it takes in the list of areas and all the current votes
-     *           then it runs through the areas list aggregates all the votes from that area and 
-     *           checks to see if the number of votes in the past hour passes the critical mass 
-     *           which for now is just half the area. 
-     *              
-     *           I would really liked this looked over as I think this is what's needed but 
-     *           I'm not fully sure.
+     * @param {areaList[]} areaVotes An array of areas and the new opinions collected within the past hour
+     * @param {sensors[]} sensors The current sensors and their updated data
+     * @abstract This takes an array of all the areas and their new temperature opinions gathered 
+     *           within the last hour and the sensors tied to those areas. It runs through all the areas within areaVotes, 
+     *           aggregates the votes and calculates the new satisfaction rating that will generate the areas new temperature 
+     *           before sending out the new temperature and associated data through a content array.
+     * @return {content[]} Content array used for sending an alert as email and as a notification to the admin panel
      */
     async areaCheck (areaVotes, sensors) {
         let content = []
+        // Go through each area
         await areaVotes.forEach(async area => {
+            // A data structure for accumulating the votes that fall within the last hour
             let bucket = area.votes.map(vote => {
                 let curr = new Date()
                 let lim = new Date()
@@ -36,6 +36,7 @@ class calculator {
             });
 
             let initVal = 0;
+            //Goes through the bucket removing each vote and adding it to the new satisfaction variable
             let satisfaction = bucket.reduce((accumulator, currentValue) => {
                 return accumulator + currentValue.opinion
             }, initVal)
@@ -45,7 +46,8 @@ class calculator {
             } else if (satisfaction < 0) {
                 satisfaction = satisfaction % thresholdPos+2
             }
-            console.log(satisfaction)
+
+            //Sends the alert
             if (satisfaction < thresholdNeg || satisfaction > thresholdPos) {
                 console.log("Sending Temperature Adjustment alert")
                 let sensor = await sensors.find(s => s.area == area.name)
@@ -60,8 +62,16 @@ class calculator {
         return content
     }
 
+    /**
+     * 
+     * @param {sensors[]} sensors The current sensors and their updated data
+     * @abstract This goes through all the sensors and makes sure none of the temperatures is outside the legal bounds.
+     *           At the time when written that was between 17.5 to 26 degrees celsius
+     * @returns {content[]} Content array used for sending an alert as email and as a notification to the admin panel
+     */
     async boundsCheck(sensors) {
         let content = []
+        // Goes through each sensor and makes sure the temperature is within the set constant bounds
         sensors.forEach(s => {
             if (s.temperature > upperLimit || s.temperature < lowerLimit) {
                 content.push({
