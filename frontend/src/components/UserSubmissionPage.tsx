@@ -18,6 +18,7 @@ type MyState = {
   showAdmin: boolean;
 };
 
+//Higher Order Component for controlling the logic of the user submission page
 export class UserSubmissionPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
 
@@ -25,14 +26,14 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
     pageState: 0,
     voterName: "Testy McTestFace",
     employeeNumber: "",
-    showAdmin: false
+    showAdmin: false,
   };
 
   login = (name: String, employeeNumber: String) => {
     this.setState({
       pageState: 1,
       voterName: name,
-      employeeNumber: employeeNumber
+      employeeNumber: employeeNumber,
     }); //Log in -> change page state to 1
     console.log("Thanks " + name);
   };
@@ -41,17 +42,24 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
     //Make post request to server (on localhost for now)
     const axios = require("axios");
     axios
-      .post("https://thermapollbackend.azurewebsites.net/vote", {
-        submitter: this.state.voterName,
-        opinion: opinion
-      },
-      {headers: { "Content-Type": "application/json",
-      Accept: "application/json"}} )
-      .then(function(response: AxiosResponse) {
+      .post(
+        "https://thermapollbackend.azurewebsites.net/vote",
+        {
+          submitter: this.state.voterName,
+          opinion: opinion,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      )
+      .then(function (response: AxiosResponse) {
         console.log(response);
         console.log("User has voted: " + opinion);
       })
-      .catch(function(error: String) {
+      .catch(function (error: String) {
         console.log(error);
       });
 
@@ -116,7 +124,7 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
               textDecoration: "underline",
               marginTop: "20px",
               cursor: "grab",
-              color: "lightgrey"
+              color: "lightgrey",
             }}
             onClick={this.showAdminPage}
           >
