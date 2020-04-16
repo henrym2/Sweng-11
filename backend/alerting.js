@@ -64,6 +64,7 @@ class alerter {
      * @param {content[]} contentList 
      * @param {alerter.alertType} type 
      * @return {string}
+     * @description Used to construct the mail content based on the type of Alert being triggered
      */
     constructContent(contentList, type) {
         this.lastMail = contentList
@@ -107,6 +108,7 @@ class alerter {
      *              content: string
      *          }}  email
      * @param {email} email The email to be sent
+     * @description Finally actually sends the alert from sendgrid
      */
     sendAlert(email) {
         sendgrid.send(email)
@@ -116,11 +118,17 @@ class alerter {
         })
         .catch((err) => console.error(err))
     }
-
+    /**
+     * @returns Returns all active alerts in the DB
+     */
     async getActiveAlerts(){
         return await Alert.find({"active": true})
     }
-    
+    /**
+     * 
+     * @param {number} id
+     * @returns the alert that was dismissed 
+     */
     async dismissAlert(id){
         let a = await Alert.findOne({_id: id})
         a.active = false

@@ -3,6 +3,9 @@ const fs = require('fs');
 const { Vote } = require('./db/schemas')
 const { User } = require('./db/schemas')
 
+/**
+ * Vote storage class for handling reads and writes associated with users and votes in the system
+ */
 class votes {
     constructor() {
         User.find({}).exec((err, res) => this.keys = res)
@@ -10,18 +13,29 @@ class votes {
         this.votes = Vote.find({})
         this.references = User.find({}).populate('votes')
     }
-
+    /**
+     * @description Updates the in memory votes list
+     */
     async updateVotesList(){
         this.votes = await User.find({})
     }
-
+    /**
+     * @description Updates the in memory user list
+     */
     async updateUserList(){
         this.votes = await Vote.find({})
     }
-
+    /**
+     * Updates the votes list but also populates the users references to votes
+     */
     async updateReferenceList() {
         this.references = User.find({}).populate('votes')
     }
+    /**
+     * @description Storage method for adding a new vote against a user based on the users identifier
+     * @param {string|id} identifier The identifier for a user in the system
+     * @param {number} vote The opinion/vote of the user (an int in the range -2 -> 2)
+     */
 
     async store(identifier, vote) {
         let u = undefined
@@ -44,7 +58,10 @@ class votes {
             console.log("User not found")
         }
     }
-
+    /**
+     * @description Method used for getting a user by their ID
+     * @param {number} id 
+     */
     async get(id) {
         let user = undefined
         if (this.users.length > 0){   
@@ -55,7 +72,12 @@ class votes {
         }
         return user
     }
-
+    /**
+     * @description Method used for checking if the last valid vote for a user was cast in the last minute
+     *              If it was cast in the last minute then return true, else false
+     * @param {string} identifier Users Name or nickname
+     * @returns {boolean}
+     */
     async hasVotedRecently(identifier) {
         let user = await this.getByName(identifier)
         await user.populate("votes").populate("votes").execPopulate();

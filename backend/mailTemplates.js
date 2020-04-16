@@ -1,6 +1,10 @@
 // Textual descriptions for different types of alerts
 // Can be seen in the dismissable notifications on the admin panel
 textTemplates = {
+
+    /**
+     * Request type for any temperature change request triggered by votes/voting by users in the system
+     */
     TEMP_REQUEST: (content) => { 
         let tableContent = new String()
         content.forEach(e => {
@@ -17,6 +21,9 @@ The temperatures in the following areas are considered unsatisfactory:
 All other areas are satisfied with the current temperature.
         `)
     },
+    /**
+     * Request type for any temperature change request triggered by temperatures going out of bounds in the system
+     */
     TEMP_ERROR: (content) => { 
         let tableContent = new String()
         content.forEach(e => {
@@ -33,6 +40,9 @@ Temperatures in the following areas are outside acceptable office conditions:
 All other areas are within acceptable levels
         `)
     },
+    /**
+     * Request type triggered if sensors throw an error of some form. 
+     */
     SENSOR_ERROR: (content) => { 
         let tableContent = new String()
         content.forEach(e => {
@@ -49,6 +59,9 @@ The following sensors have not been sending temperature data over an extended pe
 All other sensors are operating correctly
         `)
     },
+    /**
+     * Request type triggered if a periodic adjustment is fired due to the dynamic climate control handler
+     */
     PERIODIC_ADJUSTMENT: (content) => { 
         let tableContent = new String()
         content.forEach(e => {

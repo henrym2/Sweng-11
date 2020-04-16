@@ -18,21 +18,6 @@ const UserSchema = mongoose.Schema({
         }
     ]
 })
-/**
- * @typedef {{
- *          opinion: {Number} Value of the most recent vote
- *          time   : {Date} DateTime stamp for the newest vote
- *          }} vote
- * @param {int} id The ID of the user we want to update
- * @param {vote} vote The new value of vote to push to the array
- */
-UserSchema.statics.addVote = async function(id, vote) {
-    let v = new Vote(vote)
-    await v.save()
-    let u = this.find({id: id})
-    u.votes.push(v._id)
-    u.save()
-}
 
 const SensorSchema = mongoose.Schema({
     id: Number,
@@ -51,22 +36,6 @@ const EntrySchema = mongoose.Schema({
     time: Date,
     area: String
 })
-
-/**
- * @typedef {{
-    *       temperature: {Number} Value of the most recent temperature reading
-    *       time   : {Date} DateTime stamp for the newest temperature input
-    *       }} entry
-    * @param {int} id The ID of the user we want to update
-    * @param {entry} entry The new value of vote to push to the array
-    */
-SensorSchema.statics.addEntry = async function(id, entry) {
-    let e = new TempEntry(entry)
-    await e.save()
-    let s = this.find({id: id})
-    s.temperatures.push(e._id)
-    s.save()
-}
 
 const AlertSchema = mongoose.Schema({
     title: String,

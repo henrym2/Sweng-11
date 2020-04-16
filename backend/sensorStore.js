@@ -3,6 +3,9 @@
 const fs = require('fs');
 const { Sensor, Entry } = require("./db/schemas")
 
+/**
+ * Class for interacting with sensors and sensor entries in the systems database
+ */
 class sensorStore {
     constructor() {
         Sensor.find({}).exec((err, res ) => this.sensors = res)
@@ -22,6 +25,14 @@ class sensorStore {
         this.references = await Sensor.find({}).populate({path:"entries", options: {limit: 10}})
     }
 
+    /**
+     * @description Method for storing a new sensor entry. IF the sensor already exists in the DB the new entry is added against it
+     *              ELSE the sensor is registered with the system, added to the database and the new entry is added against it
+     * @param {number} id Sensor ID
+     * @param {string} area Area the sensor is in
+     * @param {number} temperature temperature read from the sensor
+     * @param {Date} time Timestamp for the reading
+     */
     async store(id, area, temperature, time) {
         let sensor = await this.get(id)
         if (sensor == undefined) {
@@ -69,7 +80,11 @@ class sensorStore {
         return this.entries
     }
 
-
+    /**
+     * @description Function for retrieving all sensors for a given location
+     * @param {string} area Area from which the information being requested is in
+     * @return {object[]}
+     */
     async getByLocation(area) {
         let sensor = this.sensors.find(k => k.area == area) 
         if (sensor == undefined) {
@@ -78,7 +93,11 @@ class sensorStore {
         return sensor
         
     }
-
+    /**
+     * @description Function for retrieving all sensor entries for a given sensor location
+     * @param {string} area Area from which the information being requested is in
+     * @returns {object[]}
+     */
     async getLocationHistory(area) {
         let hist = this.entries.filter(e => e.area == area)
         return hist

@@ -30,16 +30,6 @@ app.use(bodyParser.json());
 
 //Setup CORS
 var cors = require("cors");
-// var whitelist = ["http://localhost:3000", "https://thermapollfrontend.z22.web.core.windows.net"];
-// var corsOptions = {
-//   origin: function(origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   }
-// };
 
 app.use(cors());
 
@@ -51,6 +41,13 @@ app.get("/", (req, res) => {
   res.send(exampleObject);
 });
 
+
+/**
+ * @param {string|id} submitter
+ * @param {number} opinion 
+ * Post route for votes, takes a submitting user and an opinion and stores them in the database. 
+ * Ensures that a user can only vote once per minute
+ */
 app.post("/vote", async (req, res) => {
   const { submitter, opinion } = req.body;
   if (submitter == undefined || opinion == undefined) {
@@ -73,6 +70,7 @@ app.post("/vote", async (req, res) => {
   res.send();
 });
 
+//Sensor submission route, takes in sensor data and stores the newest value as an Entry in the database
 app.post("/sensorSubmit", async (req, res) => {
   const { id, area, temperature, time } = req.body;
   if (
@@ -96,6 +94,9 @@ app.post("/sensorSubmit", async (req, res) => {
   res.send(sensorData.keys);
 });
 
+/**
+ * Sets up the database connection to the cosmos DB database. 
+ */
 function setupDB() {
   mongoose.connect(process.env.DB_STRING, {
     useNewUrlParser: true,
@@ -108,6 +109,9 @@ function setupDB() {
   });
 }
 
+/**
+ * Get route for the sensor data. Takes either a sensorID as the query param or if no param is used returns the data on all of the sensors registered in the DB
+ */
 app.get("/sensorData", async (req, res) => {
   // There is sensor data,
   if (req.query.id != undefined) {
@@ -131,11 +135,17 @@ app.get("/sensorData", async (req, res) => {
   }
 });
 
+/**
+ * Get route for alerts. Returns all active alerts in the system
+ */
 app.get("/alerts", async (req, res) => {
   res.status = 200;
   res.send(await alerts.getActiveAlerts());
 });
 
+/**
+ * Post route for alert dismissal. Dismisses an active alert based on ID
+ */
 app.post("/dismissAlert", async (req, res) => {
   const { id } = req.body;
   let a = await alerts.dismissAlert(id);
@@ -151,6 +161,13 @@ let server = app.listen(process.env.APP_PORT || 8080, async () => {
   // setInterval(alertLoop, 3.6e+6)
 });
 
+/**
+ * Alerting loop. Setup as an interval in the above function
+ * This function handles the alerting in one of its three forms.
+ * Historical via historical delta
+ * By votes via areaCheck
+ * Via out of bounds information in boundsCheck
+ */
 async function alertLoop() {
   let sensors = await sensorData.getSensors()
   let votesByArea = await Promise.all(sensors.map(async s => {
@@ -178,16 +195,16 @@ async function alertLoop() {
   if(date.getUTCHours() == 8 || date.getUTCHours() == 12) {
     // Not on weekends
     if(date.getUTCDay() != 6 && date.getUTCDay() != 7) {
+      content = await calc.historicalDelta(voterStore, sensorData)
     }
   }
 
-  // content = await calc.historicalDelta(voterStore, sensorData)
-  // console.log(content)
+
   if (content.length != 0) {
     // alerts.createAlert("Periodic adjustment request", content, alerts.alertType.PERIODIC_ADJUSTMENT)
   }
 
-  // content = await calc.boundsCheck(sensors)
+  content = await calc.boundsCheck(sensors)
   if (content.length != 0) {
      alerts.createAlert("Temperatures outside of bounds", content, alerts.alertType.TEMP_ERROR)
   }
