@@ -39,7 +39,7 @@ class sensorStore {
             time: time,
             area: area
         })
-        
+        sensor.temperature = e.temperature
         sensor.entries.push(e._id)
         await sensor.save()
         await this.updateSensors()
