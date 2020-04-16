@@ -15,6 +15,7 @@ type MyProps = {
 };
 type MyState = {};
 
+//This component displays a thank you message to the user
 export class VoteConfirmationView extends Component<MyProps, MyState> {
   render() {
     return (

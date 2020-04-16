@@ -18,12 +18,14 @@ type MyState = {
   employeeNumber: string;
 };
 
+//This component shows a view for logging in
 export class LoginView extends Component<MyProps, MyState> {
   state: MyState = {
     name: "",
     employeeNumber: "",
   };
 
+  //Calls the parent component login function
   login = () => {
     if (this.state.name != "" && this.state.employeeNumber != "") {
       this.props.function(this.state.name, this.state.employeeNumber);

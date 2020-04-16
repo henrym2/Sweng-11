@@ -22,13 +22,15 @@ type MyState = {
 export class UserSubmissionPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
 
+  //Sets the initial state
   state: MyState = {
     pageState: 0,
-    voterName: "Testy McTestFace",
+    voterName: "",
     employeeNumber: "",
     showAdmin: false,
   };
 
+  //This function is called by the 'LoginView' child component and changes the page's state, recording login details
   login = (name: String, employeeNumber: String) => {
     this.setState({
       pageState: 1,
@@ -38,8 +40,8 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
     console.log("Thanks " + name);
   };
 
+  //This function submits vote to backend REST API endpoint
   vote = (opinion: number) => {
-    //Make post request to server (on localhost for now)
     const axios = require("axios");
     axios
       .post(
@@ -66,13 +68,17 @@ export class UserSubmissionPage extends Component<MyProps, MyState> {
     this.setState({ pageState: 2 }); //Display thank you message - change page state to 2
   };
 
+  //Returns the screen to the login page (no longer used in the UI)
   home = () => {
     this.setState({ pageState: 0 }); //Return to the login page
   };
+
+  //Changes the page to the Admin Dashboard
   showAdminPage = () => {
     this.setState({ showAdmin: true });
   };
 
+  //Controls the logic for displaying the current stage of the user submission process
   CurrentView() {
     switch (this.state.pageState) {
       case 0:

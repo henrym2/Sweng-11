@@ -7,68 +7,67 @@ import {
   Label,
   Slider,
   IStackItemStyles,
-  textAreaProperties
+  textAreaProperties,
 } from "office-ui-fabric-react";
 import { render } from "react-dom";
-import {VoteProps, values} from "./VoteSlider";
+import { VoteProps, values } from "./VoteSlider";
 
-export class VoteSliderVertical extends Component<VoteProps>{
-  
-    render(){
-      return(
+//The Vote Slider Component - Vertical version for mobile viewing
+export class VoteSliderVertical extends Component<VoteProps> {
+  render() {
+    return (
+      <Stack
+        horizontal
+        horizontalAlign="center"
+        verticalAlign="center"
+        styles={{
+          root: {
+            width: "100%",
+            height: "200px",
+          },
+        }}
+      >
         <Stack
-          horizontal
-          horizontalAlign='center'
-          verticalAlign='center'
+          id="slider"
           styles={{
-            root:{
-              width:'100%',
-              height:'200px'
-            }
+            root: {
+              height: "100%",
+            },
           }}
         >
-          <Stack
-            id='slider'
+          <Slider
+            vertical
+            min={-2}
+            max={2}
+            defaultValue={0}
+            showValue={false}
+            onChange={(val: number) => this.props.function(val)}
+            ariaValueText={(value: number) => values[value + 2]}
+            valueFormat={(value: number) => values[value + 2]}
             styles={{
-              root:{
-                height:'100%'
-              }
+              root: {
+                height: "96%",
+              },
             }}
-          >
-            <Slider 
-              vertical
-              min={-2}
-              max={2}
-              defaultValue={0}
-              showValue={false}
-              onChange={(val: number) => this.props.function(val)}
-              ariaValueText={(value : number) => values[value + 2]}
-              valueFormat={(value: number) => values[value + 2]}
-              styles={{
-                root:{
-                  height:'96%'
-                }
-              }}
-            />
-          </Stack>
-          <Stack 
-            verticalFill
-            verticalAlign='space-between'
-            horizontalAlign='start'
-            styles={{
-              root:{
-                //height:'100%'
-              }
-            }}
-          >
-              <Label>─ Too Hot</Label>
-              <Label>─ A Bit Hot</Label>
-              <Label>─ Just Right</Label>
-              <Label>─ A Bit Cold</Label>
-              <Label>─ Too Cold</Label>
-          </Stack>
+          />
         </Stack>
-      );
-    }
-
+        <Stack
+          verticalFill
+          verticalAlign="space-between"
+          horizontalAlign="start"
+          styles={{
+            root: {
+              //height:'100%'
+            },
+          }}
+        >
+          <Label>─ Too Hot</Label>
+          <Label>─ A Bit Hot</Label>
+          <Label>─ Just Right</Label>
+          <Label>─ A Bit Cold</Label>
+          <Label>─ Too Cold</Label>
+        </Stack>
+      </Stack>
+    );
+  }
 }

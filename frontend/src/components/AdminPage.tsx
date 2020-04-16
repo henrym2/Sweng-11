@@ -13,17 +13,7 @@ import closeBtn from "../images/close.svg";
 import axios from "axios";
 import { ITextStyles, FontWeights } from "office-ui-fabric-react";
 
-import {
-  Stack,
-  Text,
-  DefaultButton,
-  PrimaryButton,
-  IStackTokens,
-  Button,
-  TextField,
-  ButtonType,
-  calculatePrecision,
-} from "office-ui-fabric-react";
+import { Text } from "office-ui-fabric-react";
 import { Redirect } from "react-router";
 
 type MyProps = {};
@@ -37,6 +27,8 @@ type MyState = {
   redirect: boolean;
   interval: any;
 };
+
+//This is the higher order component controlling the Admin Dashboard page
 
 export class AdminPage extends Component<MyProps, MyState> {
   cardTokens: ICardTokens = { childrenMargin: 12 };
@@ -57,47 +49,109 @@ export class AdminPage extends Component<MyProps, MyState> {
     alerts: [],
     zoneInfo: [
       { name: "Zone 1", temperature: 0, alerts: [], entries: [], active: true },
-      { name: "Zone 2", temperature: 0, alerts: [], entries: [], active: false },
-      { name: "Zone 3", temperature: 0, alerts: [], entries: [], active: false },
-      { name: "Zone 4", temperature: 0, alerts: [], entries: [], active: false },
-      { name: "Zone 5", temperature: 0, alerts: [], entries: [], active: false },
-      { name: "Zone 6", temperature: 0, alerts: [], entries: [], active: false },
-      { name: "Zone 7", temperature: 0, alerts: [], entries: [], active: false },
-      { name: "Zone 8", temperature: 0, alerts: [], entries: [], active: false },
-      { name: "Zone 9", temperature: 0, alerts: [], entries: [], active: false },
-      { name: "Zone 10", temperature: 0,alerts: [], entries: [], active: false },
+      {
+        name: "Zone 2",
+        temperature: 0,
+        alerts: [],
+        entries: [],
+        active: false,
+      },
+      {
+        name: "Zone 3",
+        temperature: 0,
+        alerts: [],
+        entries: [],
+        active: false,
+      },
+      {
+        name: "Zone 4",
+        temperature: 0,
+        alerts: [],
+        entries: [],
+        active: false,
+      },
+      {
+        name: "Zone 5",
+        temperature: 0,
+        alerts: [],
+        entries: [],
+        active: false,
+      },
+      {
+        name: "Zone 6",
+        temperature: 0,
+        alerts: [],
+        entries: [],
+        active: false,
+      },
+      {
+        name: "Zone 7",
+        temperature: 0,
+        alerts: [],
+        entries: [],
+        active: false,
+      },
+      {
+        name: "Zone 8",
+        temperature: 0,
+        alerts: [],
+        entries: [],
+        active: false,
+      },
+      {
+        name: "Zone 9",
+        temperature: 0,
+        alerts: [],
+        entries: [],
+        active: false,
+      },
+      {
+        name: "Zone 10",
+        temperature: 0,
+        alerts: [],
+        entries: [],
+        active: false,
+      },
     ],
     redirect: false,
-    interval: undefined
+    interval: undefined,
   };
 
+  //Determines whether the zone info should show (if hovered over)
   setIsShown = (zone, show) => {
     this.setState({ showZoneInfo: show, selectedZone: zone });
   };
 
   componentDidMount(): void {
-    this.retrieveData()
-    this.state.interval = setInterval(this.retrieveData, 10000  )
+    this.retrieveData();
+    this.state.interval = setInterval(this.retrieveData, 10000);
   }
 
-  componentWillUnmount() :void {
-    clearInterval(this.state.interval)
+  componentWillUnmount(): void {
+    clearInterval(this.state.interval);
   }
 
+  //Retrieve the info to display for this zone and show it (return html)
   getZoneInfo(zone): any {
-    if (this.state.zoneInfo[zone-1]) {
-      return (<div>
-        <p>Temperature: {this.state.zoneInfo[zone-1].temperature}°C</p>
-        <p>Active alerts: {this.state.zoneInfo[zone-1].alerts.length}</p>
-      </div>
-      )
+    if (this.state.zoneInfo[zone - 1]) {
+      return (
+        <div>
+          <p>Temperature: {this.state.zoneInfo[zone - 1].temperature}°C</p>
+          <p>Active alerts: {this.state.zoneInfo[zone - 1].alerts.length}</p>
+        </div>
+      );
     } else {
-      return (<div>
-        <p>No Sensor data</p>
-      </div>)
+      return (
+        <div>
+          <p>No Sensor data</p>
+        </div>
+      );
     }
   }
 
+  //Show the floorplan
+  //Overlays invisible divs over the different zones so they can be hovered over
+  //If the mouse hovers, it sets the zone which should be focussed on and have info displayed for it
   floorPlanScreen = () => {
     return (
       <div className="admin-page__floor-plan">
@@ -158,43 +212,58 @@ export class AdminPage extends Component<MyProps, MyState> {
     );
   };
 
+  //Changes the view to show alerts
   viewAlerts = () => {
     this.setState({ pageState: 0 });
   };
+
+  //Changes the view to show the floor plan
 
   viewFloorplan = () => {
     this.setState({ pageState: 1 });
   };
 
+  //Retrieves the relevant data from our backend
   retrieveData = () => {
     axios
-    .get("https://thermapollbackend.azurewebsites.net/alerts")
-    .then((res) => {
-      this.setState({ alerts: res.data });
-      axios.get("https://thermapollbackend.azurewebsites.net/sensorData").then(sensorRes => {
-        let sensors = sensorRes.data;
-            sensors = sensors.map(s => {
-            return {...s, alerts: this.state.alerts.filter(a => {
-              if(a.content.find(c => c.area == s.area)){
-                return a
-              }
-            })
-          }
-        })
-        this.setState({
-          zoneInfo: this.state.zoneInfo.map((z, index) => {
-            if(sensors[index] != undefined){
-              return {...z, temperature: sensors[index].temperature, alerts: sensors[index].alerts, active: true, entries: sensors[index].entries}
-            } else {
-              return z
-            }
-          } )
-        })
-      })
-    });
-  }
+      .get("https://thermapollbackend.azurewebsites.net/alerts")
+      .then((res) => {
+        this.setState({ alerts: res.data });
+        axios
+          .get("https://thermapollbackend.azurewebsites.net/sensorData")
+          .then((sensorRes) => {
+            let sensors = sensorRes.data;
+            sensors = sensors.map((s) => {
+              return {
+                ...s,
+                alerts: this.state.alerts.filter((a) => {
+                  if (a.content.find((c) => c.area == s.area)) {
+                    return a;
+                  }
+                }),
+              };
+            });
+            this.setState({
+              zoneInfo: this.state.zoneInfo.map((z, index) => {
+                if (sensors[index] != undefined) {
+                  return {
+                    ...z,
+                    temperature: sensors[index].temperature,
+                    alerts: sensors[index].alerts,
+                    active: true,
+                    entries: sensors[index].entries,
+                  };
+                } else {
+                  return z;
+                }
+              }),
+            });
+          });
+      });
+  };
 
-
+  //Makes a POST request to our backend and dismisses a notifcation when the close button is clicked on
+  //Called by child notification components
   dismissNotification = (id: number) => {
     axios
       .post("https://thermapollbackend.azurewebsites.net/dismissAlert", {
@@ -211,6 +280,7 @@ export class AdminPage extends Component<MyProps, MyState> {
       });
   };
 
+  //Displays the alert screen view
   alertScreen = () => {
     let list = this.state.alerts;
     const listItems = list.map((item) => (
@@ -219,7 +289,9 @@ export class AdminPage extends Component<MyProps, MyState> {
         item={item}
         type={item.type}
         title={item.title}
-        description={`A temperature adjustment has been requested at ${(new Date(item.time)).toLocaleTimeString()}`}
+        description={`A temperature adjustment has been requested at ${new Date(
+          item.time
+        ).toLocaleTimeString()}`}
         dismiss={this.dismissNotification}
         content={item.content}
         notificationID={item._id}
@@ -228,6 +300,7 @@ export class AdminPage extends Component<MyProps, MyState> {
     return <div className="admin-page__notifications">{listItems}</div>;
   };
 
+  //Closes the admin dashboar and shows voting page
   closePage = () => {
     this.setState({ redirect: true });
   };
@@ -279,16 +352,19 @@ export class AdminPage extends Component<MyProps, MyState> {
               <div className="admin-page__display-zone-info">
                 {selectedZone.active && (
                   <div>
-                    <p>Temperature reading: {selectedZone.temperature}&#176;C</p>
+                    <p>
+                      Temperature reading: {selectedZone.temperature}&#176;C
+                    </p>
                     <p>Active Alerts: {selectedZone.alerts.length}</p>
                     <h4>Recent readings</h4>
-                    {
-                      selectedZone.entries.map(e => {
-                        return (
-                          <p>Temperature {e.temperature}&#176;C at {(new Date(e.time).toLocaleTimeString())}</p>
-                        )
-                      })
-                    }
+                    {selectedZone.entries.map((e) => {
+                      return (
+                        <p>
+                          Temperature {e.temperature}&#176;C at{" "}
+                          {new Date(e.time).toLocaleTimeString()}
+                        </p>
+                      );
+                    })}
                   </div>
                 )}
                 {!selectedZone.active && (

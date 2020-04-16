@@ -14,14 +14,13 @@ import {
   Link,
   ILinkStyles,
   IconButton,
-  Stack,
   IIconProps,
   IIconStyles,
 } from "office-ui-fabric-react";
 
 type NotificationState = {
-  showMore: boolean
-}
+  showMore: boolean;
+};
 
 export type NotificationProps = {
   item: any;
@@ -33,45 +32,60 @@ export type NotificationProps = {
   dismiss: (id: number) => void;
 };
 
+//This component displays a Notification box for each notification on the system
 export default class AdminNotification extends Component<NotificationProps> {
-
   state: NotificationState = {
-    showMore: false
-  }
+    showMore: false,
+  };
 
   dismiss = () => {
     this.props.dismiss(this.props.notificationID);
   };
   showMore = () => {
-    this.setState({showMore: !this.state.showMore})
+    this.setState({ showMore: !this.state.showMore });
   };
 
+  //Decides the nature of the message displayed
   renderContent = (type) => {
     const detailStyles: ITextStyles = {
       root: {
         fontSize: 16,
         marginBottom: 1,
-        minHeight: "100%"
-      }
-    }
-    let details: JSX.Element[] = []
-    if (type == 0 || type == 3){
-      this.props.content.forEach(c => {
-        details.push(<Text styles={detailStyles}>Area {c.area} requesting a change of {c.change}&#176;C</Text>)
-      })
+        minHeight: "100%",
+      },
+    };
+    let details: JSX.Element[] = [];
+    if (type == 0 || type == 3) {
+      this.props.content.forEach((c) => {
+        details.push(
+          <Text styles={detailStyles}>
+            Area {c.area} requesting a change of {c.change}&#176;C
+          </Text>
+        );
+      });
     } else if (type == 1) {
-      this.props.content.forEach(c => {
-        details.push(<Text styles={detailStyles}>The sensor in area {c.area} with ID:{c.sensorID} is down.</Text>)
-      })
+      this.props.content.forEach((c) => {
+        details.push(
+          <Text styles={detailStyles}>
+            The sensor in area {c.area} with ID:{c.sensorID} is down.
+          </Text>
+        );
+      });
     } else if (type == 2) {
-      this.props.content.forEach(c => {
-        details.push(<Text styles={detailStyles}>The temperature in area {c.area} is outside legal bounds at {c.temperature}&#176;C</Text>)
-      })
+      this.props.content.forEach((c) => {
+        details.push(
+          <Text styles={detailStyles}>
+            The temperature in area {c.area} is outside legal bounds at{" "}
+            {c.temperature}&#176;C
+          </Text>
+        );
+      });
     }
-    return details
-  }
+    return details;
+  };
 
   render() {
+    //Below we define styles to be used in this component
     const cardStyles: ICardStyles = {
       root: {
         width: "100%",
@@ -90,8 +104,6 @@ export default class AdminNotification extends Component<NotificationProps> {
         fontWeight: FontWeights.bold,
       },
     };
-
-    
 
     const descriptionStyles: ITextStyles = {
       root: {
@@ -137,21 +149,27 @@ export default class AdminNotification extends Component<NotificationProps> {
       <Card tokens={cardTokens} horizontal styles={cardStyles}>
         <Card.Section styles={cardSectionStyles} fill>
           <Text styles={titleStyles}>{this.props.title}</Text>
-          {(this.props.type == 0 || this.props.type == 3) && ( 
-          <Text styles={descriptionStyles}>A temperature adjustment has been requested at {(new Date(this.props.item.time)).toLocaleTimeString()}</Text>
-          )
-          }
-          {
-              this.props.type == 2 && (
-            <Text styles={descriptionStyles}>Temperatures in the following areas are out of bounds</Text>
-              ) 
-          }
-          { this.props.type == 1 && (
-            <Text styles={descriptionStyles}>The following sensors are down</Text>
+          {(this.props.type == 0 || this.props.type == 3) && (
+            <Text styles={descriptionStyles}>
+              A temperature adjustment has been requested at{" "}
+              {new Date(this.props.item.time).toLocaleTimeString()}
+            </Text>
           )}
-          <Link styles={linkStyles} onClick={this.showMore}>More details</Link>
+          {this.props.type == 2 && (
+            <Text styles={descriptionStyles}>
+              Temperatures in the following areas are out of bounds
+            </Text>
+          )}
+          {this.props.type == 1 && (
+            <Text styles={descriptionStyles}>
+              The following sensors are down
+            </Text>
+          )}
+          <Link styles={linkStyles} onClick={this.showMore}>
+            More details
+          </Link>
           <Card.Section>
-          {this.state.showMore && this.renderContent(this.props.type)}
+            {this.state.showMore && this.renderContent(this.props.type)}
           </Card.Section>
         </Card.Section>
         <Card.Section styles={buttonSectionStyles}>

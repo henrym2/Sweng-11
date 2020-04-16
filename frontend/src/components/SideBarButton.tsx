@@ -9,6 +9,7 @@ type CardProps = {
   switchDisplay: () => void;
 };
 
+//This component is reusable and displays a sidebar button in the Admin Dashboard interface
 export default class SideBarButton extends Component<CardProps> {
   titleStyles: ITextStyles = {
     root: {
