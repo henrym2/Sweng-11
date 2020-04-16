@@ -14,9 +14,10 @@ class alerter {
         * @final
         * @typedef
         * @description Constants for deciding on the type of alert to be sent.
-        * TEMP_REQUEST - - A temperature change request email type
-        * SENSOR_ERROR - - A sensor error email type, to be sent if a sensor or set of sensors fail to send data in a time frame
-        * TEMP_ERROR   - - A temperature error, to be sent if the temperature in an error exceeds a legal limit
+        * TEMP_REQUEST          - - A temperature change request email type
+        * SENSOR_ERROR          - - A sensor error email type, to be sent if a sensor or set of sensors fail to send data in a time frame
+        * TEMP_ERROR            - - A temperature error, to be sent if the temperature in an error exceeds a legal limit
+        * PERIODIC_ADJUSTMENT   - - A predictive alert based on on sensor data and votes from last week
         */
         this.alertType = {
             TEMP_REQUEST:        0,
@@ -25,6 +26,7 @@ class alerter {
             PERIODIC_ADJUSTMENT: 3
         }
     }
+
     /**
      * @typedef {{
      *              sensorID: number | void
@@ -49,6 +51,7 @@ class alerter {
         
         this.sendAlert(newMail)
     }
+    
     /**
      * 
      * @param {content[]} contentList 

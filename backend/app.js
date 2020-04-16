@@ -43,14 +43,6 @@ var cors = require("cors");
 
 app.use(cors());
 
-app.get("/", (req, res) => {
-  //Example of how you might construct a JSON response
-  let exampleObject = {
-    test: "test"
-  };
-  res.send(exampleObject);
-});
-
 app.post("/vote", async (req, res) => {
   const { submitter, opinion } = req.body;
   if (submitter == undefined || opinion == undefined) {
@@ -181,7 +173,7 @@ async function alertLoop() {
   content = await calc.historicalDelta(voterStore, sensorData)
   console.log(content)
   if (content.length != 0) {
-    // alerts.createAlert("Periodic adjustment request", content, alerts.alertType.PERIODIC_ADJUSTMENT)
+    alerts.createAlert("Periodic adjustment request", content, alerts.alertType.PERIODIC_ADJUSTMENT)
   }
 }
 
