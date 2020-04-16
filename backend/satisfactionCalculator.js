@@ -11,7 +11,7 @@ class calculator {
 
     /**
      * 
-     * @param {areaList[]} areaVotes An array of areas and the new opinions collected within the past hour
+     * @param {areaVotes[]} areaVotes An array of areas and the new opinions collected within the past hour
      * @param {sensors[]} sensors The current sensors and their updated data
      * @abstract This takes an array of all the areas and their new temperature opinions gathered 
      *           within the last hour and the sensors tied to those areas. It runs through all the areas within areaVotes, 
