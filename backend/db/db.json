@@ -19,14 +19,14 @@
         {
             "id": 1,
             "name": "Jane",
-            "area": "1",
+            "area": "2",
             "desk": "18",
             "votes": []
         },
         {
             "id": 2,
             "name": "Jack",
-            "area": "1",
+            "area": "2",
             "desk": "19",
             "votes": []
         }

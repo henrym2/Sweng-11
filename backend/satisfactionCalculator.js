@@ -53,7 +53,7 @@ class calculator {
                     sensorID: sensor.id,
                     area: area.name,
                     temperature: sensor.temperature,
-                    change: satisfaction
+                    change: (satisfaction * -1)
                 })
             }
         });

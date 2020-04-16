@@ -187,7 +187,7 @@ async function alertLoop() {
     // alerts.createAlert("Periodic adjustment request", content, alerts.alertType.PERIODIC_ADJUSTMENT)
   }
 
-  content = await calc.boundsCheck(sensors)
+  // content = await calc.boundsCheck(sensors)
   if (content.length != 0) {
     //  alerts.createAlert("Temperatures outside of bounds", content, alerts.alertType.TEMP_ERROR)
   }
